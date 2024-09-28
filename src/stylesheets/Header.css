@@ -1,0 +1,46 @@
+/* App.css or Header.css */
+header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 5rem;
+  margin-right: 5rem;
+  box-shadow: 0 4px 6px -6px #ff530f;
+}
+
+h1 {
+  font-size: 3.5rem;
+  margin-top: 1rem;
+  color: #ff530f;
+}
+
+li {
+  font-size: 1.3rem;
+}
+
+.navbar {
+  list-style: none; /* Remove default list styling */
+  display: flex; /* Use flexbox for horizontal layout */
+  gap: 20px; /* Space between items */
+  margin: 0%;
+  margin-top: 2rem;
+}
+
+.navbar li a {
+  text-decoration: none; /* Remove underline from links */
+  color: black; /* Set link color */
+  font-weight: bold; /* Bold text */
+  transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+.navbar li a:hover {
+  color: #ff530f; /* Change color on hover (green) */
+}
+
+.title {
+  display: flex;
+}
+
+.fit {
+  color: black;
+}
