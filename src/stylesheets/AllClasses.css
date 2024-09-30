@@ -1,14 +1,18 @@
-.header {
+.all-classes-title {
   text-align: center;
   font-size: 3rem;
   margin-top: 4rem;
+  color: white;
 }
 
 .classes {
-  background-color: black;
-  margin-top: 6rem;
+  background-color: rgb(24, 24, 24);
+  box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
+  margin-top: 12rem;
   margin-left: 6rem;
   margin-right: 6rem;
+  margin-bottom: 4rem;
+  padding-bottom: 1rem;
 }
 
 .filter-container {
@@ -41,13 +45,18 @@
   background-color: black;
 }
 
+.filter-box input {
+  background-color: black;
+  color: white;
+}
+
 .filter-box select:hover {
   background-color: rgb(33, 15, 4);
   cursor: pointer;
 }
 
 .filter-box option {
-    background-color: black;
+  background-color: black;
 }
 
 .classes-nav {

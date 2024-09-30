@@ -1,6 +1,19 @@
+body {
+  background-color: rgba(5, 5, 5, 0.956);
+  overflow-x: hidden;
+}
+
 .about {
   display: flex;
-  margin: 4rem;
+  margin-top: 10rem;
+  padding-bottom: 4rem;
+  border-bottom: 1px solid white;
+  border-bottom: 1px solid #fefefe;
+  transition: border-bottom 1s ease;
+}
+
+.about:hover {
+  border-bottom: 1px solid #ff6a00;
 }
 
 .about img {
@@ -11,24 +24,35 @@
 .about-text {
   margin: 2rem;
   text-align: center;
+  color: rgb(183, 183, 183);
 }
 
-/* .about-text h1 {
-  text-align: center;
-} */
+.about-text h1 {
+  color: white;
+}
 
 .upcoming-events {
-  margin-top: 12rem;
+  margin-top: 5rem;
+  margin-bottom: 12rem;
+  border-bottom: 1px solid #fefefe;
+  transition: border-bottom 1s ease;
+  padding-bottom: 3rem;
+}
+
+.upcoming-events:hover {
+  border-bottom: 1px solid #ff6a00;
 }
 
 .upcoming-events h1 {
   text-align: center;
+  color: rgb(255, 255, 255);
 }
 
 .upcoming-classes {
   display: flex;
-  justify-content: center;
-  width: 100%;
+  width: 90%;
+  margin-left: 4rem;
+  margin-right: 4rem;
 }
 
 .upcoming-classes div {
@@ -51,8 +75,14 @@ p {
   overflow-wrap: break-word;
   margin: 0;
   padding: 0.5rem;
+  color: rgb(146, 145, 143);
 }
 
 .connect-with-us {
   background-color: rgb(236, 141, 63);
+  width: 100%;
+}
+
+.connect-with-us p {
+  color: black;
 }

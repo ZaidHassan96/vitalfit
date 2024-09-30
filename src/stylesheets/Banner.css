@@ -1,17 +1,22 @@
 .banner {
   text-align: center;
-  margin: 0 auto;
+  margin: 0;
   width: 100%;
 
   box-sizing: border-box;
   border-radius: 10px;
   text-align: center;
-  border-bottom: 1px solid #ff530f;
+  border-bottom: 1px solid #fefefe;
+  transition: border-bottom 1s ease;
+}
+
+.banner:hover {
+  border-bottom: 1px solid #ff6a00;
 }
 
 .banner img {
   width: 100%;
-  height: 500px;
+  height: 600px;
 }
 
 .banner-info {

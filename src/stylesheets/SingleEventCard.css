@@ -4,17 +4,21 @@
   width: 28%;
   margin-top: 3rem;
   box-sizing: border-box;
-  background-color: rgb(255, 255, 255);
-  padding: 1rem;
-  transition: padding 0.3s ease, border 0.3s ease;
-  border-bottom: 1px solid #ff530f;
+  padding: 0.1rem;
+  transition: padding 0.3s ease, border-bottom 0.3s ease,
+    background-color 0.3s ease;
+  border-bottom: 1px solid #ff530f3c;
 }
 
 .card:hover {
-  border: 2px solid #ff530f80;
+  border-bottom: 2px solid #ff530f;
   cursor: pointer;
-  padding: 0.5rem;
+  color: #ff530f;
 }
+
+/* .card div h1:hover {
+  color: #ff530f;
+} */
 
 .card img {
   width: 100%;
@@ -25,18 +29,18 @@
   margin: 0 auto;
   box-sizing: border-box;
   text-align: left;
-  background-color: rgb(255, 255, 255);
+  /* background-color: rgb(255, 255, 255); */
   padding-bottom: 1rem;
 }
 
 .info h1 {
-  color: rgb(231, 128, 59);
+  color: rgb(255, 255, 255);
 }
 
 .info h3,
 .info p {
   padding: 0px;
   margin-top: 1rem;
-  color: rgb(72, 72, 72);
+  color: rgb(199, 199, 199);
   padding: 5px;
 }

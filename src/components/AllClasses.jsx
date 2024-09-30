@@ -10,7 +10,7 @@ const AllClasses = () => {
       <section>
         <Header />
         <Banner />
-        <h1 className="header">All Classes</h1>
+        <h1 className="all-classes-title">All Classes</h1>
       </section>
       {/* <div className="classes-nav">
         <nav>
@@ -33,7 +33,6 @@ const AllClasses = () => {
               <option value="hiit">HIIT</option>
             </select>
           </div>
-
           <div class="filter-box">
             <label for="location">Trainer:</label>
             <select id="location" name="location">
@@ -42,6 +41,10 @@ const AllClasses = () => {
               <option value="london">Steve</option>
               <option value="sydney">Sydney</option>
             </select>
+          </div>
+          <div className="filter-box">
+            <label htmlFor="date">Date:</label>
+            <input type="date" id="date" name="date" />
           </div>
         </div>
         <div className="all-rows">
