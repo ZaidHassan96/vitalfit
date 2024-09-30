@@ -1,18 +1,14 @@
 import Header from "./Header.jsx";
 import SingleEventCard from "./SingleEventCard.jsx";
 import "../stylesheets/Home.css";
+import Banner from "./Banner.jsx";
 
 const Home = () => {
   return (
     <>
       <Header />
       {/* <SingleEventCard /> */}
-      <div className="banner">
-        <img src="../images/projects.jpg" alt="" />
-        <div className="info">
-          <h1>Hit Mania</h1>
-        </div>
-      </div>
+      <Banner />
 
       <section className="about">
         <img src="../images/projects.jpg" alt="" />
@@ -32,7 +28,7 @@ const Home = () => {
 
       <section className="upcoming-events">
         <h1>Upcoming Classes</h1>
-        <div className="classes">
+        <div className="upcoming-classes">
           <div>
             <img src="../images/projects.jpg" alt="" />
             <h1>Spin Class</h1>
@@ -65,11 +61,11 @@ const Home = () => {
       <section className="connect-with-us">
         <p>Connect</p>
         <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
       </section>
     </>
   );
