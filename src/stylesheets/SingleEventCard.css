@@ -1,0 +1,26 @@
+.card {
+  text-align: center;
+  margin: 0 auto; /* Centers the container horizontally */
+  width: 100%; /* Set the width */
+  margin-top: 4rem;
+  box-sizing: border-box; /* Ensures padding doesn't add to the width */
+  border-radius: 10px;
+  text-align: center; /* Center content inside the container */
+  border-bottom: 1px solid #ff530f;
+}
+
+img {
+  width: 100%; /* Make the image take up the entire width of the .info container */
+  height: 500px; /* Keep aspect ratio */
+}
+
+.info {
+  margin: 0 auto; /* Centers the container horizontally */
+  padding: 20px; /* Optional: Add padding for spacing inside the container */
+  box-sizing: border-box; /* Ensures padding doesn't add to the width */
+  text-align: left; /* Center content inside the container */
+}
+
+/* Centering the image and making it the same width as .info */
+
+/* Optional: Center text in the card */

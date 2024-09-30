@@ -8,12 +8,6 @@ header {
   box-shadow: 0 4px 6px -6px #ff530f;
 }
 
-h1 {
-  font-size: 3.5rem;
-  margin-top: 1rem;
-  color: #ff530f;
-}
-
 li {
   font-size: 1.3rem;
 }
@@ -43,4 +37,12 @@ li {
 
 .fit {
   color: black;
+  font-size: 3.5rem;
+  margin-top: 1rem;
+}
+
+.vital {
+  font-size: 3.5rem;
+  margin-top: 1rem;
+  color: #ff530f;
 }

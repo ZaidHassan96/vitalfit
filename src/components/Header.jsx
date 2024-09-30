@@ -1,22 +1,25 @@
 import "../stylesheets/Header.css";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <header>
       <div className="title">
-        <h1>Vital</h1>
+        <h1 className="vital">Vital</h1>
         <h1 className="fit">Fit</h1>
       </div>
       <nav>
         <ul className="navbar">
           <li>
-            <a href="#">Find Events</a>
+            <Link className="" to={"/classes"}>
+              Find Classes
+            </Link>
           </li>
           <li>
-            <a href="#">Login</a>
+            <Link >Login</Link>
           </li>
           <li>
-            <a href="#">Sign Up</a>
+            <Link href="#">Sign Up</Link>
           </li>
         </ul>
       </nav>
