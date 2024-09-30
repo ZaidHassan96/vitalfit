@@ -1,0 +1,82 @@
+.header {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 4rem;
+}
+
+.classes {
+  background-color: black;
+  margin-top: 6rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: center;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4rem;
+  border: 0.5px solid rgba(254, 140, 64, 0.332);
+  padding: 1rem;
+  width: 20%;
+  background-color: black;
+}
+
+.filter-box:hover {
+  background-color: rgb(33, 15, 4);
+  cursor: pointer;
+}
+
+.filter-box label {
+  color: white;
+}
+
+.filter-box select {
+  border: none;
+  color: aliceblue;
+  background-color: black;
+}
+
+.filter-box select:hover {
+  background-color: rgb(33, 15, 4);
+  cursor: pointer;
+}
+
+.filter-box option {
+    background-color: black;
+}
+
+.classes-nav {
+  margin-top: 4rem;
+
+  padding: 10px;
+}
+
+.classes-nav ul {
+  display: flex;
+  justify-content: space-evenly;
+}
+.classes-nav li {
+  list-style: none;
+  padding: 0.5rem;
+  border: solid 1px rgba(248, 221, 191, 0.56);
+}
+
+.classes-nav li:hover {
+  border: solid 1px rgb(249, 129, 31);
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: rgb(249, 129, 31);
+  color: white;
+}
+
+.all-rows {
+}
+
+.card-row {
+  display: flex;
+}

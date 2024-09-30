@@ -1,37 +1,11 @@
-.banner {
-    text-align: center;
-    margin: 0 auto; /* Centers the container horizontally */
-    width: 100%; /* Set the width */
-    margin-top: 4rem;
-    box-sizing: border-box; /* Ensures padding doesn't add to the width */
-    border-radius: 10px;
-    text-align: center; /* Center content inside the container */
-    border-bottom: 1px solid #ff530f;
-  }
-  
-  img {
-    width: 100%; /* Make the image take up the entire width of the .info container */
-    height: 500px; /* Keep aspect ratio */
-  }
-  
-  .info {
-    margin: 0 auto; /* Centers the container horizontally */
-    padding: 20px; /* Optional: Add padding for spacing inside the container */
-    box-sizing: border-box; /* Ensures padding doesn't add to the width */
-    text-align: left; /* Center content inside the container */
-  }
-  
-
-
-
 .about {
   display: flex;
   margin: 4rem;
 }
 
 .about img {
-  width: 30%; /* Make the image take up the entire width of the .info container */
-  height: auto; /* Keep aspect ratio */
+  width: 30%;
+  height: auto;
 }
 
 .about-text {
@@ -51,31 +25,31 @@
   text-align: center;
 }
 
-.classes {
+.upcoming-classes {
   display: flex;
   justify-content: center;
   width: 100%;
 }
 
-.classes div {
+.upcoming-classes div {
   width: 60%;
 
   margin: 3.5rem;
 }
 
-.classes div img {
+.upcoming-classes div img {
   width: 100%;
   height: auto;
 }
 
-.classes div h1,
+.upcoming-classes div h1,
 h3,
 p {
   text-align: left;
-  width: 100%; /* Ensure the text fills the width of the div */
-  word-wrap: break-word; /* Break long words if needed */
-  overflow-wrap: break-word; /* Ensure long text wraps inside the div */
-  margin: 0; /* Optional: remove default margins */
+  width: 100%;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  margin: 0;
   padding: 0.5rem;
 }
 
