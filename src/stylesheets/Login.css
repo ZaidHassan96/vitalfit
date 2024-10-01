@@ -1,0 +1,91 @@
+.login-page {
+  background-color: white;
+  width: 50%;
+  height: 100vh; 
+  padding: 2%;
+  justify-content: center; 
+  align-items: center; 
+}
+
+a {
+  text-decoration: none;
+}
+
+.headline {
+  margin-left: 27%;
+  margin-top: 8rem;
+}
+
+.headline h1 {
+  color: rgb(255, 77, 0);
+  font-size: 2.5rem;
+}
+
+span {
+  color: black;
+}
+
+.headline h2 {
+  font-size: 3.3rem;
+  color: rgb(10, 0, 68);
+}
+
+.login-form form {
+  text-align: center;
+}
+
+.login-form div {
+  margin-top: 1rem;
+}
+
+.login-form input {
+  padding: 1rem;
+  width: 40%;
+}
+
+.login-form button {
+  padding: 1rem;
+  width: 45.5%;
+  border: none;
+  background-color: rgb(255, 77, 0);
+  color: white;
+}
+
+.sign-up-option p {
+  color: black;
+  text-align: center;
+  margin-top: 3rem;
+  font-size: 1.3rem;
+}
+
+.split-container__divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 27%;
+  width: 45.5%;
+  text-align: center;
+  color: gray;
+}
+
+.split-container__divider-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #000; /* Black line */
+  border-radius: 10px;
+}
+
+.split-container__divider-text {
+  padding: 0 20px;
+  font-weight: bold;
+  font-size: 16px;
+  border: 1px solid grey;
+  border-radius: 20px;
+}
+
+.sign-up-option p {
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 98%;
+}

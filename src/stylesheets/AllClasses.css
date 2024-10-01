@@ -50,6 +50,10 @@
   color: white;
 }
 
+.filter-box input:hover {
+  cursor: pointer;
+}
+
 .filter-box select:hover {
   background-color: rgb(33, 15, 4);
   cursor: pointer;
