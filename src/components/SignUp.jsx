@@ -60,10 +60,10 @@ const SignUp = () => {
         </div>
         <div className="sign-up-option">
           <div>
-            <div class="split-container__divider">
-              <div class="split-container__divider-line"></div>
-              <div class="split-container__divider-text">or</div>
-              <div class="split-container__divider-line"></div>
+            <div className="split-container__divider">
+              <div className="split-container__divider-line"></div>
+              <div className="split-container__divider-text">or</div>
+              <div className="split-container__divider-line"></div>
             </div>
           </div>
           <Link to={"/login"}>

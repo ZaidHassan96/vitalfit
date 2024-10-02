@@ -3,8 +3,13 @@ import "../stylesheets/Login.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const Login = () => {
-  const user = { email: "Zaid@hotmail.com", password: "Hello123" };
+const Login = ({ setLoggedInUser }) => {
+  console.log({ setLoggedInUser });
+  const user = {
+    name: "Zaid",
+    email: "Zaid@hotmail.com",
+    password: "Hello123",
+  };
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,6 +19,7 @@ const Login = () => {
     if (email !== user.email || password !== user.password) {
       console.log("incorrect details");
     } else {
+      setLoggedInUser(user);
       console.log("logged in");
     }
   }

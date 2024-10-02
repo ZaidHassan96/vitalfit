@@ -1,7 +1,11 @@
 import "../stylesheets/Header.css";
 import { Link } from "react-router-dom";
+import UserContext from "../context/User";
+import { useContext } from "react";
 
 const Header = () => {
+  const { loggedInUser } = useContext(UserContext);
+
   return (
     <header className="header">
       <div className="title">
@@ -15,12 +19,22 @@ const Header = () => {
               Find Classes
             </Link>
           </li>
-          <li>
-            <Link to={"/login"}>Login</Link>
-          </li>
-          <li>
-            <Link to={"/sign-up"}>Sign Up</Link>
-          </li>
+          {loggedInUser ? (
+            <li>
+              <Link to={"/login"}>My Classes</Link>
+            </li>
+          ) : (
+            <li>
+              <Link to={"/login"}>Login</Link>
+            </li>
+          )}
+          {loggedInUser ? (
+            <h1 className="user-email">{loggedInUser.email}</h1>
+          ) : (
+            <li>
+              <Link to={"/sign-up"}>Sign up</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>

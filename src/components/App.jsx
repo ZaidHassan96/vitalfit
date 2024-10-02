@@ -8,12 +8,17 @@ import Login from "./Login.jsx";
 import SignUp from "./SignUp.jsx";
 
 function App() {
+  const [loggedInUser, setLoggedInUser] = useState(null);
+  console.log(loggedInUser)
   return (
-    <UserContext.Provider>
+    <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/classes" element={<AllClasses />} />
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login setLoggedInUser={setLoggedInUser} />}
+        />
         <Route path="/sign-up" element={<SignUp />} />
       </Routes>
     </UserContext.Provider>

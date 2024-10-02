@@ -24,7 +24,7 @@ const AllClasses = () => {
       </div> */}
       <section className="classes">
         <div className="filter-container">
-          <div class="filter-box">
+          <div className="filter-box">
             <label for="category">Classes:</label>
             <select id="category" name="category">
               <option value="">All Class</option>
@@ -33,7 +33,7 @@ const AllClasses = () => {
               <option value="hiit">HIIT</option>
             </select>
           </div>
-          <div class="filter-box">
+          <div className="filter-box">
             <label for="location">Trainer:</label>
             <select id="location" name="location">
               <option value="">All Trainers</option>
