@@ -6,7 +6,7 @@
   box-sizing: border-box;
   border-radius: 10px;
   text-align: center;
-  border-bottom: 1px solid #fefefe;
+  /* border-bottom: 1px solid #fefefe; */
   transition: border-bottom 1s ease;
 }
 
