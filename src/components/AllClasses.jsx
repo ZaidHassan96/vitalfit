@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useContext, useRef, useState } from "react";
 import Header from "./Header.jsx";
 import "../stylesheets/AllClasses.css";
 import SingleEventCard from "./SingleEventCard.jsx";
 import Banner from "./Banner.jsx";
+import BookClass from "./BookClass.jsx";
+import SmallLogin from "./SmallLogin.jsx";
+import UserContext from "../context/User.jsx";
 
-const AllClasses = () => {
+const AllClasses = ({ setLoggedInUser }) => {
+  const [showBookingCard, setShowBookingCard] = useState(false);
+  const { loggedInUser } = useContext(UserContext);
+
+  const cards = [1, 2, 3];
+
   return (
     <>
       <section>
@@ -12,6 +20,7 @@ const AllClasses = () => {
         <Banner />
         <h1 className="all-classes-title">All Classes</h1>
       </section>
+
       {/* <div className="classes-nav">
         <nav>
           <ul>
@@ -22,7 +31,24 @@ const AllClasses = () => {
           </ul>
         </nav>
       </div> */}
-      <section className="classes">
+      <section id="classes" className="classes">
+        {loggedInUser ? (
+          <div>
+            <BookClass
+              showBookingCard={showBookingCard}
+              setShowBookingCard={setShowBookingCard}
+            />
+          </div>
+        ) : (
+          <div>
+            <SmallLogin
+              showBookingCard={showBookingCard}
+              setShowBookingCard={setShowBookingCard}
+              setLoggedInUser={setLoggedInUser}
+            />
+          </div>
+        )}
+
         <div className="filter-container">
           <div className="filter-box">
             <label for="category">Classes:</label>
@@ -49,19 +75,28 @@ const AllClasses = () => {
         </div>
         <div className="all-rows">
           <div className="card-row">
-            <SingleEventCard />
-            <SingleEventCard />
-            <SingleEventCard />
+            {cards.map((card) => (
+              <SingleEventCard
+                key={card}
+                setShowBookingCard={setShowBookingCard}
+              />
+            ))}
           </div>
           <div className="card-row">
-            <SingleEventCard />
-            <SingleEventCard />
-            <SingleEventCard />
+            {cards.map((card) => (
+              <SingleEventCard
+                key={card}
+                setShowBookingCard={setShowBookingCard}
+              />
+            ))}
           </div>
           <div className="card-row">
-            <SingleEventCard />
-            <SingleEventCard />
-            <SingleEventCard />
+            {cards.map((card) => (
+              <SingleEventCard
+                key={card}
+                setShowBookingCard={setShowBookingCard}
+              />
+            ))}
           </div>
         </div>
       </section>

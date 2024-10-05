@@ -1,9 +1,26 @@
+import { useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
+import { Link } from "react-router-dom";
 
-const SingleEventCard = () => {
+const SingleEventCard = ({ setShowBookingCard }) => {
+  // const classesContainer = classesContainerRef;
+  // console.log(classesContainer.current);
+
+  const handleCardClick = (event) => {
+    const bookingCard = document.getElementById("classes");
+    if (bookingCard) {
+      bookingCard.scrollIntoView({
+        behavior: "smooth", // Smooth scrolling
+        block: "start", // Align the top of the booking card to the top of the view
+      });
+    }
+
+    setShowBookingCard(true);
+  };
+
   return (
     <>
-      <div className="card">
+      <div onClick={handleCardClick} id="booking-card" className="card">
         <img src="../images/projects.jpg" alt="" />
         <div className="info">
           <h1>Hit Mania</h1>

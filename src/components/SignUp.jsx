@@ -11,7 +11,9 @@ const SignUp = () => {
               Vital<span>Fit</span>
             </h1>
           </Link>
-          <h2>Sign up</h2>
+          <Link to={"/login"}>
+            <h2>Sign up</h2>
+          </Link>
         </div>
         <div className="login-form">
           <form action="" method="POST">

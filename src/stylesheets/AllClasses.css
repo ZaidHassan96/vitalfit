@@ -13,6 +13,7 @@
   margin-right: 6rem;
   margin-bottom: 4rem;
   padding-bottom: 1rem;
+  position: relative;
 }
 
 .filter-container {
@@ -87,8 +88,8 @@
   color: white;
 }
 
-.all-rows {
-}
+/* .all-rows {
+} */
 
 .card-row {
   display: flex;

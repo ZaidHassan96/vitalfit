@@ -1,19 +1,20 @@
-import Header from "./Header";
-import "../stylesheets/Login.css";
+import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import "../stylesheets/SmallLogin.css";
 
-const Login = ({ setLoggedInUser }) => {
-  console.log({ setLoggedInUser });
+const SmallLogin = ({
+  showBookingCard,
+  setShowBookingCard,
+  setLoggedInUser,
+}) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const user = {
     name: "Zaid",
     email: "Zaid@hotmail.com",
     password: "Hello123",
   };
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
   function verifyUser(event) {
     event.preventDefault();
     if (email !== user.email || password !== user.password) {
@@ -23,23 +24,30 @@ const Login = ({ setLoggedInUser }) => {
       console.log("logged in");
     }
   }
-
   return (
     <>
-      {/* <Header /> */}
-      <section className="login-page">
+      <section
+        className={showBookingCard ? "small-login-page" : "hide-small-login"}
+      >
         <div>
-          <h2 className="exit">X</h2>
+          <h2
+            className="exit"
+            onClick={() => {
+              setShowBookingCard(false);
+            }}
+          >
+            X
+          </h2>
         </div>
-        <div className="headline">
-          <Link to={"/"}>
+        <div className="small-login-headline">
+          {/* <Link to={"/"}>
             <h1>
               Vital<span>Fit</span>
             </h1>
-          </Link>
+          </Link> */}
           <h2>Log in</h2>
         </div>
-        <div className="login-form">
+        <div className="small-login-form">
           <form action="" method="POST" onSubmit={verifyUser}>
             <div>
               <label htmlFor="email"></label>
@@ -89,4 +97,4 @@ const Login = ({ setLoggedInUser }) => {
   );
 };
 
-export default Login;
+export default SmallLogin;

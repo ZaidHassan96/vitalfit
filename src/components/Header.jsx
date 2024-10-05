@@ -21,7 +21,7 @@ const Header = () => {
           </li>
           {loggedInUser ? (
             <li>
-              <Link to={"/login"}>My Classes</Link>
+              <Link to={"/my-classes"}>My Classes</Link>
             </li>
           ) : (
             <li>

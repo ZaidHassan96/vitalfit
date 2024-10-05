@@ -1,24 +1,39 @@
-.login-page {
-  background-color: white;
-  width: 50%;
-  height: 110vh;
-  padding: 2%;
-  justify-content: center;
-  align-items: center;
-  border: 1px;
-}
-
-/* .login-page-small {
+.small-login-page {
+  /* display: block; */
   width: 35%;
   align-items: center;
   text-align: left;
-  background-color: rgb(21, 21, 21);
+  background-color: rgb(20, 20, 20);
   border: 1px solid rgb(255, 77, 0);
   position: absolute;
   top: 1rem;
   left: 26rem;
   z-index: 100;
   height: 750px;
+}
+
+.small-login-page img {
+  width: 100%;
+}
+
+.small-login-page p,
+h1 {
+  text-align: left;
+  color: white;
+  padding-left: 1rem;
+  box-sizing: border-box;
+}
+
+.small-login-page button {
+  text-align: center;
+  padding: 1rem;
+  width: 45.5%;
+  border: none;
+  background-color: rgb(255, 77, 0);
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 2rem;
+  margin-top: 2rem;
 }
 
 .exit {
@@ -32,18 +47,22 @@
 
 .exit:hover {
   cursor: pointer;
-} */
+}
+
+.hide-booking-card {
+  display: none;
+}
 
 a {
   text-decoration: none;
 }
 
-.headline {
+.small-login-headline {
   margin-left: 27%;
   margin-top: 8rem;
 }
 
-.headline h1 {
+.small-login-headline h1 {
   color: rgb(255, 77, 0);
   font-size: 2.5rem;
 }
@@ -52,25 +71,25 @@ span {
   color: black;
 }
 
-.headline h2 {
+.small-login-headline h2 {
   font-size: 3.3rem;
-  color: rgb(10, 0, 68);
+  color: rgb(193, 193, 194);
 }
 
-.login-form form {
+.small-login-form form {
   text-align: center;
 }
 
-.login-form div {
+.small-login-form div {
   margin-top: 1rem;
 }
 
-.login-form input {
+.small-login-form input {
   padding: 1rem;
   width: 40%;
 }
 
-.login-form button {
+.small-login-form button {
   padding: 1rem;
   width: 45.5%;
   border: none;
@@ -78,8 +97,12 @@ span {
   color: white;
 }
 
+.small-login-form button:hover {
+  cursor: pointer;
+}
+
 .sign-up-option p {
-  color: black;
+  color: rgb(193, 193, 194);
   text-align: center;
   margin-top: 3rem;
   font-size: 1.3rem;
@@ -92,13 +115,13 @@ span {
   margin: 20px 27%;
   width: 45.5%;
   text-align: center;
-  color: gray;
+  color: rgb(193, 193, 194);
 }
 
 .split-container__divider-line {
   flex-grow: 1;
   height: 1px;
-  background-color: #000; 
+  background-color: #9c9c9c; /* Black line */
   border-radius: 10px;
 }
 
@@ -106,7 +129,7 @@ span {
   padding: 0 20px;
   font-weight: bold;
   font-size: 16px;
-  border: 1px solid grey;
+  border: 1px solid rgb(193, 193, 194);
   border-radius: 20px;
 }
 
@@ -115,4 +138,8 @@ span {
   align-items: center;
   justify-content: center;
   width: 98%;
+}
+
+.hide-small-login {
+  display: none;
 }
