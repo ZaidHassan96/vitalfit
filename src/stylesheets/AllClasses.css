@@ -1,3 +1,7 @@
+/* body {
+  background-color: white;
+} */
+
 .all-classes-title {
   text-align: center;
   font-size: 3rem;
@@ -6,7 +10,7 @@
 }
 
 .classes {
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(0, 0, 0);
   box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
   margin-top: 12rem;
   margin-left: 6rem;

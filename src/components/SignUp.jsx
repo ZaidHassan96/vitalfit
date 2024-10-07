@@ -1,7 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { auth, db } from "../../firebaseConfig";
+import { setDoc, doc } from "firebase/firestore";
+import firebase from "firebase/compat/app";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { serverTimestamp } from "firebase/firestore";
 
 const SignUp = () => {
+  const [userInfo, setUserInfo] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    fitnessLevel: "",
+    bookedClasses: {},
+    isTrainer: false,
+  });
+
+  const [password, setPassword] = useState("");
+
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  //   const email = userInfo.email;
+
+  const handleSignUp = async (email, password, userInfo) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+      const uid = user.uid;
+
+      await setDoc(doc(db, "users", uid), {
+        email: userInfo.email,
+        firstName: userInfo.firstName,
+        lastName: userInfo.lastName,
+        isTrainer: userInfo.isTrainer,
+        fitnessLevel: userInfo.fitnessLevel,
+        bookedClasses: userInfo.bookedClasses,
+        createdAt: serverTimestamp(),
+        userId: uid,
+      });
+      console.log("user created succesfully");
+    } catch (error) {
+      setError(error);
+      console.log("error:", error);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSignUp(userInfo.email, password, userInfo);
+  };
+
+  console.log(userInfo);
+
   return (
     <>
       <section className="login-page">
@@ -16,14 +75,15 @@ const SignUp = () => {
           </Link>
         </div>
         <div className="login-form">
-          <form action="" method="POST">
+          <form action="" onSubmit={handleSubmit} method="POST">
             <div>
               <label htmlFor="forename"></label>
               <input
                 type="forename"
                 id="forename"
-                name="forename"
+                name="firstName"
                 placeholder="Forename"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -31,8 +91,9 @@ const SignUp = () => {
               <input
                 type="surname"
                 id="surname"
-                name="surname"
+                name="lastName"
                 placeholder="Surname"
+                onChange={handleChange}
               />
             </div>
             <div>
@@ -42,6 +103,7 @@ const SignUp = () => {
                 id="email"
                 name="email"
                 placeholder="Email address"
+                onChange={handleChange}
               />
             </div>
 
@@ -52,7 +114,22 @@ const SignUp = () => {
                 id="password"
                 name="password"
                 placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
               />
+            </div>
+            <div>
+              <label htmlFor="fitnesslevel"></label>
+              <select
+                id="fitnesslevel"
+                name="fitnessLevel"
+                value={userInfo.fitnessLevel}
+                onChange={handleChange}
+              >
+                <option value="">Select Fitness Level</option>
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Advanced">Advanced</option>
+              </select>
             </div>
 
             <div>
@@ -78,3 +155,26 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+// const handleSignup = async (email, password, name) => {
+//     try {
+//         // Sign up user
+//         const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+//         const user = userCredential.user; // Get user object
+//         const uid = user.uid; // Get user UID
+
+//         // Create user document in Firestore
+//         await firebase.firestore().collection("users").doc(uid).set({
+//             email: email,
+//             name: name,
+//             isTrainer: false,
+//             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+//             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+//         });
+
+//         console.log("User created successfully!");
+//     } catch (error) {
+//         console.error("Error signing up:", error.message);
+//         // Show error to user
+//     }
+// };

@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../stylesheets/SmallLogin.css";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 const SmallLogin = ({
   showBookingCard,
@@ -10,20 +12,30 @@ const SmallLogin = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const user = {
-    name: "Zaid",
-    email: "Zaid@hotmail.com",
-    password: "Hello123",
-  };
-  function verifyUser(event) {
-    event.preventDefault();
-    if (email !== user.email || password !== user.password) {
-      console.log("incorrect details");
-    } else {
+
+  const handleLogin = async (email, password) => {
+    console.log("hello");
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
       setLoggedInUser(user);
-      console.log("logged in");
+      console.log("succesfully logged in");
+    } catch (error) {
+      setError(error);
+      console.log(error);
     }
-  }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleLogin(email, password);
+  };
+
   return (
     <>
       <section
@@ -48,7 +60,7 @@ const SmallLogin = ({
           <h2>Log in</h2>
         </div>
         <div className="small-login-form">
-          <form action="" method="POST" onSubmit={verifyUser}>
+          <form action="" method="POST" onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email"></label>
               <input

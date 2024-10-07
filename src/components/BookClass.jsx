@@ -16,14 +16,6 @@ const BookClass = ({ showBookingCard, setShowBookingCard }) => {
   return (
     <section>
       <div className={showBookingCard ? "booking-card" : "hide-booking-card"}>
-        <h2
-          className="exit"
-          onClick={() => {
-            setShowBookingCard(false);
-          }}
-        >
-          X
-        </h2>
         <img src="../images/projects.jpg" alt="" />
         <h1>Class</h1>
         <p>
