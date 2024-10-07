@@ -16,7 +16,7 @@ const Header = () => {
         <ul className="navbar">
           <li>
             <Link className="" to={"/classes"}>
-              Find Classes
+              Classes
             </Link>
           </li>
           {loggedInUser ? (

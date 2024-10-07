@@ -40,7 +40,7 @@ a {
 
 .headline {
   margin-left: 27%;
-  margin-top: 8rem;
+  margin-top: 5rem;
 }
 
 .headline h1 {
@@ -57,6 +57,12 @@ span {
   color: rgb(10, 0, 68);
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .login-form form {
   text-align: center;
 }
@@ -65,17 +71,26 @@ span {
   margin-top: 1rem;
 }
 
-.login-form input {
+.login-form input,
+.login-form select {
   padding: 1rem;
-  width: 40%;
+  width: 45%;
+  color: gray;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
 }
 
 .login-form button {
   padding: 1rem;
-  width: 45.5%;
+  width: 45%;
   border: none;
   background-color: rgb(255, 77, 0);
   color: white;
+}
+
+.login-form button:hover {
+  cursor: pointer;
 }
 
 .sign-up-option p {
@@ -98,7 +113,7 @@ span {
 .split-container__divider-line {
   flex-grow: 1;
   height: 1px;
-  background-color: #000; 
+  background-color: #000;
   border-radius: 10px;
 }
 
@@ -115,4 +130,9 @@ span {
   align-items: center;
   justify-content: center;
   width: 98%;
+  transition: color 0.3s;
+}
+
+.sign-up-option p:hover {
+  color: orangered;
 }
