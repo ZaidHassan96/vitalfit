@@ -3,6 +3,7 @@ import Header from "./Header";
 import "../stylesheets/BookClass.css";
 import UserContext from "../context/User";
 import Login from "./Login.jsx";
+import { doc, updateDoc } from "firebase/firestore";
 
 const BookClass = ({ showBookingCard, setShowBookingCard }) => {
   console.log(setShowBookingCard);
@@ -13,9 +14,36 @@ const BookClass = ({ showBookingCard, setShowBookingCard }) => {
   //   }
   // }
 
+
+  // const updateUserClasses = async (userId, updatedData) => {
+
+  //   try {
+  //     await updateDoc(doc(db, "users", userId), {
+  //       bookedClasse
+  //     })
+
+  //   }
+
+  //   catch (error) {
+
+  //   }
+
+
+  // }
+
   return (
     <section>
       <div className={showBookingCard ? "booking-card" : "hide-booking-card"}>
+        <div>
+          <h2
+            className="exit"
+            onClick={() => {
+              setShowBookingCard(false);
+            }}
+          >
+            X
+          </h2>
+        </div>
         <img src="../images/projects.jpg" alt="" />
         <h1>Class</h1>
         <p>

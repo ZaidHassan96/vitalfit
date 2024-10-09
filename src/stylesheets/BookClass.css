@@ -34,6 +34,12 @@ h1 {
   color: rgb(0, 0, 0);
   margin-bottom: 2rem;
   margin-top: 2rem;
+  transition: color 0.3s;
+}
+.booking-card button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 64, 0);
+  color: white;
 }
 
 .exit {

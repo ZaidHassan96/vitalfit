@@ -1,0 +1,48 @@
+.add-class {
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
+  margin-top: 12rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+  margin-bottom: 4rem;
+  padding: 1rem;
+  position: relative;
+  text-align: center;
+}
+
+.add-class h1 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.add-class h3 {
+  color: grey;
+  text-align: right;
+  font-size: 1.5rem;
+}
+
+.add-class h3 {
+  cursor: pointer;
+}
+
+.add-class div {
+  margin-top: 5rem;
+}
+
+.add-class label {
+  color: white;
+}
+
+.add-class input,
+.add-class select {
+  padding: 1rem;
+  width: 45%;
+  color: gray;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.excerpt {
+  margin-bottom: 4rem;
+}
