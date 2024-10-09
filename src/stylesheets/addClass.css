@@ -33,8 +33,8 @@
   color: grey;
   text-align: right;
   font-size: 1.5rem;
-  width: auto; /* Ensures the width is determined by the content */
-  display: inline; /* Makes the h3 behave like an inline element */
+  width: auto;
+  display: inline;
 }
 
 .add-class-page h3:hover {
