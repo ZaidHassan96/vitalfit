@@ -16,7 +16,7 @@ const MyClasses = () => {
       <section>
         <Header />
         <Banner />
-        <h1 className="all-classes-title">Booked Classes</h1>
+        {/* <h1 className="all-classes-title">Booked Classes</h1> */}
       </section>
       {/* <div className="classes-nav">
             <nav>
@@ -60,15 +60,21 @@ const MyClasses = () => {
                 <option value="hiit">HIIT</option>
               </select>
             </div>
-            <div className="filter-box">
-              <label for="location">Trainer:</label>
-              <select id="location" name="location">
-                <option value="">All Trainers</option>
-                <option value="new-york">Joel</option>
-                <option value="london">Steve</option>
-                <option value="sydney">Sydney</option>
-              </select>
-            </div>
+            {loggedInUser && (
+              <div>
+                {!loggedInUser.isTrainer ? (
+                  <div className="filter-box">
+                    <label for="location">Trainer:</label>
+                    <select id="location" name="location">
+                      <option value="">All Trainers</option>
+                      <option value="new-york">Joel</option>
+                      <option value="london">Steve</option>
+                      <option value="sydney">Sydney</option>
+                    </select>
+                  </div>
+                ) : null}
+              </div>
+            )}
             <div className="filter-box">
               <label htmlFor="date">Date:</label>
               <input type="date" id="date" name="date" />

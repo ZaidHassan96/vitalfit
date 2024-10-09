@@ -1,10 +1,75 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import "../stylesheets/addClass.css";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import UserContext from "../context/User";
+import { db } from "../../firebaseConfig";
 
 const AddClass = ({ setAddClassPage }) => {
-  // const addClassData = async ()
+  const { loggedInUser } = useContext(UserContext);
+
+  const formatDate = (date) => {
+    const dateObj = new Date(date);
+
+    if (dateObj.length === 0) {
+      return "";
+    }
+
+    const formattedDate = dateObj.toLocaleDateString("en-US", {
+      weekday: "short", // (e.g., "Sun")
+      month: "short", // e.g., "Oct")
+      day: "numeric", // (e.g., "10")
+    });
+
+    return formattedDate;
+  };
+
+  console.log(loggedInUser);
+  const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
+  console.log(trainer);
+  const [classData, setClassData] = useState({
+    classId: "",
+    classType: "",
+    classSize: 0,
+    date: "",
+    excerpt: "",
+    membersAttending: [],
+    startTime: "",
+    trainerName: trainer,
+  });
+
+  console.log(classData);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "date") {
+      const newDateVal = formatDate(value);
+      setClassData((prevState) => ({ ...prevState, [name]: newDateVal }));
+    } else {
+      setClassData((prevState) => ({ ...prevState, [name]: value }));
+    }
+  };
+
+  const addClassData = async (classData) => {
+    try {
+      const docRef = await addDoc(collection(db, "classes"), classData);
+
+      await updateDoc(doc(db, "classes", docRef.id), {
+        classId: docRef.id,
+      });
+      console.log("class added succesfuly");
+    } catch (error) {
+      console.error("Error adding class: ", error);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addClassData(classData);
+  };
+
   return (
-    <div className="add-class">
+    <div className="add-class-page">
       <h3
         onClick={() => {
           setAddClassPage(false);
@@ -12,47 +77,64 @@ const AddClass = ({ setAddClassPage }) => {
       >
         View Classes
       </h3>
-      <h1>Add Class</h1>
-      <form action="">
-        <div className="class-type">
-          <label htmlFor="class-type"></label>
-          <select name="class-type" id="class-type">
-            <option value="">Class Type</option>
-            <option value="hit-mania">Hit Mania</option>
-            <option value="spin-class">Spin Class</option>
-            <option value="yoga">Yoga</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="classSize"></label>
-          <input
-            type="number"
-            id="classSize"
-            name="classSize"
-            min="1"
-            max="100"
-            placeholder="Enter class size"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="classDate"></label>
-          <input type="date" id="classDate" name="classDate" required />
-        </div>
-        <div>
-          <label htmlFor="startTime"></label>
-          <input type="time" id="startTime" name="startTime" required />
-        </div>
-        <div className="excerpt">
-          <label htmlFor="excerpt"></label>
-          <input
-            type="text"
-            id="excerpt"
-            name="excerpt"
-            placeholder="Excerpt"
-          />
-        </div>
-      </form>
+      <div className="add-class-form">
+        <h1>Add Class</h1>
+        <form action="" onSubmit={handleSubmit}>
+          <div className="classType">
+            <label htmlFor="classType"></label>
+            <select name="classType" id="classType" onChange={handleChange}>
+              <option value="">Class Type</option>
+              <option value="Hiit Mania">Hiit Mania</option>
+              <option value="Spin Class">Spin Class</option>
+              <option value="Yoga">Yoga</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="classSize"></label>
+            <input
+              type="number"
+              id="classSize"
+              name="classSize"
+              min="1"
+              max="100"
+              placeholder="Enter class size"
+              required
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="date"></label>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              required
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label htmlFor="startTime"></label>
+            <input
+              type="time"
+              id="startTime"
+              name="startTime"
+              required
+              onChange={handleChange}
+            />
+          </div>
+          <div className="excerpt">
+            <label htmlFor="excerpt"></label>
+            <input
+              type="text"
+              id="excerpt"
+              name="excerpt"
+              placeholder="Excerpt"
+              onChange={handleChange}
+            />
+          </div>
+          <button>Add Class</button>
+        </form>
+      </div>
     </div>
   );
 };

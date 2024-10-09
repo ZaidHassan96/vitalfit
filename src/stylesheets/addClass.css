@@ -1,4 +1,4 @@
-.add-class {
+.add-class-page {
   background-color: rgb(0, 0, 0);
   box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
   margin-top: 12rem;
@@ -7,34 +7,50 @@
   margin-bottom: 4rem;
   padding: 1rem;
   position: relative;
+  text-align: right;
+}
+
+.add-class-form {
+  /* background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 8px rgb(201, 101, 42);
+  margin-top: 12rem;
+  margin-left: 6rem;
+  margin-right: 6rem;
+  margin-bottom: 4rem;
+  padding: 1rem;
+  position: relative; */
   text-align: center;
 }
 
-.add-class h1 {
+.add-class-page h1 {
   text-align: center;
   font-size: 3rem;
+  color: grey;
+  margin-bottom: 5rem;
 }
 
-.add-class h3 {
+.add-class-page h3 {
   color: grey;
   text-align: right;
   font-size: 1.5rem;
+  width: auto; /* Ensures the width is determined by the content */
+  display: inline; /* Makes the h3 behave like an inline element */
 }
 
-.add-class h3 {
+.add-class-page h3:hover {
   cursor: pointer;
 }
 
-.add-class div {
-  margin-top: 5rem;
+.add-class-form div {
+  margin-top: 2.5rem;
 }
 
-.add-class label {
+.add-class-form label {
   color: white;
 }
 
-.add-class input,
-.add-class select {
+.add-class-form input,
+.add-class-form select {
   padding: 1rem;
   width: 45%;
   color: gray;
@@ -45,4 +61,23 @@
 
 .excerpt {
   margin-bottom: 4rem;
+}
+
+.add-class-form button {
+  text-align: center;
+  padding: 1rem;
+  width: 20%;
+  border: none;
+  background-color: rgb(255, 77, 0);
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  transition: background-color 0.3s;
+  font-size: 1rem;
+}
+.add-class-form button:hover {
+  cursor: pointer;
+  background-color: rgb(255, 51, 0);
+  color: white;
 }
