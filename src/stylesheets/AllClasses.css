@@ -98,3 +98,14 @@
 .card-row {
   display: flex;
 }
+
+.add-class-button {
+  color: grey;
+  text-align: right;
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+.add-class-button {
+  cursor: pointer;
+}

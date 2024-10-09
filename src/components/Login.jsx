@@ -3,7 +3,8 @@ import "../stylesheets/Login.css";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = ({ setLoggedInUser }) => {
   console.log({ setLoggedInUser });
@@ -36,8 +37,20 @@ const Login = ({ setLoggedInUser }) => {
         password
       );
       const user = userCredential.user;
+      const uid = user.uid;
 
-      setLoggedInUser(user);
+      // After signing in, fetch the user document from Firestore
+      const userDocRef = doc(db, "users", uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = await userDocSnap.data(); // This is where you get your custom user fields
+        setLoggedInUser(userData);
+        console.log("User data:", userData);
+      } else {
+        console.log("No such document!");
+      }
+
       console.log("succesfully logged in");
     } catch (error) {
       setError(error);
