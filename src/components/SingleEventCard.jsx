@@ -2,9 +2,10 @@ import { useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
 import { Link } from "react-router-dom";
 
-const SingleEventCard = ({ setShowBookingCard }) => {
+const SingleEventCard = ({ setShowBookingCard, classData }) => {
   // const classesContainer = classesContainerRef;
   // console.log(classesContainer.current);
+  console.log(classData);
 
   const handleCardClick = (event) => {
     const bookingCard = document.getElementById("classes");
@@ -20,17 +21,18 @@ const SingleEventCard = ({ setShowBookingCard }) => {
 
   return (
     <>
-      <div onClick={handleCardClick} id="booking-card" className="card">
-        <img src="../images/projects.jpg" alt="" />
-        <div className="info">
-          <h1>Hit Mania</h1>
-          <h3>Sun, 20 Oct, 10:00</h3>
-          <p>
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-            nisi ut aliquip ex ea commodo consequat.
-          </p>
+      {classData ? (
+        <div onClick={handleCardClick} id="booking-card" className="card">
+          <img src="../images/projects.jpg" alt="" />
+          <div className="info">
+            <h1>{classData.classType}</h1>
+            <h3>
+              {classData.date}, {classData.startTime}
+            </h3>
+            <p>{classData.excerpt}</p>
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 };

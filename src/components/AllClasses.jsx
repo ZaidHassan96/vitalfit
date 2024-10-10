@@ -18,7 +18,7 @@ const AllClasses = ({ setLoggedInUser }) => {
       <section>
         <Header />
         <Banner />
-        <h1 className="all-classes-title">All Classes</h1>
+        {/* <h1 className="all-classes-title">All Classes</h1> */}
       </section>
 
       {/* <div className="classes-nav">
