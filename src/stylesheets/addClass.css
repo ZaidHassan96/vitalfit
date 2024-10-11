@@ -35,10 +35,12 @@
   font-size: 1.5rem;
   width: auto; /* Ensures the width is determined by the content */
   display: inline; /* Makes the h3 behave like an inline element */
+  transition: color 0.3s;
 }
 
 .add-class-page h3:hover {
   cursor: pointer;
+  color: orangered;
 }
 
 .add-class-form div {

@@ -19,7 +19,9 @@ const MyClasses = () => {
   const { loggedInUser } = useContext(UserContext);
   const [addClassPage, setAddClassPage] = useState(false);
   const [classes, setClasses] = useState([]);
-
+  const [className, setClassName] = useState("");
+  const [classDate, setClassDate] = useState("");
+  console.log("this one", classDate);
   // useEffect(() => {
   //   const fetchClasses = async () => {
   //     try {
@@ -81,6 +83,7 @@ const MyClasses = () => {
   useEffect(() => {
     const fetchClasses = async () => {
       try {
+        if (!loggedInUser) return;
         let querySnapshot;
         const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
 
@@ -126,6 +129,65 @@ const MyClasses = () => {
 
   console.log(classes.sort(), "<<<");
 
+  const formatDate = (date) => {
+    if (date.length === 0) {
+      return;
+    }
+
+    const dateObj = new Date(date);
+
+    if (dateObj.length === 0) {
+      return "";
+    }
+
+    const formattedDate = dateObj.toLocaleDateString("en-US", {
+      weekday: "short", // (e.g., "Sun")
+      month: "short", // e.g., "Oct")
+      day: "numeric", // (e.g., "10")
+    });
+
+    return formattedDate;
+  };
+
+  const handleChange = (event) => {
+    if (event.target.name === "class-name") {
+      setClassName(event.target.value);
+    } else {
+      const formattedDate = formatDate(event.target.value);
+
+      setClassDate(formattedDate);
+    }
+  };
+
+  function handleFilterOptions(classDate, className, classes) {
+    if (classDate && className) {
+      // Filter based on both date and class type
+      return classes.filter((classData) => {
+        const isDateMatch = classDate ? classData.date === classDate : true;
+        const isTypeMatch = className
+          ? classData.classType === className
+          : true;
+
+        return isDateMatch && isTypeMatch;
+      });
+    } else if (classDate) {
+      // Filter based on date only
+      return classes.filter((classData) => {
+        return classData.date === classDate;
+      });
+    } else if (className) {
+      // Filter based on class type only
+      return classes.filter((classData) => {
+        return classData.classType === className;
+      });
+    } else {
+      // If no filter is applied, return all classes
+      return classes;
+    }
+  }
+
+  console.log("this one", classDate, className);
+
   return (
     <>
       <section>
@@ -167,12 +229,12 @@ const MyClasses = () => {
 
           <div className="filter-container">
             <div className="filter-box">
-              <label for="category">Classes:</label>
-              <select id="category" name="category">
+              <label for="class-name">Classes:</label>
+              <select id="class-name" name="class-name" onChange={handleChange}>
                 <option value="">All Classes</option>
-                <option value="fitness">Fitness</option>
-                <option value="yoga">Yoga</option>
-                <option value="hiit">HIIT</option>
+                <option value="Spin Class">Spin Class</option>
+                <option value="Yoga">Yoga</option>
+                <option value="Hiit Mania">Hiit Mania</option>
               </select>
             </div>
             {loggedInUser && (
@@ -192,16 +254,23 @@ const MyClasses = () => {
             )}
             <div className="filter-box">
               <label htmlFor="date">Date:</label>
-              <input type="date" id="date" name="date" />
+              <input
+                type="date"
+                id="date"
+                name="date"
+                onChange={handleChange}
+              />
             </div>
           </div>
           <div className="all-rows">
             {classes.length > 0 ? (
-              classes.map((classData) => {
-                return (
-                  <SingleEventCard key={classData.id} classData={classData} />
-                );
-              })
+              handleFilterOptions(classDate, className, classes).map(
+                (classData) => {
+                  return (
+                    <SingleEventCard key={classData.id} classData={classData} />
+                  );
+                }
+              )
             ) : (
               <h1>No Classes</h1>
             )}
