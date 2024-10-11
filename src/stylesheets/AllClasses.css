@@ -118,3 +118,12 @@
   cursor: pointer;
   color: orangered;
 }
+
+.no-classes {
+  text-align: center;
+  grid-column: span 3; /* Make it span all 3 columns in the grid */
+  padding: 20px;
+  font-size: 1.5rem;
+  color: grey;
+  font-weight: bold;
+}

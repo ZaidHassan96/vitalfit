@@ -14,6 +14,7 @@ import {
   onSnapshot,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import BookClass from "./BookClass.jsx";
 
 const MyClasses = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -21,51 +22,9 @@ const MyClasses = () => {
   const [classes, setClasses] = useState([]);
   const [className, setClassName] = useState("");
   const [classDate, setClassDate] = useState("");
+  const [singleClassData, setSingleClassData] = useState([]);
+  const [showBookingCard, setShowBookingCard] = useState(false);
   console.log("this one", classDate);
-  // useEffect(() => {
-  //   const fetchClasses = async () => {
-  //     try {
-  //       if (!loggedInUser) return; // Ensure loggedInUser is available
-  //       let querySnapshot;
-
-  //       if (loggedInUser.isTrainer) {
-  //         console.log("hello");
-  //         const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-  //         const trainerQuery = query(
-  //           collection(db, "classes"),
-  //           where("trainerName", "==", trainer)
-  //         );
-  //         querySnapshot = await getDocs(trainerQuery);
-  //       } else {
-  //         console.log("else");
-
-  //         const email = loggedInUser.email;
-  //         const membersAttending = query(
-  //           collection(db, "classes"),
-  //           where("membersAttending", "array-contains", email)
-  //         );
-
-  //         // Execute the query
-  //         querySnapshot = await getDocs(membersAttending);
-  //       }
-
-  //       // Fetch all documents in the collection
-
-  //       // Loop through the documents and log their data
-  //       const classes = [];
-  //       querySnapshot.forEach((doc) => {
-  //         // doc.data() is the actual data of the document
-  //         classes.push({ ...doc.data(), id: doc.id });
-  //         console.log(`${doc.id} => `, doc.data());
-  //       });
-
-  //       setClasses(classes); // Optionally return the array of class objects
-  //     } catch (error) {
-  //       console.error("Error fetching documents: ", error);
-  //     }
-  //   };
-  //   fetchClasses();
-  // }, [loggedInUser]);
 
   const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
     if (arr && arr.length > 0) {
@@ -193,18 +152,7 @@ const MyClasses = () => {
       <section>
         <Header />
         <Banner />
-        {/* <h1 className="all-classes-title">Booked Classes</h1> */}
       </section>
-      {/* <div className="classes-nav">
-            <nav>
-              <ul>
-                <li>Spin</li>
-                <li>HIIT</li>
-                <li>Pilates</li>
-                <li>Strength Training</li>
-              </ul>
-            </nav>
-          </div> */}
 
       {addClassPage ? (
         <AddClass setAddClassPage={setAddClassPage} />
@@ -226,6 +174,14 @@ const MyClasses = () => {
               ) : null}
             </div>
           )}
+          <div>
+            <BookClass
+              showBookingCard={showBookingCard}
+              setShowBookingCard={setShowBookingCard}
+              singleClassData={singleClassData}
+              classData={classDate}
+            />
+          </div>
 
           <div className="filter-container">
             <div className="filter-box">
@@ -267,7 +223,12 @@ const MyClasses = () => {
               handleFilterOptions(classDate, className, classes).map(
                 (classData) => {
                   return (
-                    <SingleEventCard key={classData.id} classData={classData} />
+                    <SingleEventCard
+                      key={classData.id}
+                      classData={classData}
+                      setSingleClassData={setSingleClassData}
+                      setShowBookingCard={setShowBookingCard}
+                    />
                   );
                 }
               )

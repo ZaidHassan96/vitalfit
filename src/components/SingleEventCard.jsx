@@ -2,10 +2,14 @@ import { useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
 import { Link } from "react-router-dom";
 
-const SingleEventCard = ({ setShowBookingCard, classData }) => {
+const SingleEventCard = ({
+  setShowBookingCard,
+  classData,
+  setSingleClassData,
+}) => {
   // const classesContainer = classesContainerRef;
   // console.log(classesContainer.current);
-  console.log(classData);
+  console.log(setSingleClassData);
 
   const handleCardClick = (event) => {
     const bookingCard = document.getElementById("classes");
@@ -15,6 +19,8 @@ const SingleEventCard = ({ setShowBookingCard, classData }) => {
         block: "start", // Align the top of the booking card to the top of the view
       });
     }
+    console.log(classData);
+    setSingleClassData(classData);
 
     setShowBookingCard(true);
   };
