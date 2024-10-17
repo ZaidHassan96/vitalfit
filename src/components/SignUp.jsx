@@ -63,92 +63,100 @@ const SignUp = () => {
 
   return (
     <>
-      <section className="login-page">
-        <div className="headline">
-          <Link to={"/"}>
-            <h1>
-              Vital<span>Fit</span>
-            </h1>
-          </Link>
-          <Link to={"/login"}>
-            <h2>Sign up</h2>
-          </Link>
-        </div>
-        <div className="login-form">
-          <form action="" onSubmit={handleSubmit} method="POST">
-            <div>
-              <label htmlFor="forename"></label>
-              <input
-                type="forename"
-                id="forename"
-                name="firstName"
-                placeholder="Forename"
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="surname"></label>
-              <input
-                type="surname"
-                id="surname"
-                name="lastName"
-                placeholder="Surname"
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <label htmlFor="email"></label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                placeholder="Email address"
-                onChange={handleChange}
-              />
-            </div>
-
-            <div>
-              <label htmlFor="password"></label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="fitnesslevel"></label>
-              <select
-                id="fitnesslevel"
-                name="fitnessLevel"
-                value={userInfo.fitnessLevel}
-                onChange={handleChange}
-              >
-                <option value="">Select Fitness Level</option>
-                <option value="Beginner">Beginner</option>
-                <option value="Intermediate">Intermediate</option>
-                <option value="Advanced">Advanced</option>
-              </select>
-            </div>
-
-            <div>
-              <button type="submit">Sign up</button>
-            </div>
-          </form>
-        </div>
-        <div className="sign-up-option">
-          <div>
-            <div className="split-container__divider">
-              <div className="split-container__divider-line"></div>
-              <div className="split-container__divider-text">or</div>
-              <div className="split-container__divider-line"></div>
-            </div>
+      <section className="container">
+        <section className="login-page">
+          <div className="headline">
+            <Link to={"/"}>
+              <h1>
+                Vital<span>Fit</span>
+              </h1>
+            </Link>
+            <Link to={"/login"}>
+              <h2>Sign up</h2>
+            </Link>
           </div>
-          <Link to={"/login"}>
-            <p>Login here</p>
-          </Link>
-        </div>
+          <div className="login-form">
+            <form action="" onSubmit={handleSubmit} method="POST">
+              <div>
+                <label htmlFor="forename"></label>
+                <input
+                  type="forename"
+                  id="forename"
+                  name="firstName"
+                  placeholder="Forename"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="surname"></label>
+                <input
+                  type="surname"
+                  id="surname"
+                  name="lastName"
+                  placeholder="Surname"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label htmlFor="email"></label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Email address"
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div>
+                <label htmlFor="password"></label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="fitnesslevel"></label>
+                <select
+                  id="fitnesslevel"
+                  name="fitnessLevel"
+                  value={userInfo.fitnessLevel}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Fitness Level</option>
+                  <option value="Beginner">Beginner</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+              </div>
+
+              <div>
+                <button type="submit">Sign up</button>
+              </div>
+            </form>
+          </div>
+          <div className="sign-up-option">
+            <div>
+              <div className="split-container__divider">
+                <div className="split-container__divider-line"></div>
+                <div className="split-container__divider-text">or</div>
+                <div className="split-container__divider-line"></div>
+              </div>
+            </div>
+            <Link to={"/login"}>
+              <p>Login here</p>
+            </Link>
+          </div>
+        </section>
+        <section className="side-banner">
+          <video autoPlay muted loop playsInline>
+            <source src="../images/banner.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </section>
       </section>
     </>
   );

@@ -12,6 +12,7 @@ import {
   query,
   where,
   onSnapshot,
+  arrayRemove,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import BookClass from "./BookClass.jsx";
@@ -86,8 +87,6 @@ const MyClasses = () => {
     fetchClasses();
   }, [loggedInUser]);
 
-  console.log(classes.sort(), "<<<");
-
   const formatDate = (date) => {
     if (date.length === 0) {
       return;
@@ -157,7 +156,7 @@ const MyClasses = () => {
       {addClassPage ? (
         <AddClass setAddClassPage={setAddClassPage} />
       ) : (
-        <section className="classes">
+        <section className="classes" id="classes">
           {loggedInUser && (
             <div>
               {loggedInUser.isTrainer ? (
@@ -179,6 +178,7 @@ const MyClasses = () => {
               showBookingCard={showBookingCard}
               setShowBookingCard={setShowBookingCard}
               singleClassData={singleClassData}
+              setSingleClassData={setSingleClassData}
               classData={classDate}
             />
           </div>
@@ -193,21 +193,18 @@ const MyClasses = () => {
                 <option value="Hiit Mania">Hiit Mania</option>
               </select>
             </div>
-            {loggedInUser && (
-              <div>
-                {!loggedInUser.isTrainer ? (
-                  <div className="filter-box">
-                    <label for="location">Trainer:</label>
-                    <select id="location" name="location">
-                      <option value="">All Trainers</option>
-                      <option value="new-york">Joel</option>
-                      <option value="london">Steve</option>
-                      <option value="sydney">Sydney</option>
-                    </select>
-                  </div>
-                ) : null}
+            {loggedInUser && !loggedInUser.isTrainer ? (
+              <div className="filter-box">
+                <label for="location">Trainer:</label>
+                <select id="location" name="location">
+                  <option value="">All Trainers</option>
+                  <option value="new-york">Joel</option>
+                  <option value="london">Steve</option>
+                  <option value="sydney">Sydney</option>
+                </select>
               </div>
-            )}
+            ) : null}
+
             <div className="filter-box">
               <label htmlFor="date">Date:</label>
               <input
@@ -233,7 +230,7 @@ const MyClasses = () => {
                 }
               )
             ) : (
-              <h1>No Classes</h1>
+              <h1 className="no-classes">No Classes</h1>
             )}
           </div>
         </section>

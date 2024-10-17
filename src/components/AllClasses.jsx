@@ -6,7 +6,7 @@ import Banner from "./Banner.jsx";
 import BookClass from "./BookClass.jsx";
 import SmallLogin from "./SmallLogin.jsx";
 import UserContext from "../context/User.jsx";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
 
 const AllClasses = ({ setLoggedInUser }) => {
@@ -32,27 +32,31 @@ const AllClasses = ({ setLoggedInUser }) => {
   };
 
   useEffect(() => {
-    const fetchClasses = async () => {
+    const fetchClasses = () => {
       try {
         const classesCollection = collection(db, "classes");
 
-        const querySnapshot = await getDocs(classesCollection);
+        // Set up a real-time listener for changes in the classes collection
+        const unsubscribe = onSnapshot(classesCollection, (snapshot) => {
+          const classesArray = [];
 
-        const classesArray = [];
+          snapshot.forEach((doc) => {
+            classesArray.push({ ...doc.data(), id: doc.id });
+          });
 
-        querySnapshot.forEach((doc) => {
-          classesArray.push({ ...doc.data(), id: doc.id });
+          const sortedArr = sortedClasses(classesArray, "date", "startTime");
+          setClasses(sortedArr); // Update state with new data
         });
 
-        const sortedArr = sortedClasses(classesArray, "date", "startTime");
-        setClasses(sortedArr); // Update state with new data
+        // Clean up the listener when the component unmounts
+        return () => unsubscribe();
       } catch (error) {
         console.error("Error fetching documents: ", error);
       }
     };
 
-    fetchClasses();
-  }, []);
+    fetchClasses(); // Call the fetch function
+  }, []); // Empty dependency array to run only once on component mount
 
   console.log(classes);
 
@@ -137,6 +141,7 @@ const AllClasses = ({ setLoggedInUser }) => {
               showBookingCard={showBookingCard}
               setShowBookingCard={setShowBookingCard}
               singleClassData={singleClassData}
+              setSingleClassData={setSingleClassData}
               classData={classDate}
             />
           </div>

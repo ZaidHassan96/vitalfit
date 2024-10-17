@@ -1,9 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../stylesheets/SmallLogin.css";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth, db } from "../../firebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 
 const SmallLogin = ({
   showBookingCard,
@@ -12,6 +13,7 @@ const SmallLogin = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
     console.log("hello");
@@ -22,11 +24,21 @@ const SmallLogin = ({
         password
       );
       const user = userCredential.user;
+      const uid = user.uid;
 
-      setLoggedInUser(user);
+      const userDocRef = doc(db, "users", uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = await userDocSnap.data(); // This is where you get your custom user fields
+        setLoggedInUser(userData);
+        console.log("User data:", userData);
+      } else {
+        console.log("No such document!");
+      }
+
       console.log("succesfully logged in");
     } catch (error) {
-      setError(error);
       console.log(error);
     }
   };

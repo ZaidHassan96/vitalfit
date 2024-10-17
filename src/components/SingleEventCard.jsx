@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
 import { Link } from "react-router-dom";
+import { db } from "../../firebaseConfig";
+import { arrayRemove } from "firebase/firestore";
 
 const SingleEventCard = ({
   setShowBookingCard,
@@ -9,7 +11,7 @@ const SingleEventCard = ({
 }) => {
   // const classesContainer = classesContainerRef;
   // console.log(classesContainer.current);
-  console.log(setSingleClassData);
+
 
   const handleCardClick = (event) => {
     const bookingCard = document.getElementById("classes");
@@ -19,17 +21,31 @@ const SingleEventCard = ({
         block: "start", // Align the top of the booking card to the top of the view
       });
     }
-    console.log(classData);
+
     setSingleClassData(classData);
 
     setShowBookingCard(true);
   };
 
+  function setImage(classData) {
+    let imageFile = "";
+    if (classData.classType === "Hiit Mania") {
+      imageFile = "../images/yoga.jpg";
+    } else if (classData.classType === "Spin Class") {
+      imageFile = "../images/spin.jpg";
+    } else {
+      imageFile = "../images/hiit.jpg";
+    }
+    return imageFile;
+  }
+
+
+
   return (
     <>
       {classData ? (
         <div onClick={handleCardClick} id="booking-card" className="card">
-          <img src="../images/projects.jpg" alt="" />
+          {/* <img src={setImage(classData)} alt="" /> */}
           <div className="info">
             <h1>{classData.classType}</h1>
             <h3>

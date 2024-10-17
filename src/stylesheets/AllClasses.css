@@ -13,17 +13,20 @@
   background-color: rgb(0, 0, 0);
   box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
   margin-top: 12rem;
-  margin-left: 6rem;
+  margin-left: 9rem;
   margin-right: 6rem;
   margin-bottom: 4rem;
-  padding-bottom: 1rem;
   position: relative;
   text-align: right;
+  padding: 3rem;
+  height: 180vh;
+  width: 80%;
 }
 
 .filter-container {
   display: flex;
   justify-content: center;
+  margin-bottom: 5rem;
 }
 
 .filter-box {

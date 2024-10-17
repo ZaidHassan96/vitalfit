@@ -58,3 +58,22 @@ h1 {
 .hide-booking-card {
   display: none;
 }
+
+.booking-cancelled {
+  margin-top: 20rem;
+  text-align: center;
+}
+
+.no-classes {
+  text-align: center;
+}
+
+.booking-cancelled {
+  text-align: center;
+  margin-top: 20rem;
+}
+
+.booking-confirmed {
+  text-align: center;
+  margin-top: 20rem;
+}
