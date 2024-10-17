@@ -330,7 +330,7 @@ const BookClass = ({
                     updateMembers();
                   }}
                 >
-                  Book
+                  Confirm Booking
                 </button>
               )
             ) : (

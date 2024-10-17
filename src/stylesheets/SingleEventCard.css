@@ -1,5 +1,5 @@
 .card {
-  text-align: center;
+  text-align: left;
   margin: 0 auto;
   width: 100%;
   margin-top: 1rem;
@@ -10,12 +10,46 @@
   border-bottom: 1px solid #ff530f3c;
   border: white solid 1px;
   padding: 1rem;
+  color: white;
+}
+
+.card h3,
+.card p {
+  color: whitesmoke;
+  padding-left: 0;
+}
+
+.card:hover h3,
+.card:hover h1 {
+  color: black;
+}
+
+.card h1 {
+  padding-left: 0;
+}
+
+.card .book {
+  display: none;
 }
 
 .card:hover {
   border-bottom: 2px solid #ff530f;
-  cursor: pointer;
+
   color: #ff530f;
+  background-color: #ff530f;
+  color: rgb(0, 0, 0);
+}
+
+.card:hover p {
+  display: none;
+  font-size: 2rem;
+}
+
+.card:hover .book {
+  display: block;
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* .card div h1:hover {

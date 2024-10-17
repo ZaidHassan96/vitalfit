@@ -1,8 +1,9 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
 import { Link } from "react-router-dom";
 import { db } from "../../firebaseConfig";
 import { arrayRemove } from "firebase/firestore";
+import UserContext from "../context/User";
 
 const SingleEventCard = ({
   setShowBookingCard,
@@ -11,8 +12,7 @@ const SingleEventCard = ({
 }) => {
   // const classesContainer = classesContainerRef;
   // console.log(classesContainer.current);
-
-
+  const { loggedInUser } = useContext(UserContext);
   const handleCardClick = (event) => {
     const bookingCard = document.getElementById("classes");
     if (bookingCard) {
@@ -39,22 +39,30 @@ const SingleEventCard = ({
     return imageFile;
   }
 
-
-
   return (
     <>
       {classData ? (
-        <div onClick={handleCardClick} id="booking-card" className="card">
+        <div id="booking-card" className="card">
           {/* <img src={setImage(classData)} alt="" /> */}
-          <div className="info">
-            <h1>{classData.classType}</h1>
-            <h3>
-              {classData.date}, {classData.startTime}
-            </h3>
-            <p>{classData.excerpt}</p>
-          </div>
+          {/* <div className="info"> */}
+          <h1>{classData.classType}</h1>
+          <h3>
+            {classData.date}, {classData.startTime}
+          </h3>
+          <p>{classData.excerpt}</p>
+          {Array.isArray(classData.membersAttending) &&
+          classData.membersAttending.includes(loggedInUser.email) ? (
+            <p className="book" onClick={handleCardClick}>
+              View
+            </p>
+          ) : (
+            <p className="book" onClick={handleCardClick}>
+              Book
+            </p>
+          )}
         </div>
-      ) : null}
+      ) : // </div>
+      null}
     </>
   );
 };
