@@ -49,8 +49,10 @@ const SingleEventCard = ({
           <h3>
             {classData.date}, {classData.startTime}
           </h3>
+          <p style={{ fontSize: "1.1rem" }}>{classData.trainerName}</p>
           <p>{classData.excerpt}</p>
           {Array.isArray(classData.membersAttending) &&
+          loggedInUser &&
           classData.membersAttending.includes(loggedInUser.email) ? (
             <p className="book" onClick={handleCardClick}>
               View

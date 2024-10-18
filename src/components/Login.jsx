@@ -73,7 +73,7 @@ const Login = ({ setLoggedInUser }) => {
           <div className="headline">
             <Link to={"/"}>
               <h1>
-                Vital<span>Fit</span>
+                Vital<span className="span-black">Fit</span>
               </h1>
             </Link>
             <h2>Log in</h2>

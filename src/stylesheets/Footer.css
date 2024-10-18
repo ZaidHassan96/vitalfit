@@ -1,0 +1,44 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: black;
+  color: white;
+}
+
+.quotes {
+  text-align: center;
+  width: 50%;
+  margin-left: 20rem;
+  margin-bottom: 5rem;
+}
+
+.quotes h1 {
+  text-align: center;
+  font-size: 3rem;
+}
+
+.quotes p {
+  font-size: 1.5rem;
+}
+
+.connect {
+  display: flex;
+  justify-content: space-around;
+}
+
+span {
+  color: orangered;
+}
+
+.socials {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.socials p {
+  margin: 0.2rem;
+}
+
+.socials-container {
+  text-align: center;
+}

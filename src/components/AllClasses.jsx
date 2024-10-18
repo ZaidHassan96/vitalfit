@@ -8,6 +8,7 @@ import SmallLogin from "./SmallLogin.jsx";
 import UserContext from "../context/User.jsx";
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
+import Footer from "./Footer.jsx";
 
 const AllClasses = ({ setLoggedInUser }) => {
   const [showBookingCard, setShowBookingCard] = useState(false);
@@ -195,6 +196,9 @@ const AllClasses = ({ setLoggedInUser }) => {
             <h1 className="no-classes">No Classes</h1>
           )}
         </div>
+      </section>
+      <section>
+        <Footer />
       </section>
     </>
   );
