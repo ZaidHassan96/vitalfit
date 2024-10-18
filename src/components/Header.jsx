@@ -6,6 +6,17 @@ import { useContext } from "react";
 const Header = () => {
   const { loggedInUser } = useContext(UserContext);
 
+  window.addEventListener("scroll", () => {
+    const header = document.querySelector(".header");
+
+    if (window.scrollY > 60) {
+      // Adjust the scroll value as needed
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
+
   return (
     <header className="header">
       <Link to={"/"}>
@@ -16,6 +27,11 @@ const Header = () => {
       </Link>
       <nav>
         <ul className="navbar">
+          <li>
+            <Link className="" to={"/"}>
+              Home
+            </Link>
+          </li>
           <li>
             <Link className="" to={"/classes"}>
               Classes

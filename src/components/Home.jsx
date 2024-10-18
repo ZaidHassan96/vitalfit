@@ -34,7 +34,9 @@ const Home = () => {
       </section>
 
       <section className="classes-types">
-        <h1>CLASSES WE OFFER</h1>
+        <h1>
+          CLASSES WE <span>OFFER</span>
+        </h1>
         <div className="classes-img">
           <img src="../images/hiit.jpg" alt="" />
           <img src="../images/spin.jpg" alt="" />

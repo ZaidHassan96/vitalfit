@@ -9,6 +9,7 @@ import SignUp from "./SignUp.jsx";
 import MyClasses from "./MyClasses.jsx";
 import BookClass from "./BookClass.jsx";
 import { gapi } from "gapi-script";
+import ScrollToTop from "./ScrollToTop.jsx";
 
 function App() {
   const user = {
@@ -48,6 +49,7 @@ function App() {
 
   return (
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route

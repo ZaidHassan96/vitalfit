@@ -19,6 +19,8 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [classes, setClasses] = useState([]);
   const [singleClassData, setSingleClassData] = useState([]);
 
+
+
   const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
     if (arr && arr.length > 0) {
       return arr.sort((a, b) => {

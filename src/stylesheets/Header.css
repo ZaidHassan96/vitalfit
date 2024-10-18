@@ -1,10 +1,30 @@
-.header {
+/* .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   box-shadow: 0 4px 6px -6px #ff530f;
   background-color: rgb(0, 0, 0);
   width: 100%;
+  height: 20vh;
+} */
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  background-color: rgba(0, 0, 0, 0); /* Transparent */
+  transition: background-color 0.3s ease-in; /* Smooth transition */
+  width: 100%;
+  height: 20vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.header.scrolled {
+  background-color: rgb(0, 0, 0); /* Solid background when scrolled */
 }
 
 li {
