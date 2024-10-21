@@ -3,11 +3,14 @@ import "../stylesheets/addClass.css";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import UserContext from "../context/User";
 import { db } from "../../firebaseConfig";
+import { useNavigate } from "react-router-dom";
 
 const AddClass = ({ setAddClassPage }) => {
   const { loggedInUser } = useContext(UserContext);
   const [dateIncorrect, setDateIncorrect] = useState(false);
   console.log(dateIncorrect);
+
+  const navigate = useNavigate();
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
@@ -83,6 +86,7 @@ const AddClass = ({ setAddClassPage }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     addClassData(classData);
+    setAddClassPage(false);
   };
 
   return (

@@ -2,6 +2,8 @@ import "../stylesheets/Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/User";
 import { useContext } from "react";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebaseConfig";
 
 const Header = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
@@ -19,10 +21,16 @@ const Header = () => {
       header.classList.remove("scrolled");
     }
   });
-  const handleLogout = (e) => {
-    e.preventDefault();
-    setLoggedInUser(null);
-    navigate("/");
+  const handleLogout = async (e) => {
+    e.preventDefault(); // Prevent default behavior of the event
+    try {
+      await signOut(auth); // Sign out the user from Firebase
+      setLoggedInUser(null); // Update the state to reflect that the user is logged out
+      navigate("/"); // Redirect to the home page or desired route
+      console.log("User logged out successfully.");
+    } catch (error) {
+      console.error("Error logging out:", error); // Handle any errors that occur during sign out
+    }
   };
 
   return (

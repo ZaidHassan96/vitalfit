@@ -13,14 +13,14 @@
   background-color: rgb(0, 0, 0);
   box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
   margin-top: 12rem;
-  margin-left: 17rem;
+  margin-left: 9rem;
   margin-right: 6rem;
   margin-bottom: 8%;
   position: relative;
   text-align: right;
   padding: 3rem;
   height: 180vh;
-  width: 70%;
+  width: 80%;
 }
 
 .filter-container {
@@ -139,5 +139,31 @@
 .availability p {
   color: white;
   margin-left: 2rem;
-  font-size: 1rem;
+  font-size: 0.9rem;
+  color: rgb(189, 189, 189);
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination-controls p {
+  color: white;
+  margin: 0;
+  transition: color 0.3s;
+  font-size: 2rem;
+}
+
+.pagination-controls p:hover {
+  color: orangered;
+  cursor: pointer;
+}
+
+.pagination-controls span {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: white;
+  margin-top: 10px;
 }

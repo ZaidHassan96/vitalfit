@@ -19,6 +19,7 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [classes, setClasses] = useState([]);
   const [singleClassData, setSingleClassData] = useState([]);
   // const [classAvailable, setClassAvailable] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
     if (arr && arr.length > 0) {
@@ -118,6 +119,15 @@ const AllClasses = ({ setLoggedInUser }) => {
     classes
   );
 
+  const pagination = (filteredClasses) => {
+    const classesPerPage = 12;
+
+    const startIndex = (currentPage - 1) * classesPerPage;
+    const endIndex = startIndex + classesPerPage;
+
+    return filteredClasses.slice(startIndex, endIndex);
+  };
+
   return (
     <>
       <section>
@@ -185,9 +195,30 @@ const AllClasses = ({ setLoggedInUser }) => {
           <p>Available 🟢</p>
           <p>Full 🔴</p>
         </div>
+        <div className="pagination-controls">
+          <p
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            {"<"}
+          </p>
+          <span>
+            Page {currentPage} of {Math.ceil(filteredClasses.length / 12)}
+          </span>
+          <p
+            onClick={() =>
+              setCurrentPage((prev) =>
+                Math.min(prev + 1, Math.ceil(filteredClasses.length / 12))
+              )
+            }
+            disabled={currentPage === Math.ceil(filteredClasses.length / 12)}
+          >
+            {">"}
+          </p>
+        </div>
         <div className="all-rows">
           {filteredClasses.length > 0 ? (
-            filteredClasses.map((classData) => {
+            pagination(filteredClasses).map((classData) => {
               return (
                 <SingleEventCard
                   key={classData.id}
