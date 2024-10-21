@@ -45,7 +45,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-  text-align: center;
+  text-align: left;
   font-size: 2.5em;
   font-family: Arial, sans-serif;
 }
@@ -53,10 +53,15 @@
 .overlay button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #ff5733;
+  background-color: #ff530f;
   color: white;
   border: none;
   font-size: 1.2em;
   cursor: pointer;
   border-radius: 5px;
+  margin-left: 1rem;
+}
+
+.overlay h1 {
+  text-align: left;
 }

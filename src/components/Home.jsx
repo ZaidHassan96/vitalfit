@@ -4,10 +4,10 @@ import "../stylesheets/Home.css";
 import Banner from "./Banner.jsx";
 import Footer from "./Footer.jsx";
 
-const Home = () => {
+const Home = (setLoggedInUser) => {
   return (
     <>
-      <Header />
+      <Header setLoggedInUser={setLoggedInUser} />
       {/* <SingleEventCard /> */}
       <Banner />
 

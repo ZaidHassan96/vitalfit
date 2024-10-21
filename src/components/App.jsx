@@ -51,7 +51,7 @@ function App() {
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setLoggedInUser={setLoggedInUser} />} />
         <Route
           path="/classes"
           element={<AllClasses setLoggedInUser={setLoggedInUser} />}

@@ -18,6 +18,13 @@
   color: whitesmoke;
   padding-left: 0;
 }
+.card p {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limit to 2 lines */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 .card:hover h3,
 .card:hover h1 {
@@ -80,4 +87,8 @@
   margin-top: 1rem;
   color: rgb(199, 199, 199);
   padding: 5px;
+}
+
+.availability-emoji {
+  font-size: 10px;
 }

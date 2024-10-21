@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import { setDoc, doc } from "firebase/firestore";
 import firebase from "firebase/compat/app";
@@ -15,6 +15,8 @@ const SignUp = () => {
     bookedClasses: {},
     isTrainer: false,
   });
+
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
 
@@ -43,7 +45,7 @@ const SignUp = () => {
         lastName: userInfo.lastName,
         isTrainer: userInfo.isTrainer,
         fitnessLevel: userInfo.fitnessLevel,
-        bookedClasses: userInfo.bookedClasses,
+        // bookedClasses: userInfo.bookedClasses,
         createdAt: serverTimestamp(),
         userId: uid,
       });
@@ -57,6 +59,7 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     handleSignUp(userInfo.email, password, userInfo);
+    navigate("/login");
   };
 
   console.log(userInfo);

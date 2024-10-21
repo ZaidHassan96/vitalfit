@@ -6,9 +6,26 @@ import { db } from "../../firebaseConfig";
 
 const AddClass = ({ setAddClassPage }) => {
   const { loggedInUser } = useContext(UserContext);
+  const [dateIncorrect, setDateIncorrect] = useState(false);
+  console.log(dateIncorrect);
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
+
+    const todayDate = new Date();
+    // Date comparisson to make sure chosen date is not passed
+    const d = dateObj.setHours(0, 0, 0, 0);
+    const t = todayDate.setHours(0, 0, 0, 0);
+
+    if (d < t) {
+      setDateIncorrect(true);
+      alert("Selected Date has past");
+      return;
+    }
+
+    setDateIncorrect(false);
+
+    console.log(todayDate, dateObj);
 
     if (dateObj.length === 0) {
       return "";
@@ -132,7 +149,7 @@ const AddClass = ({ setAddClassPage }) => {
               onChange={handleChange}
             />
           </div>
-          <button>Add Class</button>
+          <button disabled={dateIncorrect}>Add Class</button>
         </form>
       </div>
     </div>

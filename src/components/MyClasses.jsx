@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import BookClass from "./BookClass.jsx";
+import Footer from "./Footer.jsx";
 
 const MyClasses = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -54,7 +55,7 @@ const MyClasses = () => {
           );
 
           // Listen to real-time updates
-          onSnapshot(trainerQuery, (snapshot) => {
+          const unsubscribe = onSnapshot(trainerQuery, (snapshot) => {
             const classesArray = [];
             snapshot.forEach((doc) => {
               classesArray.push({ ...doc.data(), id: doc.id });
@@ -62,22 +63,39 @@ const MyClasses = () => {
             const sortedArr = sortedClasses(classesArray, "date", "startTime");
             setClasses(sortedArr); // Update state with new data
           });
+
+          // Cleanup listener on unmount
+          return () => unsubscribe();
         } else {
           const email = loggedInUser.email;
+
+          // Step 1: Query classes with membersAttending not empty
           const membersAttendingQuery = query(
             collection(db, "classes"),
-            where("membersAttending", "array-contains", email)
+            where("membersAttending", "!=", [])
           );
 
           // Listen to real-time updates
-          onSnapshot(membersAttendingQuery, (snapshot) => {
+          const unsubscribe = onSnapshot(membersAttendingQuery, (snapshot) => {
             const classesArray = [];
             snapshot.forEach((doc) => {
-              classesArray.push({ ...doc.data(), id: doc.id });
+              const classData = doc.data();
+              // Step 2: Filter for the specific user email
+              const isAttending = classData.membersAttending.some(
+                (member) => member.email === email
+              );
+
+              // Only add classes where the user is attending
+              if (isAttending) {
+                classesArray.push({ ...classData, id: doc.id });
+              }
             });
             const sortedArr = sortedClasses(classesArray, "date", "startTime");
             setClasses(sortedArr); // Update state with new data
           });
+
+          // Cleanup listener on unmount
+          return () => unsubscribe();
         }
       } catch (error) {
         console.error("Error fetching documents: ", error);
@@ -86,6 +104,53 @@ const MyClasses = () => {
 
     fetchClasses();
   }, [loggedInUser]);
+
+  // useEffect(() => {
+  //   const fetchClasses = async () => {
+  //     try {
+  //       if (!loggedInUser) return;
+  //       let querySnapshot;
+  //       const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
+
+  //       if (loggedInUser.isTrainer) {
+  //         const trainerQuery = query(
+  //           collection(db, "classes"),
+  //           where("trainerName", "==", trainer)
+  //         );
+
+  //         // Listen to real-time updates
+  //         onSnapshot(trainerQuery, (snapshot) => {
+  //           const classesArray = [];
+  //           snapshot.forEach((doc) => {
+  //             classesArray.push({ ...doc.data(), id: doc.id });
+  //           });
+  //           const sortedArr = sortedClasses(classesArray, "date", "startTime");
+  //           setClasses(sortedArr); // Update state with new data
+  //         });
+  //       } else {
+  //         const email = loggedInUser.email;
+  //         const membersAttendingQuery = query(
+  //           collection(db, "classes"),
+  //           where("membersAttending", "array-contains", email)
+  //         );
+
+  //         // Listen to real-time updates
+  //         onSnapshot(membersAttendingQuery, (snapshot) => {
+  //           const classesArray = [];
+  //           snapshot.forEach((doc) => {
+  //             classesArray.push({ ...doc.data(), id: doc.id });
+  //           });
+  //           const sortedArr = sortedClasses(classesArray, "date", "startTime");
+  //           setClasses(sortedArr); // Update state with new data
+  //         });
+  //       }
+  //     } catch (error) {
+  //       console.error("Error fetching documents: ", error);
+  //     }
+  //   };
+
+  //   fetchClasses();
+  // }, [loggedInUser]);
 
   const formatDate = (date) => {
     if (date.length === 0) {
@@ -235,6 +300,7 @@ const MyClasses = () => {
           </div>
         </section>
       )}
+      <Footer />
     </>
   );
 };

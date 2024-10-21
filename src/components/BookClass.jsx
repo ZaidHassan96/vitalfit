@@ -6,6 +6,7 @@ import Login from "./Login.jsx";
 import {
   arrayRemove,
   arrayUnion,
+  deleteDoc,
   doc,
   onSnapshot,
   updateDoc,
@@ -26,6 +27,7 @@ const BookClass = ({
   const [bookingCancelled, setBookingCancelled] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [addToCalendar, setAddToCalendar] = useState(false);
 
   const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
   const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -181,7 +183,7 @@ const BookClass = ({
     setSingleClassData((prevObj) => ({
       ...prevObj,
       membersAttending: prevObj.membersAttending.filter(
-        (member) => member !== loggedInUser.email
+        (member) => member.email !== loggedInUser.email
       ),
     }));
   };
@@ -191,17 +193,22 @@ const BookClass = ({
       const classRef = doc(db, "classes", singleClassData.classId);
 
       await updateDoc(classRef, {
-        membersAttending: arrayUnion(loggedInUser.email),
+        membersAttending: arrayUnion({
+          email: loggedInUser.email,
+          addedToCalendar: addToCalendar,
+        }),
       });
       // membersAttendingOptimistic(singleClassData);
       setBookingConfirmed(true);
       console.log("Document updated successfully!");
 
-      if (!isAuthenticated) {
-        await handleGoogleLogin(); // Wait for login to complete
-        createEvent(); // Call createEvent once login is successful
-      } else {
-        createEvent();
+      if (addToCalendar) {
+        if (!isAuthenticated) {
+          await handleGoogleLogin(); // Wait for login to complete
+          createEvent(); // Call createEvent once login is successful
+        } else {
+          createEvent();
+        }
       }
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -234,22 +241,37 @@ const BookClass = ({
   // }, [singleClassData?.classId]); //
   const cancelBooking = async () => {
     try {
-      // Reference to the class document
       const classRef = doc(db, "classes", singleClassData.classId);
+      // Reference to the class document
+      if (loggedInUser && loggedInUser.isTrainer) {
+        await deleteDoc(classRef);
+        setBookingCancelled(true);
+      } else {
+        // const classRef = doc(db, "classes", singleClassData.classId);
 
-      // Update the document by removing the user's email from the 'membersAttending' array
-      await updateDoc(classRef, {
-        membersAttending: arrayRemove(loggedInUser.email),
-      });
+        const memberToRemove = singleClassData.membersAttending.find(
+          (member) => member.email === loggedInUser.email
+        );
 
-      console.log("Booking successfully canceled!");
-      setBookingCancelled(true);
+        // Update the document by removing the user's email from the 'membersAttending' array
+        await updateDoc(classRef, {
+          membersAttending: arrayRemove(memberToRemove),
+        });
+
+        console.log("Booking successfully canceled!");
+        setBookingCancelled(true);
+      }
     } catch (error) {
       console.error("Error canceling booking: ", error);
     }
   };
 
-  console.log(singleClassData);
+  const findMember = (singleClassData) => {
+    return singleClassData.membersAttending.find(
+      (member) => member.email === loggedInUser.email
+    );
+  };
+  console.log(addToCalendar);
 
   // console.log(loggedInUser.firstName + " " + loggedInUser.lastName);
 
@@ -273,6 +295,18 @@ const BookClass = ({
   //   }
 
   // }
+
+  function setImage(singleClassData) {
+    let imageFile = "";
+    if (singleClassData.classType === "Hiit Mania") {
+      imageFile = "../images/hiit.jpg";
+    } else if (singleClassData.classType === "Spin Class") {
+      imageFile = "../images/spin.jpg";
+    } else {
+      imageFile = "../images/yoga.jpg";
+    }
+    return imageFile;
+  }
   console.log(bookingCancelled);
 
   console.log(singleClassData.membersAttending);
@@ -302,40 +336,62 @@ const BookClass = ({
           )
         ) : (
           <div>
-            <img src="../images/projects.jpg" alt="" />
+            <img src={setImage(singleClassData)} alt="" />
             <h1>{singleClassData.classType}</h1>
             <p>{singleClassData.excerpt}</p>
             <p>{singleClassData.date}</p>
             <p>Time: {singleClassData.startTime}</p>
             <p>spaces remaining</p>
             <p>{singleClassData.trainerName}</p>
-            {loggedInUser && singleClassData ? (
-              loggedInUser.isTrainer ? (
-                // If the user is a trainer, only show the button if the class belongs to them
-                singleClassData.trainerName ===
-                loggedInUser.firstName + " " + loggedInUser.lastName ? (
-                  <button>Cancel Class</button> // Show Cancel Booking if it is their class
-                ) : // If the trainer is logged in but it's not their class, show nothing
-                null
-              ) : // If the user is not a trainer, handle the booking or cancel logic for members
-              Array.isArray(singleClassData.membersAttending) &&
-                singleClassData.membersAttending.includes(
-                  loggedInUser.email
-                ) ? (
-                <button onClick={cancelBooking}>Cancel Booking</button>
+            <div className="booking-class-info">
+              {singleClassData &&
+              loggedInUser &&
+              singleClassData.membersAttending &&
+              !findMember(singleClassData) &&
+              !loggedInUser.isTrainer ? (
+                <label className="calendar" htmlFor="agree">
+                  Add to Google Calendar
+                  <input
+                    className="calendar"
+                    type="checkbox"
+                    id="agree"
+                    name="agree"
+                    value="agree"
+                    onChange={(e) => setAddToCalendar(e.target.checked)}
+                  />
+                </label>
               ) : (
-                <button
-                  onClick={() => {
-                    handleUpdateDoc();
-                    updateMembers();
-                  }}
-                >
-                  Confirm Booking
-                </button>
-              )
-            ) : (
-              <p>Loading...</p>
-            )}
+                true
+              )}
+
+              {loggedInUser && singleClassData ? (
+                loggedInUser.isTrainer ? (
+                  // If the user is a trainer, only show the button if the class belongs to them
+                  singleClassData.trainerName ===
+                  loggedInUser.firstName + " " + loggedInUser.lastName ? (
+                    <button onClick={cancelBooking}>Cancel Class</button> // Show Cancel Booking if it is their class
+                  ) : // If the trainer is logged in but it's not their class, show nothing
+                  null
+                ) : // If the user is not a trainer, handle the booking or cancel logic for members
+                Array.isArray(singleClassData.membersAttending) &&
+                  singleClassData.membersAttending.find(
+                    (member) => member.email === loggedInUser.email
+                  ) ? (
+                  <button onClick={cancelBooking}>Cancel Booking</button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      handleUpdateDoc();
+                      updateMembers();
+                    }}
+                  >
+                    Confirm Booking
+                  </button>
+                )
+              ) : (
+                <p>Loading...</p>
+              )}
+            </div>
           </div>
         )}
       </div>

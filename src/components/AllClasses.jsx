@@ -18,8 +18,7 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [classTrainer, setClassTrainer] = useState("");
   const [classes, setClasses] = useState([]);
   const [singleClassData, setSingleClassData] = useState([]);
-
-
+  // const [classAvailable, setClassAvailable] = useState(false);
 
   const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
     if (arr && arr.length > 0) {
@@ -181,6 +180,10 @@ const AllClasses = ({ setLoggedInUser }) => {
             <label htmlFor="date">Date:</label>
             <input type="date" id="date" name="date" onChange={handleChange} />
           </div>
+        </div>
+        <div className="availability">
+          <p>Available 🟢</p>
+          <p>Full 🔴</p>
         </div>
         <div className="all-rows">
           {filteredClasses.length > 0 ? (
