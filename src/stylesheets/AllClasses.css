@@ -19,7 +19,7 @@
   position: relative;
   text-align: right;
   padding: 3rem;
-  height: 180vh;
+  height: 190vh;
   width: 80%;
 }
 
@@ -33,9 +33,9 @@
   display: flex;
   flex-direction: column;
   margin-top: 4rem;
-  border: 0.5px solid rgba(254, 140, 64, 0.332);
-  padding: 1rem;
-  width: 20%;
+  border: 0.9px solid rgba(240, 133, 61, 0.255);
+  padding: 1.3rem;
+  width: 50%;
   background-color: black;
   transition: background-color 0.3s;
 }

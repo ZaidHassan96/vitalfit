@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { auth, db } from "../../firebaseConfig";
 import { setDoc, doc } from "firebase/firestore";
@@ -19,8 +19,13 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-
+  const [firstNameErr, setFirstNameErr] = useState("");
+  const [lastNameErr, setLastNameErr] = useState("");
+  const [emailErr, setEmailErr] = useState("");
   const [error, setError] = useState("");
+  const [disabled, setDisabled] = useState(true);
+  const [passwordErr, setPasswordErr] = useState("");
+  const [accountCreationErr, setAccountCreationErr] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -49,20 +54,72 @@ const SignUp = () => {
         createdAt: serverTimestamp(),
         userId: uid,
       });
+      setAccountCreationErr("");
       console.log("user created succesfully");
+      return true;
     } catch (error) {
-      setError(error);
+      setAccountCreationErr(error);
       console.log("error:", error);
+      return false;
+    }
+  };
+  const nameRegex =
+    /^[A-Za-zÀ-ÖØ-öø-ÿ'’-]{2,50}(?: [A-Za-zÀ-ÖØ-öø-ÿ'’-]{2,50})*$/;
+
+  const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}\s*$/;
+  ``;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z]).{6,}\s*$/;
+
+  const isFormValid = () => {
+    if (
+      firstNameErr ||
+      lastNameErr ||
+      emailErr ||
+      passwordErr ||
+      !userInfo.fitnessLevel
+    ) {
+      setError("Please fill out all sections.");
+      return false;
+    } else {
+      return true;
     }
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    handleSignUp(userInfo.email, password, userInfo);
-    navigate("/login");
+  console.log(accountCreationErr);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+
+    if (isFormValid()) {
+      try {
+        console.log("Form Submitted:", userInfo);
+
+        // Wait for handleSignUp to finish before continuing
+        const signUpSuccess = await handleSignUp(
+          userInfo.email,
+          password,
+          userInfo
+        );
+
+        console.log(accountCreationErr);
+
+        if (signUpSuccess && !accountCreationErr) {
+          navigate("/login");
+        } else {
+          console.log(signUpSuccess, !accountCreationErr);
+          console.warn("Sign-up failed, not navigating to login.");
+        }
+      } catch (error) {
+        setError(error); // Handle error during sign-up
+        console.error("Error during sign-up:", error);
+      }
+    } else {
+      console.warn("Form validation failed.");
+    }
   };
 
   console.log(userInfo);
+  console.log(userInfo.password);
 
   return (
     <>
@@ -78,6 +135,17 @@ const SignUp = () => {
               <h2>Sign up</h2>
             </Link>
           </div>
+          {accountCreationErr &&
+            accountCreationErr.code === "auth/email-already-in-use" && (
+              <p className="error" style={{ textAlign: "center" }}>
+                Email already Exists.
+              </p>
+            )}
+          {error && (
+            <p className="error" style={{ textAlign: "center" }}>
+              {error}
+            </p>
+          )}
           <div className="login-form">
             <form action="" onSubmit={handleSubmit} method="POST">
               <div>
@@ -88,6 +156,15 @@ const SignUp = () => {
                   name="firstName"
                   placeholder="Forename"
                   onChange={handleChange}
+                  onBlur={() => {
+                    if (!nameRegex.test(userInfo.firstName)) {
+                      setFirstNameErr(
+                        "Forename must be between 2-50 characters long"
+                      );
+                    } else {
+                      setFirstNameErr("");
+                    }
+                  }}
                 />
               </div>
               <div>
@@ -98,9 +175,19 @@ const SignUp = () => {
                   name="lastName"
                   placeholder="Surname"
                   onChange={handleChange}
+                  onBlur={() => {
+                    if (!nameRegex.test(userInfo.lastName)) {
+                      setLastNameErr(
+                        "Surname must be between 2-50 characters long"
+                      );
+                    } else {
+                      setLastNameErr("");
+                    }
+                  }}
                 />
               </div>
               <div>
+                {emailErr && <p className="error">{emailErr}</p>}
                 <label htmlFor="email"></label>
                 <input
                   type="email"
@@ -108,10 +195,18 @@ const SignUp = () => {
                   name="email"
                   placeholder="Email address"
                   onChange={handleChange}
+                  onBlur={() => {
+                    if (!emailRegex.test(userInfo.email)) {
+                      setEmailErr("Please enter a valid email.");
+                    } else {
+                      setEmailErr("");
+                    }
+                  }}
                 />
               </div>
 
               <div>
+                {passwordErr && <p className="error">{passwordErr}</p>}
                 <label htmlFor="password"></label>
                 <input
                   type="password"
@@ -119,6 +214,15 @@ const SignUp = () => {
                   name="password"
                   placeholder="Password"
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={() => {
+                    if (!passwordRegex.test(password)) {
+                      setPasswordErr(
+                        "Password needs to be at least 6 characters long, including both letters and numbers."
+                      );
+                    } else {
+                      setPasswordErr("");
+                    }
+                  }}
                 />
               </div>
               <div>
@@ -137,7 +241,9 @@ const SignUp = () => {
               </div>
 
               <div>
-                <button type="submit">Sign up</button>
+                <button disabled={!isFormValid} type="submit">
+                  Sign up
+                </button>
               </div>
             </form>
           </div>

@@ -1,7 +1,7 @@
 import "../stylesheets/Header.css";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../context/User";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
 
@@ -11,22 +11,40 @@ const Header = () => {
 
   const navigate = useNavigate();
 
-  window.addEventListener("scroll", () => {
-    const header = document.querySelector(".header");
+  useEffect(() => {
+    const handleScroll = () => {
+      const header = document.querySelector(".header");
 
-    if (window.scrollY > 60) {
-      // Adjust the scroll value as needed
-      header.classList.add("scrolled");
-    } else {
-      header.classList.remove("scrolled");
-    }
-  });
+      if (header) {
+        if (window.scrollY > 60) {
+          header.classList.add("scrolled");
+        } else {
+          header.classList.remove("scrolled");
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const handleLogout = async (e) => {
     e.preventDefault(); // Prevent default behavior of the event
     try {
       await signOut(auth); // Sign out the user from Firebase
       setLoggedInUser(null); // Update the state to reflect that the user is logged out
-      navigate("/"); // Redirect to the home page or desired route
+      navigate("/");
+      const auth2 = gapi.auth2.getAuthInstance();
+      if (auth2) {
+        await auth.signOut();
+        await auth2.disconnect();
+        console.log("Google API session cleared");
+      }
+      // Redirect to the home page or desired route
       console.log("User logged out successfully.");
     } catch (error) {
       console.error("Error logging out:", error); // Handle any errors that occur during sign out

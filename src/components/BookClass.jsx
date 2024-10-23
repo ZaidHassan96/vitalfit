@@ -28,34 +28,35 @@ const BookClass = ({
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [addToCalendar, setAddToCalendar] = useState(false);
+  const [googleError, setGoogleError] = useState(false);
 
-  const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-  const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+  // const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+  // const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+  // const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
   console.log(isAuthenticated);
 
-  useEffect(() => {
-    function initializeGAPI() {
-      gapi.client
-        .init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          scope: SCOPES,
-          discoveryDocs: [
-            "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-          ],
-        })
-        .then(() => {
-          console.log("Google API initialized");
-        })
-        .catch((error) => {
-          console.error("Google API initialization failed", error);
-        });
-    }
+  // useEffect(() => {
+  //   function initializeGAPI() {
+  //     gapi.client
+  //       .init({
+  //         apiKey: API_KEY,
+  //         clientId: CLIENT_ID,
+  //         scope: SCOPES,
+  //         discoveryDocs: [
+  //           "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+  //         ],
+  //       })
+  //       .then(() => {
+  //         console.log("Google API initialized");
+  //       })
+  //       .catch((error) => {
+  //         console.error("Google API initialization failed", error);
+  //       });
+  //   }
 
-    gapi.load("client:auth2", initializeGAPI);
-  }, []);
+  //   gapi.load("client:auth2", initializeGAPI);
+  // }, []);
 
   const handleGoogleLogin = async () => {
     console.log("Attempting to sign in...");
@@ -69,9 +70,12 @@ const BookClass = ({
         setIsAuthenticated(true);
         console.log("User signed in:", user.getBasicProfile().getName());
       } catch (error) {
+        setGoogleError(true);
         console.error("Error signing in", error);
         if (error.error === "popup_closed_by_user") {
-          alert("Popup was closed before completion. Please try again.");
+          alert(
+            "You need to login to a google account to add a booking to your calendar."
+          );
         }
       }
     }
@@ -112,19 +116,75 @@ const BookClass = ({
     }
   }
 
-  const createEvent = async () => {
+  async function getAccessToken() {
     const authInstance = gapi.auth2.getAuthInstance();
-    const accessToken = authInstance.currentUser
-      .get()
-      .getAuthResponse().access_token;
-    console.log("succesfully retrieved authresponse");
+    const currentUser = authInstance.currentUser.get();
+
+    // Get the current access token
+    let accessToken = currentUser.getAuthResponse().access_token;
+
+    // Check if the user has the necessary permissions by inspecting the granted scopes
+    const scopes = currentUser.getGrantedScopes();
+
+    // If the current scope does not include 'https://www.googleapis.com/auth/calendar.events'
+    if (
+      !scopes ||
+      !scopes.includes("https://www.googleapis.com/auth/calendar.events")
+    ) {
+      console.warn(
+        "User did not grant calendar permissions, prompting for consent."
+      );
+
+      try {
+        // Re-prompt the user to grant permission for calendar events
+        await authInstance.signIn({
+          scope: "https://www.googleapis.com/auth/calendar.events",
+          prompt: "consent", // Ensure the consent screen is shown again to ask for permission
+        });
+
+        // Get a new access token after user grants permission
+        accessToken = currentUser.getAuthResponse().access_token;
+
+        if (!accessToken) {
+          console.error(
+            "Failed to retrieve access token after re-authentication."
+          );
+          setGoogleError(true);
+          return null;
+        }
+      } catch (error) {
+        console.error(
+          "User canceled or failed to re-authenticate for additional permissions.",
+          error
+        );
+        setGoogleError(true);
+        return null;
+      }
+    }
+
+    console.log(
+      "Successfully retrieved access token with the required permissions."
+    );
+    return accessToken;
+  }
+
+  const createEvent = async () => {
+    // Get the access token using the getAccessToken function
+    const accessToken = await getAccessToken();
 
     if (!accessToken) {
-      console.error("User is not authenticated");
-      return;
+      console.error(
+        "User is not authenticated or failed to retrieve access token."
+      );
+      return; // Exit if there's no valid access token
     }
-    console.log(singleClassData.date);
-    const startTime = dateTimeFormat(singleClassData);
+
+    console.log(
+      "Successfully retrieved auth response, proceeding to create event."
+    );
+
+    const startTime = dateTimeFormat(singleClassData); // Format the start time based on class data
+
     // Event details
     const eventDetails = {
       summary: `${singleClassData.classType} Class`,
@@ -143,17 +203,69 @@ const BookClass = ({
     gapi.client.setToken({ access_token: accessToken });
 
     try {
+      // Make the request to create the event
       const response = await gapi.client.request({
         path: `https://www.googleapis.com/calendar/v3/calendars/primary/events`,
         method: "POST",
         body: eventDetails,
       });
       console.log("Event created:", response.result);
+
+      // Perform success actions
+      setAddToCalendar(true);
+      setGoogleError(false);
       alert("Class booked and added to your Google Calendar!");
     } catch (error) {
+      // Handle errors (e.g., insufficient permissions, invalid token)
+      setGoogleError(true);
       console.error("Error creating event in Google Calendar:", error);
     }
   };
+
+  // const createEvent = async () => {
+  //   const authInstance = gapi.auth2.getAuthInstance();
+  //   const accessToken = authInstance.currentUser
+  //     .get()
+  //     .getAuthResponse().access_token;
+  //   console.log("succesfully retrieved authresponse");
+
+  //   if (!accessToken) {
+  //     console.error("User is not authenticated");
+  //     accessToken();
+  //   }
+  //   console.log(singleClassData.date);
+  //   const startTime = dateTimeFormat(singleClassData);
+  //   // Event details
+  //   const eventDetails = {
+  //     summary: `${singleClassData.classType} Class`,
+  //     description: `You have successfully booked a ${singleClassData.classType} class.`,
+  //     start: {
+  //       dateTime: startTime.toISOString(),
+  //       timeZone: "America/Los_Angeles",
+  //     },
+  //     end: {
+  //       dateTime: new Date(startTime.getTime() + 60 * 60 * 1000).toISOString(), // 1 hour later
+  //       timeZone: "America/Los_Angeles",
+  //     },
+  //   };
+
+  //   // Set token for the API request
+  //   gapi.client.setToken({ access_token: accessToken });
+
+  //   try {
+  //     const response = await gapi.client.request({
+  //       path: `https://www.googleapis.com/calendar/v3/calendars/primary/events`,
+  //       method: "POST",
+  //       body: eventDetails,
+  //     });
+  //     console.log("Event created:", response.result);
+  //     setAddToCalendar(true);
+  //     alert("Class booked and added to your Google Calendar!");
+  //   } catch (error) {
+  //     setGoogleError(error);
+  //     console.error("Error creating event in Google Calendar:", error);
+  //   }
+  // };
   // function membersAttendingOptimistic(singleClassData) {
   //   if (!singleClassData) {
   //     return;
@@ -192,26 +304,29 @@ const BookClass = ({
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
 
+      // Logic for updating Firestore and creating an event
+
+      // User opted not to add to calendar, just update Firestore without Google sign-in
       await updateDoc(classRef, {
         membersAttending: arrayUnion({
           email: loggedInUser.email,
-          addedToCalendar: addToCalendar,
+          addedToCalendar: false,
         }),
       });
-      // membersAttendingOptimistic(singleClassData);
-      setBookingConfirmed(true);
-      console.log("Document updated successfully!");
 
-      if (addToCalendar) {
-        if (!isAuthenticated) {
-          await handleGoogleLogin(); // Wait for login to complete
-          createEvent(); // Call createEvent once login is successful
-        } else {
-          createEvent();
-        }
-      }
+      console.log("Document updated successfully!");
+      setBookingConfirmed(true);
     } catch (error) {
       console.error("Error updating document: ", error);
+    }
+  };
+
+  const addToGoogleCalendar = async () => {
+    try {
+      await handleGoogleLogin();
+      await createEvent();
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -307,7 +422,9 @@ const BookClass = ({
     }
     return imageFile;
   }
-  console.log(bookingCancelled);
+  // if (googleError) {
+  //   console.log(googleError.result.error.errors[0].message);
+  // }
 
   console.log(singleClassData.membersAttending);
 
@@ -321,6 +438,8 @@ const BookClass = ({
               setBookingConfirmed(false);
               setBookingCancelled(false);
               setShowBookingCard(false);
+              setGoogleError(false);
+              setAddToCalendar(false);
             }}
           >
             X
@@ -332,7 +451,38 @@ const BookClass = ({
               Booking successfully cancelled
             </h1>
           ) : (
-            <h1 className="booking-confirmed">Booking Confirmed</h1>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                textAlign: "center",
+                alignItems: "center",
+              }}
+            >
+              <h1 className="booking-confirmed">Booking Confirmed</h1>
+              {addToCalendar ? (
+                <p>Succesfully added to Calendar</p>
+              ) : (
+                <p
+                  className="add-to-google-calendar"
+                  onClick={addToGoogleCalendar}
+                >
+                  Add to Google Calendar
+                </p>
+              )}
+              {googleError ? (
+                <div className="google-error-container">
+                  <h3 style={{ fontStyle: "bold", color: "white" }}>
+                    Class not added to Calendar
+                  </h3>
+                  <p style={{ fontStyle: "bold", color: "white" }}>
+                    Google account login and permission required
+                  </p>
+                </div>
+              ) : (
+                true
+              )}
+            </div>
           )
         ) : (
           <div>
@@ -344,7 +494,7 @@ const BookClass = ({
             <p>spaces remaining</p>
             <p>{singleClassData.trainerName}</p>
             <div className="booking-class-info">
-              {singleClassData &&
+              {/* {singleClassData &&
               loggedInUser &&
               singleClassData.membersAttending &&
               !findMember(singleClassData) &&
@@ -362,7 +512,7 @@ const BookClass = ({
                 </label>
               ) : (
                 true
-              )}
+              )} */}
 
               {loggedInUser && singleClassData ? (
                 loggedInUser.isTrainer ? (

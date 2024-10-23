@@ -92,3 +92,35 @@ h1 {
   text-align: center;
   align-items: center;
 }
+
+.add-to-google-calendar {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+  width: 48%;
+  border: none;
+  background-color: rgb(255, 77, 0);
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  transition: color 0.3s;
+}
+
+.add-to-google-calendar:hover {
+  cursor: pointer;
+  background-color: rgb(255, 64, 0);
+  color: white;
+}
+
+.google-error-container {
+  padding: 1rem;
+
+  border: 1px solid rgb(255, 0, 0);
+}
+
+.error {
+  color: red;
+  font-weight: bold;
+}
