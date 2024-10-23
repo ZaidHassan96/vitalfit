@@ -18,6 +18,7 @@ const Login = ({ setLoggedInUser }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  console.log(error);
 
   //   function verifyUser(event) {
   //     event.preventDefault();
@@ -56,7 +57,7 @@ const Login = ({ setLoggedInUser }) => {
       navigate("/");
     } catch (error) {
       setError(error);
-      console.log(error);
+      console.log(error.code);
     }
   };
 
@@ -78,6 +79,11 @@ const Login = ({ setLoggedInUser }) => {
             </Link>
             <h2>Log in</h2>
           </div>
+          {error && (
+            <p style={{ textAlign: "center" }} className="error">
+              Email address or Password is incorrect
+            </p>
+          )}
           <div className="login-form">
             <form action="" method="POST" onSubmit={handleSubmit}>
               <div>

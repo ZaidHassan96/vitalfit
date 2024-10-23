@@ -354,12 +354,14 @@ const BookClass = ({
   //   // Clean up the listener when the component unmounts
   //   return () => unsubscribe();
   // }, [singleClassData?.classId]); //
+
   const cancelBooking = async () => {
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
       // Reference to the class document
       if (loggedInUser && loggedInUser.isTrainer) {
         await deleteDoc(classRef);
+
         setBookingCancelled(true);
       } else {
         // const classRef = doc(db, "classes", singleClassData.classId);
@@ -374,6 +376,7 @@ const BookClass = ({
         });
 
         console.log("Booking successfully canceled!");
+
         setBookingCancelled(true);
       }
     } catch (error) {
@@ -428,6 +431,14 @@ const BookClass = ({
 
   console.log(singleClassData.membersAttending);
 
+  let cancelled = "";
+
+  if (loggedInUser && loggedInUser.isTrainer) {
+    cancelled = "Class Successfully Cancelled";
+  } else {
+    cancelled = "Booking Successfully Cancelled";
+  }
+
   return (
     <section>
       <div className={showBookingCard ? "booking-card" : "hide-booking-card"}>
@@ -447,9 +458,7 @@ const BookClass = ({
         </div>
         {bookingCancelled || bookingConfirmed ? (
           bookingCancelled ? (
-            <h1 className="booking-cancelled">
-              Booking successfully cancelled
-            </h1>
+            <h1 className="booking-cancelled">{cancelled}</h1>
           ) : (
             <div
               style={{
@@ -491,7 +500,14 @@ const BookClass = ({
             <p>{singleClassData.excerpt}</p>
             <p>{singleClassData.date}</p>
             <p>Time: {singleClassData.startTime}</p>
-            <p>spaces remaining</p>
+            <p>
+              Spaces remaining:
+              {singleClassData?.classSize &&
+              Array.isArray(singleClassData.membersAttending)
+                ? singleClassData.classSize -
+                  singleClassData.membersAttending.length
+                : "N/A"}
+            </p>
             <p>{singleClassData.trainerName}</p>
             <div className="booking-class-info">
               {/* {singleClassData &&

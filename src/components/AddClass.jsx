@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../stylesheets/addClass.css";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import UserContext from "../context/User";
@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AddClass = ({ setAddClassPage }) => {
   const { loggedInUser } = useContext(UserContext);
   const [dateIncorrect, setDateIncorrect] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   console.log(dateIncorrect);
 
   const navigate = useNavigate();
@@ -70,6 +71,19 @@ const AddClass = ({ setAddClassPage }) => {
     }
   };
 
+  const checkFormValidity = () => {
+    const { classType, classSize, date, startTime } = classData;
+    if (classType && classSize > 0 && date && startTime && !dateIncorrect) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  };
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [classData]);
+
   const addClassData = async (classData) => {
     try {
       const docRef = await addDoc(collection(db, "classes"), classData);
@@ -100,6 +114,16 @@ const AddClass = ({ setAddClassPage }) => {
       </h3>
       <div className="add-class-form">
         <h1>Add Class</h1>
+        {!isFormValid && (
+          <p
+            style={{
+              fontSize: "1.2rem",
+            }}
+            className="error"
+          >
+            Please fill out all sections.
+          </p>
+        )}
         <form action="" onSubmit={handleSubmit}>
           <div className="classType">
             <label htmlFor="classType"></label>
@@ -153,7 +177,7 @@ const AddClass = ({ setAddClassPage }) => {
               onChange={handleChange}
             />
           </div>
-          <button disabled={dateIncorrect}>Add Class</button>
+          <button disabled={dateIncorrect || !isFormValid}>Add Class</button>
         </form>
       </div>
     </div>
