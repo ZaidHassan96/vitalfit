@@ -4,6 +4,9 @@ import UserContext from "../context/User";
 import { useContext, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
+import PersonIcon from "@mui/icons-material/Person";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const Header = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
@@ -73,7 +76,14 @@ const Header = () => {
           </li>
           {loggedInUser ? (
             <div className="dropdown">
+              <AccountCircleIcon
+                style={{ color: "white", fontSize: "1.1rem" }}
+              />
+
               <span className="dropdown-email">{loggedInUser.email}</span>
+
+              <ExpandMoreIcon className="dropdown-arrow" />
+
               <div className="dropdown-content">
                 <Link to={"/my-classes"}>My Classes</Link>
                 <a onClick={handleLogout} href="">

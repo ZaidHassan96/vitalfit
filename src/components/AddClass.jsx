@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const AddClass = ({ setAddClassPage }) => {
   const { loggedInUser } = useContext(UserContext);
   const [dateIncorrect, setDateIncorrect] = useState(false);
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [formNotValid, setFormNotValid] = useState(false);
   console.log(dateIncorrect);
 
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ const AddClass = ({ setAddClassPage }) => {
 
     if (d < t) {
       setDateIncorrect(true);
-      alert("Selected Date has past");
+      alert(
+        "The selected date has already passed. Please choose a future date."
+      );
       return;
     }
 
@@ -72,17 +74,24 @@ const AddClass = ({ setAddClassPage }) => {
   };
 
   const checkFormValidity = () => {
-    const { classType, classSize, date, startTime } = classData;
-    if (classType && classSize > 0 && date && startTime && !dateIncorrect) {
-      setIsFormValid(true);
+    const { classType, classSize, date, startTime, excerpt } = classData;
+    if (
+      classType &&
+      classSize > 0 &&
+      date &&
+      startTime &&
+      !dateIncorrect &&
+      excerpt
+    ) {
+      return true;
     } else {
-      setIsFormValid(false);
+      return false;
     }
   };
 
-  useEffect(() => {
-    checkFormValidity();
-  }, [classData]);
+  // useEffect(() => {
+  //   checkFormValidity();
+  // }, [classData]);
 
   const addClassData = async (classData) => {
     try {
@@ -99,6 +108,16 @@ const AddClass = ({ setAddClassPage }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    // Prevent form submission if the form is invalid
+    if (!checkFormValidity()) {
+      setFormNotValid(true);
+      console.log("not valid");
+
+      return; // Stop further execution if form is invalid
+    }
+
+    // Proceed with adding class data and hiding the form page
+    setFormNotValid(false);
     addClassData(classData);
     setAddClassPage(false);
   };
@@ -114,7 +133,7 @@ const AddClass = ({ setAddClassPage }) => {
       </h3>
       <div className="add-class-form">
         <h1>Add Class</h1>
-        {!isFormValid && (
+        {formNotValid && (
           <p
             style={{
               fontSize: "1.2rem",
@@ -148,6 +167,9 @@ const AddClass = ({ setAddClassPage }) => {
             />
           </div>
           <div>
+            {dateIncorrect && (
+              <p className="error">Please choose a future date.</p>
+            )}
             <label htmlFor="date"></label>
             <input
               type="date"
@@ -177,7 +199,7 @@ const AddClass = ({ setAddClassPage }) => {
               onChange={handleChange}
             />
           </div>
-          <button disabled={dateIncorrect || !isFormValid}>Add Class</button>
+          <button>Add Class</button>
         </form>
       </div>
     </div>

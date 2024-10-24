@@ -86,35 +86,52 @@ li {
 /* Dropdown container */
 .dropdown {
   position: relative;
-  display: inline-block;
-}
-
-/* The email text */
-.dropdown-email {
-  padding: 10px;
-  margin: 0;
-  color: white;
-  font-size: 1.3rem;
-  margin-top: 0.1%;
-  padding-right: 1rem;
-  padding: 0;
-  transition: color 0.3s ease-in;
-}
-
-.dropdown-email:hover {
-  color: #ff530f;
+  display: inline-flex; /* Align email and arrow in a row */
+  align-items: center; /* Vertically align them */
+  gap: 8px; /* Space between email and arrow */
   cursor: pointer;
 }
 
-/* The dropdown content (hidden by default) */
+/* Hover state for email and arrow together */
+.dropdown:hover .dropdown-email,
+.dropdown:hover .dropdown-arrow {
+  color: #ff530f; /* Change both email and arrow color on hover */
+}
+
+/* Email text */
+.dropdown-email {
+  color: white;
+  font-size: 1.3rem;
+  transition: color 0.2s ease-in;
+}
+
+/* Arrow icon */
+.dropdown-arrow {
+  color: white;
+  font-size: 1.3rem;
+  transition: color 0.3s ease-in;
+}
+
+/* Rotate the arrow on hover */
+.dropdown:hover .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown content (hidden by default) */
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 0;
-  right: 0; /* Align dropdown to the right of the email */
+  z-index: 1;
+  right: 0; /* Align to the right of the email */
+  top: 100%; /* Position it below the email */
+}
+
+/* Show dropdown content when hovering over the entire dropdown */
+.dropdown:hover .dropdown-content {
+  display: block;
 }
 
 /* Links inside the dropdown */
@@ -123,14 +140,10 @@ li {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  border-top: 1px solid rgb(139, 139, 139);
 }
 
-/* Change color of dropdown links on hover */
+/* Change link background on hover */
 .dropdown-content a:hover {
   background-color: #ff530f;
-}
-
-/* Show the dropdown menu when hovering over the dropdown-email */
-.dropdown:hover .dropdown-content {
-  display: block;
 }

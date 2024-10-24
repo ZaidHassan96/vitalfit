@@ -1,5 +1,6 @@
 import React from "react";
 import "../stylesheets/Banner.css";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   return (
@@ -14,8 +15,12 @@ const Banner = () => {
       {/* <img src="../images/banner.jpg" alt="" /> */}
 
       <div class="overlay">
-        <h1>Join the Fitness Movement</h1>
-        <button>Get Started</button>
+        <h1>
+          Join the Fitness <span>Movement</span>
+        </h1>
+        {/* <Link to={"/sign-up"}>
+          <button>Get Started</button>
+        </Link> */}
       </div>
     </div>
   );

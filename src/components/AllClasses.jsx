@@ -16,6 +16,8 @@ import {
   pagination,
 } from "../utils/utils.js";
 
+
+
 const AllClasses = ({ setLoggedInUser }) => {
   const [showBookingCard, setShowBookingCard] = useState(false);
   const { loggedInUser } = useContext(UserContext);

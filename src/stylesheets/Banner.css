@@ -50,16 +50,32 @@
   font-family: Arial, sans-serif;
 }
 
+.overlay h1 {
+  font-size: 4rem;
+}
+
+.overlay span {
+  background-color: #ff7a27b5;
+  padding: 0.5rem;
+  color: white;
+}
+
 .overlay button {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #ff530f;
+  background-color: #000000;
   color: white;
   border: none;
   font-size: 1.2em;
   cursor: pointer;
-  border-radius: 5px;
+
   margin-left: 1rem;
+  box-shadow: 2px 2px 10px rgb(255, 119, 40);
+  transition: box-shadow 0.5s ease;
+}
+
+.overlay button:hover {
+  box-shadow: 2px 2px 10px rgb(255, 255, 255);
 }
 
 .overlay h1 {

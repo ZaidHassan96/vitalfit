@@ -326,13 +326,16 @@ const BookClass = ({
           )
         ) : (
           <div>
-            <img src={setImage(singleClassData)} alt="" />
+            <img
+              src={setImage(singleClassData)}
+              alt={singleClassData.classType}
+            />
             <h1>{singleClassData.classType}</h1>
             <p>{singleClassData.excerpt}</p>
             <p>{singleClassData.date}</p>
             <p>Time: {singleClassData.startTime}</p>
             <p>
-              Spaces remaining:
+              Spaces remaining:&nbsp;&nbsp;
               {singleClassData?.classSize &&
               Array.isArray(singleClassData.membersAttending)
                 ? singleClassData.classSize -
