@@ -9,6 +9,12 @@ import UserContext from "../context/User.jsx";
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
 import Footer from "./Footer.jsx";
+import {
+  sortedClasses,
+  formatDate,
+  handleFilterOptions,
+  pagination,
+} from "../utils/utils.js";
 
 const AllClasses = ({ setLoggedInUser }) => {
   const [showBookingCard, setShowBookingCard] = useState(false);
@@ -20,19 +26,6 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [singleClassData, setSingleClassData] = useState([]);
   // const [classAvailable, setClassAvailable] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-
-  const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
-    if (arr && arr.length > 0) {
-      return arr.sort((a, b) => {
-        if (new Date(a[dateField]) - new Date(b[dateField]) !== 0) {
-          return new Date(a[dateField]) - new Date(b[dateField]);
-        } else {
-          return parseInt(a[timeField]) - parseInt(b[timeField]);
-        }
-      });
-    }
-    return arr;
-  };
 
   useEffect(() => {
     const fetchClasses = () => {
@@ -61,28 +54,6 @@ const AllClasses = ({ setLoggedInUser }) => {
     fetchClasses(); // Call the fetch function
   }, []); // Empty dependency array to run only once on component mount
 
-  console.log(classes);
-
-  const formatDate = (date) => {
-    if (date.length === 0) {
-      return;
-    }
-
-    const dateObj = new Date(date);
-
-    if (dateObj.length === 0) {
-      return "";
-    }
-
-    const formattedDate = dateObj.toLocaleDateString("en-US", {
-      weekday: "short", // (e.g., "Sun")
-      month: "short", // e.g., "Oct")
-      day: "numeric", // (e.g., "10")
-    });
-
-    return formattedDate;
-  };
-
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);
@@ -94,23 +65,7 @@ const AllClasses = ({ setLoggedInUser }) => {
       setClassTrainer(event.target.value);
     }
   };
-  console.log(singleClassData);
-
-  function handleFilterOptions(classDate, className, classTrainer, classes) {
-    console.log("i am here");
-    console.log(className);
-
-    return classes.filter((classData) => {
-      const isDateMatch = classDate ? classData.date === classDate : true;
-      const isTypeMatch = className ? classData.classType === className : true;
-      const isTrainerMatch = classTrainer
-        ? classData.trainerName === classTrainer
-        : true;
-
-      // Return true if all the applied filters match
-      return isDateMatch && isTypeMatch && isTrainerMatch;
-    });
-  }
+  console.log(classTrainer);
 
   const filteredClasses = handleFilterOptions(
     classDate,
@@ -118,15 +73,6 @@ const AllClasses = ({ setLoggedInUser }) => {
     classTrainer,
     classes
   );
-
-  const pagination = (filteredClasses) => {
-    const classesPerPage = 12;
-
-    const startIndex = (currentPage - 1) * classesPerPage;
-    const endIndex = startIndex + classesPerPage;
-
-    return filteredClasses.slice(startIndex, endIndex);
-  };
 
   return (
     <>
@@ -183,7 +129,7 @@ const AllClasses = ({ setLoggedInUser }) => {
               <option value="">All Trainers</option>
               <option value="Zaid Hassan">Zaid</option>
               <option value="Steve">Steve</option>
-              <option value="Sydney">Sydney</option>
+              <option value="Sydney Beth">Sydney</option>
             </select>
           </div>
           <div className="filter-box">
@@ -218,7 +164,7 @@ const AllClasses = ({ setLoggedInUser }) => {
         </div>
         <div className="all-rows">
           {filteredClasses.length > 0 ? (
-            pagination(filteredClasses).map((classData) => {
+            pagination(filteredClasses, currentPage).map((classData) => {
               return (
                 <SingleEventCard
                   key={classData.id}

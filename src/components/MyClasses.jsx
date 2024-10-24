@@ -17,6 +17,12 @@ import {
 import { db } from "../../firebaseConfig";
 import BookClass from "./BookClass.jsx";
 import Footer from "./Footer.jsx";
+import {
+  sortedClasses,
+  formatDate,
+  handleFilterOptions,
+  pagination,
+} from "../utils/utils.js";
 
 const MyClasses = () => {
   const { loggedInUser } = useContext(UserContext);
@@ -26,20 +32,8 @@ const MyClasses = () => {
   const [classDate, setClassDate] = useState("");
   const [singleClassData, setSingleClassData] = useState([]);
   const [showBookingCard, setShowBookingCard] = useState(false);
-  console.log("this one", classDate);
-
-  const sortedClasses = (arr, dateField = "date", timeField = "startTime") => {
-    if (arr && arr.length > 0) {
-      return arr.sort((a, b) => {
-        if (new Date(a[dateField]) - new Date(b[dateField]) !== 0) {
-          return new Date(a[dateField]) - new Date(b[dateField]);
-        } else {
-          return parseInt(a[timeField]) - parseInt(b[timeField]);
-        }
-      });
-    }
-    return arr;
-  };
+  const [classTrainer, setClassTrainer] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchClasses = async () => {
@@ -105,111 +99,52 @@ const MyClasses = () => {
     fetchClasses();
   }, [loggedInUser]);
 
-  // useEffect(() => {
-  //   const fetchClasses = async () => {
-  //     try {
-  //       if (!loggedInUser) return;
-  //       let querySnapshot;
-  //       const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-
-  //       if (loggedInUser.isTrainer) {
-  //         const trainerQuery = query(
-  //           collection(db, "classes"),
-  //           where("trainerName", "==", trainer)
-  //         );
-
-  //         // Listen to real-time updates
-  //         onSnapshot(trainerQuery, (snapshot) => {
-  //           const classesArray = [];
-  //           snapshot.forEach((doc) => {
-  //             classesArray.push({ ...doc.data(), id: doc.id });
-  //           });
-  //           const sortedArr = sortedClasses(classesArray, "date", "startTime");
-  //           setClasses(sortedArr); // Update state with new data
-  //         });
-  //       } else {
-  //         const email = loggedInUser.email;
-  //         const membersAttendingQuery = query(
-  //           collection(db, "classes"),
-  //           where("membersAttending", "array-contains", email)
-  //         );
-
-  //         // Listen to real-time updates
-  //         onSnapshot(membersAttendingQuery, (snapshot) => {
-  //           const classesArray = [];
-  //           snapshot.forEach((doc) => {
-  //             classesArray.push({ ...doc.data(), id: doc.id });
-  //           });
-  //           const sortedArr = sortedClasses(classesArray, "date", "startTime");
-  //           setClasses(sortedArr); // Update state with new data
-  //         });
-  //       }
-  //     } catch (error) {
-  //       console.error("Error fetching documents: ", error);
-  //     }
-  //   };
-
-  //   fetchClasses();
-  // }, [loggedInUser]);
-
-  const formatDate = (date) => {
-    if (date.length === 0) {
-      return;
-    }
-
-    const dateObj = new Date(date);
-
-    if (dateObj.length === 0) {
-      return "";
-    }
-
-    const formattedDate = dateObj.toLocaleDateString("en-US", {
-      weekday: "short", // (e.g., "Sun")
-      month: "short", // e.g., "Oct")
-      day: "numeric", // (e.g., "10")
-    });
-
-    return formattedDate;
-  };
-
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);
-    } else {
+    } else if (event.target.name === "date") {
       const formattedDate = formatDate(event.target.value);
 
       setClassDate(formattedDate);
+    } else {
+      setClassTrainer(event.target.value);
     }
   };
 
-  function handleFilterOptions(classDate, className, classes) {
-    if (classDate && className) {
-      // Filter based on both date and class type
-      return classes.filter((classData) => {
-        const isDateMatch = classDate ? classData.date === classDate : true;
-        const isTypeMatch = className
-          ? classData.classType === className
-          : true;
+  // function handleFilterOptions(classDate, className, classTrainer, classes) {
+  //   // Filter based on both date and class type
+  //   return classes.filter((classData) => {
+  //     const isDateMatch = classDate ? classData.date === classDate : true;
+  //     const isTypeMatch = className ? classData.classType === className : true;
+  //     const isTrainerMatch = classTrainer
+  //       ? classData.trainerName === classTrainer
+  //       : true;
 
-        return isDateMatch && isTypeMatch;
-      });
-    } else if (classDate) {
-      // Filter based on date only
-      return classes.filter((classData) => {
-        return classData.date === classDate;
-      });
-    } else if (className) {
-      // Filter based on class type only
-      return classes.filter((classData) => {
-        return classData.classType === className;
-      });
-    } else {
-      // If no filter is applied, return all classes
-      return classes;
-    }
-  }
+  //     return isDateMatch && isTypeMatch && isTrainerMatch;
+  //   });
 
-  console.log("this one", classDate, className);
+  //   // } else if (classDate) {
+  //   //   // Filter based on date only
+  //   //   return classes.filter((classData) => {
+  //   //     return classData.date === classDate;
+  //   //   });
+  //   // } else if (className) {
+  //   //   // Filter based on class type only
+  //   //   return classes.filter((classData) => {
+  //   //     return classData.classType === className;
+  //   //   });
+  //   // } else {
+  //   //   // If no filter is applied, return all classes
+  //   //   return classes;
+  //   // }
+  // }
+
+  const filteredClasses = handleFilterOptions(
+    classDate,
+    className,
+    classTrainer,
+    classes
+  );
 
   return (
     <>
@@ -260,12 +195,12 @@ const MyClasses = () => {
             </div>
             {loggedInUser && !loggedInUser.isTrainer ? (
               <div className="filter-box">
-                <label for="location">Trainer:</label>
-                <select id="location" name="location">
+                <label for="trainer">Trainer:</label>
+                <select id="trainer" name="location" onChange={handleChange}>
                   <option value="">All Trainers</option>
-                  <option value="new-york">Joel</option>
-                  <option value="london">Steve</option>
-                  <option value="sydney">Sydney</option>
+                  <option value="Zaid Hassan">Zaid</option>
+                  <option value="Sydney Beth">Sydney</option>
+                  <option value="Steve Hart">Steve</option>
                 </select>
               </div>
             ) : null}
@@ -280,20 +215,43 @@ const MyClasses = () => {
               />
             </div>
           </div>
+          <div className="availability">
+            <p>Available 🟢</p>
+            <p>Full 🔴</p>
+          </div>
+          <div className="pagination-controls">
+            <p
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+            >
+              {"<"}
+            </p>
+            <span>
+              Page {currentPage} of {Math.ceil(filteredClasses.length / 12)}
+            </span>
+            <p
+              onClick={() =>
+                setCurrentPage((prev) =>
+                  Math.min(prev + 1, Math.ceil(filteredClasses.length / 12))
+                )
+              }
+              disabled={currentPage === Math.ceil(filteredClasses.length / 12)}
+            >
+              {">"}
+            </p>
+          </div>
           <div className="all-rows">
-            {classes.length > 0 ? (
-              handleFilterOptions(classDate, className, classes).map(
-                (classData) => {
-                  return (
-                    <SingleEventCard
-                      key={classData.id}
-                      classData={classData}
-                      setSingleClassData={setSingleClassData}
-                      setShowBookingCard={setShowBookingCard}
-                    />
-                  );
-                }
-              )
+            {loggedInUser && filteredClasses && filteredClasses.length > 0 ? (
+              pagination(filteredClasses, currentPage).map((classData) => {
+                return (
+                  <SingleEventCard
+                    key={classData.id}
+                    classData={classData}
+                    setSingleClassData={setSingleClassData}
+                    setShowBookingCard={setShowBookingCard}
+                  />
+                );
+              })
             ) : (
               <h1 className="no-classes">No Classes</h1>
             )}

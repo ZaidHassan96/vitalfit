@@ -18,34 +18,6 @@ function App() {
     password: "Hello123",
   };
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const calendarID = import.meta.env.VITE_CALENDAR_ID;
-  const apiKey = import.meta.env.VITE_APP_GOOGLE_API_KEY;
-  const accessToken = import.meta.env.VITE_APP_GOOGLE_ACCESS_TOKEN;
-  console.log(loggedInUser);
-
-  // const getEvents = async (calendarID, apiKey) => {
-  //   try {
-  //     // Load the Google API client
-  //     await new Promise((resolve) => gapi.load("client", resolve));
-
-  //     // Initialize the client with the provided API key
-  //     await gapi.client.init({
-  //       apiKey: apiKey,
-  //     });
-
-  //     // Make the request to get the events
-  //     const response = await gapi.client.request({
-  //       path: `https://www.googleapis.com/calendar/v3/calendars/${calendarID}/events`,
-  //     });
-
-  //     // Extract events from the response
-  //     const events = response.result.items;
-  //     return events;
-  //   } catch (err) {
-  //     // Handle any errors
-  //     return [false, err];
-  //   }
-  // };
 
   const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
   const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;

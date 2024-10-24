@@ -2,9 +2,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import "../stylesheets/SmallLogin.css";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { handleLogin } from "../utils/utils";
 
 const SmallLogin = ({
   showBookingCard,
@@ -14,38 +12,18 @@ const SmallLogin = ({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
-  const handleLogin = async (email, password) => {
-    console.log("hello");
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      const uid = user.uid;
-
-      const userDocRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const userData = await userDocSnap.data(); // This is where you get your custom user fields
-        setLoggedInUser(userData);
-        console.log("User data:", userData);
-      } else {
-        console.log("No such document!");
-      }
-
-      console.log("succesfully logged in");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const [error, setError] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleLogin(email, password);
+    handleLogin(
+      email,
+      password,
+      "/classes",
+      setError,
+      setLoggedInUser,
+      navigate
+    );
   };
 
   return (
@@ -71,6 +49,11 @@ const SmallLogin = ({
           </Link> */}
           <h2>Log in</h2>
         </div>
+        {error && (
+          <p style={{ textAlign: "center" }} className="error">
+            Email address or Password is incorrect
+          </p>
+        )}
         <div className="small-login-form">
           <form action="" method="POST" onSubmit={handleSubmit}>
             <div>

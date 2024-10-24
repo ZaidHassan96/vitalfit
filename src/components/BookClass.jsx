@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import Header from "./Header";
 import "../stylesheets/BookClass.css";
 import UserContext from "../context/User";
-import Login from "./Login.jsx";
 import {
   arrayRemove,
   arrayUnion,
@@ -30,34 +28,7 @@ const BookClass = ({
   const [addToCalendar, setAddToCalendar] = useState(false);
   const [googleError, setGoogleError] = useState(false);
 
-  // const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-  // const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-  // const SCOPES = "https://www.googleapis.com/auth/calendar.events";
-
-  console.log(isAuthenticated);
-
-  // useEffect(() => {
-  //   function initializeGAPI() {
-  //     gapi.client
-  //       .init({
-  //         apiKey: API_KEY,
-  //         clientId: CLIENT_ID,
-  //         scope: SCOPES,
-  //         discoveryDocs: [
-  //           "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-  //         ],
-  //       })
-  //       .then(() => {
-  //         console.log("Google API initialized");
-  //       })
-  //       .catch((error) => {
-  //         console.error("Google API initialization failed", error);
-  //       });
-  //   }
-
-  //   gapi.load("client:auth2", initializeGAPI);
-  // }, []);
-
+  // HANDLE GOOGLE LOGIN
   const handleGoogleLogin = async () => {
     console.log("Attempting to sign in...");
     const authInstance = gapi.auth2.getAuthInstance();
@@ -80,14 +51,7 @@ const BookClass = ({
       }
     }
   };
-
-  console.log(singleClassData.date, classData);
-
-  const classDate = singleClassData.date; // e.g., "Sun, Oct 27"
-  const classTime = singleClassData.startTime; // e.g., "17:50"
-
-  console.log(classDate);
-
+  // FORMATTING DATE AND TIME FOR UI
   function dateTimeFormat(singleClassData) {
     if (!singleClassData) {
       return;
@@ -115,7 +79,7 @@ const BookClass = ({
       return startTime;
     }
   }
-
+  // GETTING ACCESSTOKEN FROM GOOGLE ACCOUNT IN-ORDER TO ADD CLASS TO CALENDAR
   async function getAccessToken() {
     const authInstance = gapi.auth2.getAuthInstance();
     const currentUser = authInstance.currentUser.get();
@@ -137,13 +101,13 @@ const BookClass = ({
 
       try {
         // Re-prompt the user to grant permission for calendar events
-        await authInstance.signIn({
-          scope: "https://www.googleapis.com/auth/calendar.events",
-          prompt: "consent", // Ensure the consent screen is shown again to ask for permission
-        });
+        // await authInstance.signIn({
+        //   scope: "https://www.googleapis.com/auth/calendar.events",
+        //   prompt: "consent", // Ensure the consent screen is shown again to ask for permission
+        // });
 
-        // Get a new access token after user grants permission
-        accessToken = currentUser.getAuthResponse().access_token;
+        // // Get a new access token after user grants permission
+        // accessToken = currentUser.getAuthResponse().access_token;
 
         if (!accessToken) {
           console.error(
@@ -167,7 +131,7 @@ const BookClass = ({
     );
     return accessToken;
   }
-
+  // CREATING CLASS EVENT ON GOOGLE CALENDAR
   const createEvent = async () => {
     // Get the access token using the getAccessToken function
     const accessToken = await getAccessToken();
@@ -222,75 +186,7 @@ const BookClass = ({
     }
   };
 
-  // const createEvent = async () => {
-  //   const authInstance = gapi.auth2.getAuthInstance();
-  //   const accessToken = authInstance.currentUser
-  //     .get()
-  //     .getAuthResponse().access_token;
-  //   console.log("succesfully retrieved authresponse");
-
-  //   if (!accessToken) {
-  //     console.error("User is not authenticated");
-  //     accessToken();
-  //   }
-  //   console.log(singleClassData.date);
-  //   const startTime = dateTimeFormat(singleClassData);
-  //   // Event details
-  //   const eventDetails = {
-  //     summary: `${singleClassData.classType} Class`,
-  //     description: `You have successfully booked a ${singleClassData.classType} class.`,
-  //     start: {
-  //       dateTime: startTime.toISOString(),
-  //       timeZone: "America/Los_Angeles",
-  //     },
-  //     end: {
-  //       dateTime: new Date(startTime.getTime() + 60 * 60 * 1000).toISOString(), // 1 hour later
-  //       timeZone: "America/Los_Angeles",
-  //     },
-  //   };
-
-  //   // Set token for the API request
-  //   gapi.client.setToken({ access_token: accessToken });
-
-  //   try {
-  //     const response = await gapi.client.request({
-  //       path: `https://www.googleapis.com/calendar/v3/calendars/primary/events`,
-  //       method: "POST",
-  //       body: eventDetails,
-  //     });
-  //     console.log("Event created:", response.result);
-  //     setAddToCalendar(true);
-  //     alert("Class booked and added to your Google Calendar!");
-  //   } catch (error) {
-  //     setGoogleError(error);
-  //     console.error("Error creating event in Google Calendar:", error);
-  //   }
-  // };
-  // function membersAttendingOptimistic(singleClassData) {
-  //   if (!singleClassData) {
-  //     return;
-  //   }
-
-  //   setSingleClassData((prevObj) => {
-  //     // If the logged-in user's email is already in the array, no need to add it again.
-  //     if (
-  //       prevObj.membersAttending &&
-  //       prevObj.membersAttending.includes(loggedInUser.email)
-  //     ) {
-  //       return prevObj;
-  //     }
-
-  //     // Optimistically add the user's email to the membersAttending array
-  //     return {
-  //       ...prevObj, // Keep all the other properties unchanged
-  //       membersAttending: [
-  //         ...(prevObj.membersAttending || []), // Use the existing array or an empty array if it's undefined
-  //         loggedInUser.email,
-  //       ],
-  //     };
-  //   });
-  // }
-
+  // OPTIMISTIC UI UPDATES
   const updateMembers = () => {
     setSingleClassData((prevObj) => ({
       ...prevObj,
@@ -299,14 +195,11 @@ const BookClass = ({
       ),
     }));
   };
-
+  // HANDLING UPDATING MEMBERS ATTENDING ARRAY
   const handleUpdateDoc = async () => {
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
 
-      // Logic for updating Firestore and creating an event
-
-      // User opted not to add to calendar, just update Firestore without Google sign-in
       await updateDoc(classRef, {
         membersAttending: arrayUnion({
           email: loggedInUser.email,
@@ -330,31 +223,6 @@ const BookClass = ({
     }
   };
 
-  // useEffect(() => {
-  //   // Check if singleClassData and classId are defined
-  //   if (!singleClassData || !singleClassData.classId) {
-  //     console.error("singleClassData or classId is undefined");
-  //     return;
-  //   }
-
-  //   // Reference to the class document
-  //   const classRef = doc(db, "classes", singleClassData.classId);
-
-  //   // Set up the real-time listener
-  //   const unsubscribe = onSnapshot(classRef, (snapshot) => {
-  //     if (snapshot.exists()) {
-  //       // Update the state with the latest document data
-  //       setSingleClassData(snapshot.data());
-  //       console.log("Document updated in real-time:", snapshot.data());
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-  //   });
-
-  //   // Clean up the listener when the component unmounts
-  //   return () => unsubscribe();
-  // }, [singleClassData?.classId]); //
-
   const cancelBooking = async () => {
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
@@ -364,8 +232,6 @@ const BookClass = ({
 
         setBookingCancelled(true);
       } else {
-        // const classRef = doc(db, "classes", singleClassData.classId);
-
         const memberToRemove = singleClassData.membersAttending.find(
           (member) => member.email === loggedInUser.email
         );
@@ -383,37 +249,7 @@ const BookClass = ({
       console.error("Error canceling booking: ", error);
     }
   };
-
-  const findMember = (singleClassData) => {
-    return singleClassData.membersAttending.find(
-      (member) => member.email === loggedInUser.email
-    );
-  };
-  console.log(addToCalendar);
-
-  // console.log(loggedInUser.firstName + " " + loggedInUser.lastName);
-
-  // function handleBooking() {
-  //   if (!loggedInUser){
-
-  //   }
-  // }
-
-  // const updateUserClasses = async (userId, updatedData) => {
-
-  //   try {
-  //     await updateDoc(doc(db, "users", userId), {
-  //       bookedClasse
-  //     })
-
-  //   }
-
-  //   catch (error) {
-
-  //   }
-
-  // }
-
+  // SETTING IMAGE ACCORDING TO CLASS TYPE
   function setImage(singleClassData) {
     let imageFile = "";
     if (singleClassData.classType === "Hiit Mania") {
@@ -425,11 +261,6 @@ const BookClass = ({
     }
     return imageFile;
   }
-  // if (googleError) {
-  //   console.log(googleError.result.error.errors[0].message);
-  // }
-
-  console.log(singleClassData.membersAttending);
 
   let cancelled = "";
 
@@ -510,26 +341,6 @@ const BookClass = ({
             </p>
             <p>{singleClassData.trainerName}</p>
             <div className="booking-class-info">
-              {/* {singleClassData &&
-              loggedInUser &&
-              singleClassData.membersAttending &&
-              !findMember(singleClassData) &&
-              !loggedInUser.isTrainer ? (
-                <label className="calendar" htmlFor="agree">
-                  Add to Google Calendar
-                  <input
-                    className="calendar"
-                    type="checkbox"
-                    id="agree"
-                    name="agree"
-                    value="agree"
-                    onChange={(e) => setAddToCalendar(e.target.checked)}
-                  />
-                </label>
-              ) : (
-                true
-              )} */}
-
               {loggedInUser && singleClassData ? (
                 loggedInUser.isTrainer ? (
                   // If the user is a trainer, only show the button if the class belongs to them

@@ -2,68 +2,48 @@ import Header from "./Header";
 import "../stylesheets/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../../firebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
+import { handleLogin } from "../utils/utils";
 
 const Login = ({ setLoggedInUser }) => {
-  console.log({ setLoggedInUser });
-  //   const user = {
-  //     name: "Zaid",
-  //     email: "Zaid@hotmail.com",
-  //     password: "Hello123",
-  //   };
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  console.log(error);
 
-  //   function verifyUser(event) {
-  //     event.preventDefault();
-  //     if (email !== user.email || password !== user.password) {
-  //       console.log("incorrect details");
+  // const handleLogin = async (email, password , navigate) => {
+  //   console.log("hello");
+  //   try {
+  //     const userCredential = await signInWithEmailAndPassword(
+  //       auth,
+  //       email,
+  //       password
+  //     );
+  //     const user = userCredential.user;
+  //     const uid = user.uid;
+
+  //     // After signing in, fetch the user document from Firestore
+  //     const userDocRef = doc(db, "users", uid);
+  //     const userDocSnap = await getDoc(userDocRef);
+
+  //     if (userDocSnap.exists()) {
+  //       const userData = await userDocSnap.data(); // This is where you get your custom user fields
+  //       setLoggedInUser(userData);
+  //       console.log("User data:", userData);
   //     } else {
-  //       setLoggedInUser(user);
-  //       console.log("logged in");
+  //       console.log("No such document!");
   //     }
+
+  //     console.log("succesfully logged in");
+  //     navigate("/");
+  //   } catch (error) {
+  //     setError(error);
+  //     console.log(error.code);
   //   }
-
-  const handleLogin = async (email, password) => {
-    console.log("hello");
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
-      const uid = user.uid;
-
-      // After signing in, fetch the user document from Firestore
-      const userDocRef = doc(db, "users", uid);
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const userData = await userDocSnap.data(); // This is where you get your custom user fields
-        setLoggedInUser(userData);
-        console.log("User data:", userData);
-      } else {
-        console.log("No such document!");
-      }
-
-      console.log("succesfully logged in");
-      navigate("/");
-    } catch (error) {
-      setError(error);
-      console.log(error.code);
-    }
-  };
+  // };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleLogin(email, password);
+    handleLogin(email, password, "/", setError, setLoggedInUser, navigate);
   };
 
   return (
