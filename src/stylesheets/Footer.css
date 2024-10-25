@@ -3,14 +3,18 @@
   flex-direction: column;
   background-color: black;
   color: white;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
 }
 
 .quotes {
   text-align: center;
-  width: 50%;
-  margin-left: 20rem;
+  /* margin-left: 20rem;
   margin-bottom: 17rem;
-  margin-top: 10rem;
+  margin-top: 10rem; */
+  width: 50%;
+  margin-top: 4rem;
 }
 
 .quotes h1 {
@@ -24,7 +28,12 @@
 
 .connect {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between; /* Distribute items across full width */
+  gap: 0; /* Remove any gap */
+  padding: 0 2rem; /* Optional: padding for a slight margin from edges */
+  width: 100%; /* Ensure it takes the full width of the container */
+  box-sizing: border-box; /* Include padding in the total width */
+  margin-top: 8rem;
 }
 
 span {
@@ -42,4 +51,17 @@ span {
 
 .socials-container {
   text-align: center;
+}
+
+@media screen and (max-width: 900px) {
+  .connect {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .socials {
+    margin-bottom: 4rem;
+  }
 }

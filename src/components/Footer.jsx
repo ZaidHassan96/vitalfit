@@ -23,8 +23,8 @@ const Footer = () => {
         </div>
         <div className="socials-container">
           <div>
-            <h1 style={{ marginLeft: "0rem", fontSize: "2rem" }}>
-              <span>Connect</span>
+            <h1 style={{ marginLeft: "1.5rem", fontSize: "2rem" }}>
+              <span style={{ marginRight: "2rem" }}>Connect</span>
             </h1>
           </div>
           <div className="socials">

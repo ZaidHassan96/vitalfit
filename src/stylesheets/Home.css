@@ -1,52 +1,44 @@
+html,
 body {
-  background-color: rgba(5, 5, 5, 0.956);
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
+}
+
+.about,
+.weight-rack-img,
+.classes-types {
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 .about {
   display: flex;
   width: 100%;
-  /* border: 1px solid #fefefe; */
-  transition: border-bottom 1s ease;
   background-color: rgb(0, 0, 0);
   padding: 2rem;
   padding-bottom: 4rem;
   height: 70vh;
   border-top: 1px solid white;
   border-bottom: 1px solid white;
-
-  /* margin-left: 2rem;
-  margin-right: 2rem; */
-}
-
-/* .about:hover {
-  border: 1px solid #ff6a00;
-} */
-
-.about img {
-  margin-top: 2rem;
-  width: 30%;
-  height: 50vh;
-  /* border: 2px solid rgba(255, 94, 0, 0.789); */
 }
 
 .about-text {
   margin: 2rem;
   margin-top: 8rem;
-  text-align: center;
-  color: rgb(255, 255, 255);
-}
-
-.about-text h1 {
-  color: rgb(255, 255, 255);
-  text-align: left;
-  font-size: 3.5rem;
-}
-
-.about-text p {
   color: rgb(255, 255, 255);
   font-size: 1.5rem;
-  text-align: left;
 }
 
 .weight-rack-img {
@@ -56,57 +48,54 @@ body {
 
 .weight-rack-img img {
   width: 100%;
-  height: 75vh;
+  height: 100%; /* Fill the container height */
+  object-fit: cover; /* Make sure the image fully covers the container */
   border-bottom: 1px solid white;
 }
-
-/* .classes-types {
-  border-bottom: 1px solid #fefefe;
-  transition: border-bottom 1s ease;
-  padding-bottom: 3rem;
-  background-color: rgb(0, 0, 0);
-} */
-
-/* .upcoming-events:hover {
-  border-bottom: 1px solid #ff6a00;
-} */
 
 .classes-types {
   display: flex;
   width: 100%;
-  height: 75vh;
   flex-direction: column;
-  padding-bottom: 0;
+  padding-bottom: 1rem; /* Adds space between the footer and this section */
   background-color: black;
+  border-bottom: 1px solid white;
+  flex: 1; /* Allows this section to grow and fill available space */
 }
 
 .classes-types h1 {
-  font-size: 3rem;
-  margin-bottom: 0;
-  margin-top: 0;
+  font-size: 2rem;
 }
 
 .classes-img {
-  display: flex;
-  width: 100%;
-  border-bottom: 1px solid white;
-  justify-content: center; /* Optional: To center the image horizontally */
-  align-items: center; /* Optional: To center the image vertically */
+  display: flex; /* Aligns images side-by-side */
+  justify-content: space-between; /* Adds space between images */
+  gap: 0px; /* Optional: Adjusts spacing between images */
+  max-width: 100%;
 }
 
 .classes-img img {
-  width: 33.3%; /* Keeps the image responsive based on the parent container */
-  height: 65vh; /* You can adjust this value depending on your design */
-  object-fit: cover; /* Ensures the image retains its aspect ratio and fills the container */
-  max-width: 100%; /* Prevents the image from growing too large */
-  max-height: 100%; /* Ensures the height remains within the container */
+  width: 33.3%;
+  height: 65vh;
+  flex: 1 1 33%;
+  object-fit: cover;
 }
 
-.connect-with-us {
-  background-color: rgb(0, 0, 0);
-  width: 100%;
-}
+@media screen and (max-width: 1000px) {
+  .classes-img {
+    flex-direction: column;
+    align-items: center;
+  }
 
-.connect-with-us p {
-  color: rgb(255, 255, 255);
+  .classes-img img {
+    width: 100%;
+    height: auto;
+  }
+
+  .footer-home {
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
 }

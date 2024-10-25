@@ -1,30 +1,3 @@
-/* .banner {
-  text-align: center;
-  margin: 0;
-  width: 100%;
-
-  box-sizing: border-box;
-  border-radius: 10px;
-  text-align: center;
-  border-bottom: 1px solid #fefefe;
-  transition: border-bottom 1s ease;
-} */
-/* 
-.banner:hover {
-  border-bottom: 1px solid #ff6a00;
-} */
-
-/* .banner img {
-  width: 100%;
-  height: 600px;
-} */
-
-/* .banner-info {
-  margin: 0 auto;
-  padding: 20px;
-  box-sizing: border-box;
-  text-align: left;
-} */
 .banner {
   position: relative;
   width: 100%;
@@ -80,4 +53,32 @@
 
 .overlay h1 {
   text-align: left;
+}
+
+@media screen and (max-width: 850px) {
+  .banner {
+    height: 70vh;
+  }
+
+  .overlay {
+    font-size: 1.8em;
+  }
+
+  .overlay h1 {
+    font-size: 3rem;
+    text-align: left;
+  }
+
+  .overlay span {
+    padding: 0.3rem;
+    font-size: 1.2em;
+  }
+
+  .overlay button {
+    font-size: 1em;
+    padding: 8px 16px;
+    margin-left: 0;
+    display: block;
+    margin: 20px auto;
+  }
 }
