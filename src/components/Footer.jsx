@@ -1,5 +1,8 @@
 import React from "react";
 import "../stylesheets/Footer.css";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import XIcon from "@mui/icons-material/X";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 const Footer = () => {
   return (
@@ -9,10 +12,9 @@ const Footer = () => {
           Fitness is <span>Vital</span>
         </h1>
         <p>
-          "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos maiores,
-          vitae recusandae quibusdam ipsam rem explicabo id dicta et vero
-          debitis quas sed fuga provident excepturi nihil incidunt quidem
-          delectus.""
+          "Vital Fitness transformed my health! The personalized training and
+          supportive community helped me achieve my goals. The trainers are
+          amazing!"
         </p>
       </div>
       <div className="connect">
@@ -28,9 +30,9 @@ const Footer = () => {
             </h1>
           </div>
           <div className="socials">
-            <p>Insta</p>
-            <p>Twitter</p>
-            <p>WhatsApp</p>
+            <InstagramIcon />
+            <XIcon />
+            <WhatsAppIcon />
           </div>
         </div>
         <div>

@@ -13,13 +13,7 @@ import ScrollToTop from "./ScrollToTop.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 
 function App() {
-  const user = {
-    name: "Zaid",
-    email: "Zaid@hotmail.com",
-    password: "Hello123",
-  };
   const [loggedInUser, setLoggedInUser] = useState(null);
-  
 
   const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
   const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -36,9 +30,7 @@ function App() {
             "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
           ],
         })
-        .then(() => {
-    
-        })
+        .then(() => {})
         .catch((error) => {
           console.error("Google API initialization failed", error);
         });
@@ -47,11 +39,21 @@ function App() {
     gapi.load("client:auth2", initializeGAPI);
   }, []);
 
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const userData = localStorage.getItem("userData");
+
+    if (userId) {
+      // Set the logged-in user state
+      setLoggedInUser(JSON.parse(userData));
+    }
+  }, []);
+
   return (
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       <ScrollToTop />
       <Routes>
-      <Route
+        <Route
           path="*"
           element={<ErrorPage errMsg={"Error 404: page not found"} />}
         />

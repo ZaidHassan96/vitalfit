@@ -75,7 +75,6 @@ export async function handleLogin(
   setLoggedInUser,
   navigate
 ) {
-  console.log("hello");
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -92,9 +91,12 @@ export async function handleLogin(
     if (userDocSnap.exists()) {
       const userData = await userDocSnap.data(); // This is where you get your custom user fields
       setLoggedInUser(userData);
-      console.log("User data:", userData);
+
+      localStorage.setItem("userId", uid); // Store the user's ID
+      localStorage.setItem("userData", JSON.stringify(userData));
+      // console.log("User data:", userData);
     } else {
-      console.log("No such document!");
+      // console.log("No such document!");
     }
 
     console.log("succesfully logged in");

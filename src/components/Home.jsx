@@ -24,10 +24,11 @@ const Home = (setLoggedInUser) => {
               FITNESS THE <span>VITAL</span> WAY
             </h1>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+              At Vital Fitness, we empower you to achieve your health goals
+              through personalized training and a supportive community. Our
+              expert trainers are dedicated to helping you build strength,
+              improve flexibility, and enhance overall wellness. Join us on your
+              journey to a healthier you!
             </p>
           </div>
 

@@ -165,7 +165,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                 <select id="trainer" name="trainer" onChange={handleChange}>
                   <option value="">All Trainers</option>
                   <option value="Zaid Hassan">Zaid</option>
-                  <option value="Steve">Steve</option>
+                  <option value="Steve Hox">Steve</option>
                   <option value="Sydney Beth">Sydney</option>
                 </select>
               </div>
@@ -202,7 +202,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                   <select id="trainer" name="trainer" onChange={handleChange}>
                     <option value="">All Trainers</option>
                     <option value="Zaid Hassan">Zaid</option>
-                    <option value="Steve">Steve</option>
+                    <option value="Steve Hox">Steve</option>
                     <option value="Sydney Beth">Sydney</option>
                   </select>
                 </div>
