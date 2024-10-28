@@ -3,7 +3,7 @@ import Header from "./Header.jsx";
 import Banner from "./Banner.jsx";
 import SingleEventCard from "./SingleEventCard.jsx";
 import UserContext from "../context/User.jsx";
-import AddClass from "./addClass.jsx";
+import AddClass from "./AddClass.jsx";
 import {
   getDocs,
   collection,
