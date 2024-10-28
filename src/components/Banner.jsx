@@ -9,7 +9,7 @@ const Banner = () => {
     // </div>
     <div className="banner">
       <video autoPlay muted loop playsInline>
-        <source src="../images/banner.mp4" type="video/mp4" />
+        <source src="/images/banner.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       {/* <img src="../images/banner.jpg" alt="" /> */}

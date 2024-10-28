@@ -45,8 +45,8 @@ const Home = (setLoggedInUser) => {
           <div className="classes-img">
             <img src="/images/hiit.jpg" alt="Hiit Class Image" />
 
-            <img src="../images/spin.jpg" alt="Spin Class Image" />
-            <img src="../images/yoga.jpg" alt="Yoga Class Image" />
+            <img src="/images/spin.jpg" alt="Spin Class Image" />
+            <img src="/images/yoga.jpg" alt="Yoga Class Image" />
           </div>
         </div>
         <div className="footer-home">
