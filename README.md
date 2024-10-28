@@ -1,6 +1,6 @@
 # VitalFit 🏋️‍♂️
 
-VitalFit is a dynamic fitness app designed to streamline class management, bookings, and training schedules. The app offers a robust experience for both trainers and members, enabling trainers to create classes and manage attendees, while members can explore available classes, book slots, and filter options based on date, class type, and trainer.
+VitalFit is a dynamic fitness app designed to streamline class management, bookings, and training schedules. The app offers a robust experience for both trainers and members. Trainers can create classes, while members can explore available classes, book slots, and filter options based on date, class type, and trainer.
 
 ## Demo
 
