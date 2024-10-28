@@ -64,7 +64,7 @@ const AllClasses = ({ setLoggedInUser }) => {
   useEffect(() => {
     // Detect screen width and set items per page
     const updateItemsPerPage = () => {
-      setClassesPerPage(window.innerWidth <= 900 ? 5 : 12);
+      setClassesPerPage(window.innerWidth <= 900 ? 4 : 12);
       setFilterButton(window.innerWidth <= 900 ? true : false);
     };
     updateItemsPerPage();
