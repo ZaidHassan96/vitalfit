@@ -30,16 +30,16 @@ const BookClass = ({
 
   // HANDLE GOOGLE LOGIN
   const handleGoogleLogin = async () => {
-    console.log("Attempting to sign in...");
+  
     const authInstance = gapi.auth2.getAuthInstance();
     if (authInstance.isSignedIn.get()) {
-      console.log("User already signed in");
+ 
       setIsAuthenticated(true);
     } else {
       try {
         const user = await authInstance.signIn();
         setIsAuthenticated(true);
-        console.log("User signed in:", user.getBasicProfile().getName());
+     
       } catch (error) {
         setGoogleError(true);
         console.error("Error signing in", error);
@@ -126,9 +126,9 @@ const BookClass = ({
       }
     }
 
-    console.log(
-      "Successfully retrieved access token with the required permissions."
-    );
+    // console.log(
+    //   "Successfully retrieved access token with the required permissions."
+    // );
     return accessToken;
   }
   // CREATING CLASS EVENT ON GOOGLE CALENDAR
@@ -152,15 +152,15 @@ const BookClass = ({
       if (auth2) {
         await auth.signOut();
         await auth2.disconnect();
-        console.log("Google API session cleared");
+        // console.log("Google API session cleared");
       }
 
       return; // Exit if there's no valid access token
     }
 
-    console.log(
-      "Successfully retrieved auth response, proceeding to create event."
-    );
+    // console.log(
+    //   "Successfully retrieved auth response, proceeding to create event."
+    // );
 
     const startTime = dateTimeFormat(singleClassData); // Format the start time based on class data
 
@@ -182,7 +182,7 @@ const BookClass = ({
     gapi.client.setToken({ access_token: accessToken });
 
     try {
-      console.log(accessToken);
+      // console.log(accessToken);
 
       // Make the request to create the event
       const response = await gapi.client.request({
@@ -190,7 +190,7 @@ const BookClass = ({
         method: "POST",
         body: eventDetails,
       });
-      console.log("Event created:", response.result);
+      // console.log("Event created:", response.result);
 
       // Perform success actions
       setAddToCalendar(true);
@@ -224,7 +224,7 @@ const BookClass = ({
         }),
       });
 
-      console.log("Document updated successfully!");
+      // console.log("Document updated successfully!");
       setBookingConfirmed(true);
     } catch (error) {
       console.error("Error updating document: ", error);
@@ -236,7 +236,7 @@ const BookClass = ({
       await handleGoogleLogin();
       await createEvent();
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -258,7 +258,7 @@ const BookClass = ({
           membersAttending: arrayRemove(memberToRemove),
         });
 
-        console.log("Booking successfully canceled!");
+        // console.log("Booking successfully canceled!");
 
         setBookingCancelled(true);
       }

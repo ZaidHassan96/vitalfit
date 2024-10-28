@@ -10,37 +10,6 @@ const Login = ({ setLoggedInUser }) => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  // const handleLogin = async (email, password , navigate) => {
-  //   console.log("hello");
-  //   try {
-  //     const userCredential = await signInWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     );
-  //     const user = userCredential.user;
-  //     const uid = user.uid;
-
-  //     // After signing in, fetch the user document from Firestore
-  //     const userDocRef = doc(db, "users", uid);
-  //     const userDocSnap = await getDoc(userDocRef);
-
-  //     if (userDocSnap.exists()) {
-  //       const userData = await userDocSnap.data(); // This is where you get your custom user fields
-  //       setLoggedInUser(userData);
-  //       console.log("User data:", userData);
-  //     } else {
-  //       console.log("No such document!");
-  //     }
-
-  //     console.log("succesfully logged in");
-  //     navigate("/");
-  //   } catch (error) {
-  //     setError(error);
-  //     console.log(error.code);
-  //   }
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     handleLogin(email, password, "/", setError, setLoggedInUser, navigate);

@@ -10,6 +10,7 @@ import MyClasses from "./MyClasses.jsx";
 import BookClass from "./BookClass.jsx";
 import { gapi } from "gapi-script";
 import ScrollToTop from "./ScrollToTop.jsx";
+import ErrorPage from "./ErrorPage.jsx";
 
 function App() {
   const user = {
@@ -18,6 +19,7 @@ function App() {
     password: "Hello123",
   };
   const [loggedInUser, setLoggedInUser] = useState(null);
+  
 
   const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
   const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
@@ -35,7 +37,7 @@ function App() {
           ],
         })
         .then(() => {
-          console.log("Google API initialized");
+    
         })
         .catch((error) => {
           console.error("Google API initialization failed", error);
@@ -49,6 +51,10 @@ function App() {
     <UserContext.Provider value={{ loggedInUser, setLoggedInUser }}>
       <ScrollToTop />
       <Routes>
+      <Route
+          path="*"
+          element={<ErrorPage errMsg={"Error 404: page not found"} />}
+        />
         <Route path="/" element={<Home setLoggedInUser={setLoggedInUser} />} />
         <Route
           path="/classes"

@@ -23,6 +23,25 @@
   width: 80%;
 }
 
+.loading-container {
+  background-color: rgb(0, 0, 0);
+  box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
+  margin-top: 12rem;
+  margin-left: 9rem;
+  margin-right: 6rem;
+  margin-bottom: 8%;
+  position: relative;
+  text-align: center;
+  padding: 3rem;
+  height: 190vh;
+  width: 80%;
+}
+
+.loading-container p {
+  color: gray;
+  font-size: 3rem;
+}
+
 .filter-container {
   display: flex;
   justify-content: center;
@@ -201,6 +220,12 @@
     width: 90%; /* Makes it take up more of the screen width */
   }
 
+  .loading-container {
+    margin: 2rem auto; /* Adjusts margin for smaller screens */
+    padding: 2rem;
+    width: 90%; /* Makes it take up more of the screen width */
+  }
+
   /* Filter Box */
   .filter-box {
     width: 90%; /* Adjusts width for smaller screens */
@@ -231,6 +256,12 @@
   }
 
   .classes {
+    width: 95%; /* Full width */
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .loading-container {
     width: 95%; /* Full width */
     padding: 1.5rem;
     margin-top: 1.5rem;

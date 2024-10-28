@@ -37,9 +37,11 @@ const MyClasses = () => {
   const [classesPerPage, setClassesPerPage] = useState(12); // Default items per page
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
   const [filterButton, setFilterButton] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchClasses = async () => {
+      setLoading(true);
       try {
         if (!loggedInUser) return;
         let querySnapshot;
@@ -59,6 +61,7 @@ const MyClasses = () => {
             });
             const sortedArr = sortedClasses(classesArray, "date", "startTime");
             setClasses(sortedArr); // Update state with new data
+            setLoading(false);
           });
 
           // Cleanup listener on unmount
@@ -89,12 +92,14 @@ const MyClasses = () => {
             });
             const sortedArr = sortedClasses(classesArray, "date", "startTime");
             setClasses(sortedArr); // Update state with new data
+            setLoading(false);
           });
 
           // Cleanup listener on unmount
           return () => unsubscribe();
         }
       } catch (error) {
+        setLoading(false);
         console.error("Error fetching documents: ", error);
       }
     };
@@ -174,7 +179,11 @@ const MyClasses = () => {
         <Banner />
       </section>
 
-      {addClassPage ? (
+      {loading ? (
+        <div className="loading-container">
+          <p>Loading...</p>
+        </div>
+      ) : addClassPage ? (
         <AddClass setAddClassPage={setAddClassPage} />
       ) : (
         <section className="classes" id="classes">
@@ -359,6 +368,7 @@ const MyClasses = () => {
           )}
         </section>
       )}
+
       <Footer />
     </>
   );

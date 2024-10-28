@@ -9,7 +9,9 @@ const AddClass = ({ setAddClassPage }) => {
   const { loggedInUser } = useContext(UserContext);
   const [dateIncorrect, setDateIncorrect] = useState(false);
   const [formNotValid, setFormNotValid] = useState(false);
-  console.log(dateIncorrect);
+  const [loading, setLoading] = useState(false);
+
+
 
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ const AddClass = ({ setAddClassPage }) => {
 
     setDateIncorrect(false);
 
-    console.log(todayDate, dateObj);
+
 
     if (dateObj.length === 0) {
       return "";
@@ -46,9 +48,9 @@ const AddClass = ({ setAddClassPage }) => {
     return formattedDate;
   };
 
-  console.log(loggedInUser);
+
   const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
-  console.log(trainer);
+
   const [classData, setClassData] = useState({
     classId: "",
     classType: "",
@@ -60,7 +62,7 @@ const AddClass = ({ setAddClassPage }) => {
     trainerName: trainer,
   });
 
-  console.log(classData);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -94,14 +96,17 @@ const AddClass = ({ setAddClassPage }) => {
   // }, [classData]);
 
   const addClassData = async (classData) => {
+    setLoading(true);
     try {
       const docRef = await addDoc(collection(db, "classes"), classData);
 
       await updateDoc(doc(db, "classes", docRef.id), {
         classId: docRef.id,
       });
-      console.log("class added succesfuly");
+    
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error adding class: ", error);
     }
   };
@@ -111,7 +116,7 @@ const AddClass = ({ setAddClassPage }) => {
     // Prevent form submission if the form is invalid
     if (!checkFormValidity()) {
       setFormNotValid(true);
-      console.log("not valid");
+   
 
       return; // Stop further execution if form is invalid
     }

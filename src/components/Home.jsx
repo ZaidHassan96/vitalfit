@@ -5,8 +5,10 @@ import Banner from "./Banner.jsx";
 import Footer from "./Footer.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useState } from "react";
 
 const Home = (setLoggedInUser) => {
+  const [loading, setLoading] = useState(false);
   return (
     <>
       <section className="home-container">

@@ -53,10 +53,10 @@ const Header = () => {
       if (auth2) {
         await auth.signOut();
         await auth2.disconnect();
-        console.log("Google API session cleared");
+        // console.log("Google API session cleared");
       }
       // Redirect to the home page or desired route
-      console.log("User logged out successfully.");
+      // console.log("User logged out successfully.");
     } catch (error) {
       console.error("Error logging out:", error); // Handle any errors that occur during sign out
     }

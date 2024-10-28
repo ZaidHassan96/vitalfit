@@ -55,11 +55,11 @@ const SignUp = () => {
         userId: uid,
       });
       setAccountCreationErr("");
-      console.log("user created succesfully");
+
       return true;
     } catch (error) {
       setAccountCreationErr(error);
-      console.log("error:", error);
+
       return false;
     }
   };
@@ -85,14 +85,12 @@ const SignUp = () => {
     }
   };
 
-  console.log(accountCreationErr);
-
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission behavior
 
     if (isFormValid()) {
       try {
-        console.log("Form Submitted:", userInfo);
+        // console.log("Form Submitted:", userInfo);
 
         // Wait for handleSignUp to finish before continuing
         const signUpSuccess = await handleSignUp(
@@ -101,12 +99,10 @@ const SignUp = () => {
           userInfo
         );
 
-        console.log(accountCreationErr);
-
         if (signUpSuccess && !accountCreationErr) {
           navigate("/login");
         } else {
-          console.log(signUpSuccess, !accountCreationErr);
+          // console.log(signUpSuccess, !accountCreationErr);
           console.warn("Sign-up failed, not navigating to login.");
         }
       } catch (error) {
@@ -117,9 +113,6 @@ const SignUp = () => {
       console.warn("Form validation failed.");
     }
   };
-
-  console.log(userInfo);
-  console.log(userInfo.password);
 
   return (
     <>
@@ -272,26 +265,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-// const handleSignup = async (email, password, name) => {
-//     try {
-//         // Sign up user
-//         const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
-//         const user = userCredential.user; // Get user object
-//         const uid = user.uid; // Get user UID
-
-//         // Create user document in Firestore
-//         await firebase.firestore().collection("users").doc(uid).set({
-//             email: email,
-//             name: name,
-//             isTrainer: false,
-//             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-//             updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-//         });
-
-//         console.log("User created successfully!");
-//     } catch (error) {
-//         console.error("Error signing up:", error.message);
-//         // Show error to user
-//     }
-// };
