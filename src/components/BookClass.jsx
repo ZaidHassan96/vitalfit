@@ -9,7 +9,7 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../firebaseConfig.js";
+import { auth, db } from "../../firebaseConfig.js";
 import { Navigate, useNavigate } from "react-router-dom";
 import { gapi } from "gapi-script";
 
@@ -43,11 +43,11 @@ const BookClass = ({
       } catch (error) {
         setGoogleError(true);
         console.error("Error signing in", error);
-        if (error.error === "popup_closed_by_user") {
-          alert(
-            "You need to login to a google account to add a booking to your calendar."
-          );
-        }
+        // if (error.error === "popup_closed_by_user") {
+        //   alert(
+        //     "You need to login to a google account to add a booking to your calendar."
+        //   );
+        // }
       }
     }
   };
@@ -134,12 +134,27 @@ const BookClass = ({
   // CREATING CLASS EVENT ON GOOGLE CALENDAR
   const createEvent = async () => {
     // Get the access token using the getAccessToken function
+    const authInstance = gapi.auth2.getAuthInstance();
+    const currentUser = authInstance.currentUser.get();
     const accessToken = await getAccessToken();
+    const scopes = currentUser.getGrantedScopes();
 
-    if (!accessToken) {
+    const auth2 = gapi.auth2.getAuthInstance();
+
+    if (
+      !accessToken ||
+      !scopes ||
+      !scopes.includes("https://www.googleapis.com/auth/calendar.events")
+    ) {
       console.error(
         "User is not authenticated or failed to retrieve access token."
       );
+      if (auth2) {
+        await auth.signOut();
+        await auth2.disconnect();
+        console.log("Google API session cleared");
+      }
+
       return; // Exit if there's no valid access token
     }
 
@@ -167,6 +182,8 @@ const BookClass = ({
     gapi.client.setToken({ access_token: accessToken });
 
     try {
+      console.log(accessToken);
+
       // Make the request to create the event
       const response = await gapi.client.request({
         path: `https://www.googleapis.com/calendar/v3/calendars/primary/events`,
@@ -312,11 +329,11 @@ const BookClass = ({
               )}
               {googleError ? (
                 <div className="google-error-container">
-                  <h3 style={{ fontStyle: "bold", color: "white" }}>
+                  <h3 style={{ fontStyle: "bold", color: "red" }}>
                     Class not added to Calendar
                   </h3>
-                  <p style={{ fontStyle: "bold", color: "white" }}>
-                    Google account login and permission required
+                  <p style={{ fontStyle: "bold", color: "red" }}>
+                    Google account login and permission required.
                   </p>
                 </div>
               ) : (

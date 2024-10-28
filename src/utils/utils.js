@@ -58,9 +58,7 @@ export function handleFilterOptions(
   });
 }
 
-export function pagination(filteredClasses, currentPage) {
-  const classesPerPage = 12;
-
+export function pagination(filteredClasses, currentPage, classesPerPage) {
   const startIndex = (currentPage - 1) * classesPerPage;
   const endIndex = startIndex + classesPerPage;
 

@@ -124,3 +124,70 @@ h1 {
   color: red;
   font-weight: bold;
 }
+
+@media (max-width: 900px) {
+  .booking-card {
+    width: 100%; /* Increase width */
+    left: 0; /* Center horizontally */
+    top: 0; /* Adjust top */
+    height: 190vh;
+    padding: 1rem; /* Add padding */
+  }
+
+  .booking-card img {
+    width: 100%; /* Full width for smaller screens */
+    height: 40vh; /* Adjust height for better layout */
+  }
+
+  .booking-card p,
+  .booking-card h1 {
+    font-size: 1.2rem; /* Reduce font size for readability */
+  }
+
+  .booking-card button {
+    width: 80%; /* Full width for smaller screens */
+  }
+
+  .add-to-google-calendar {
+    width: 80%; /* Full width for button */
+  }
+
+  .calendar {
+    flex-direction: column; /* Stack items vertically */
+  }
+}
+
+/* Further adjustments for screens with max width 600px */
+@media (max-width: 600px) {
+  .booking-card {
+    width: 100%; /* Max width */
+    left: 0; /* Center horizontally */
+    top: 0; /* Adjust top */
+    padding: 1rem;
+    height: 190vh;
+  }
+
+  .booking-card img {
+    width: 100%; /* Full width */
+    height: 35vh; /* Smaller height */
+  }
+
+  .booking-card p,
+  .booking-card h1 {
+    font-size: 1rem; /* Smaller font size */
+  }
+
+  .booking-card button,
+  .add-to-google-calendar {
+    width: 90%; /* Full width */
+  }
+
+  .calendar {
+    flex-direction: column;
+  }
+
+  .booking-class-info {
+    text-align: center; /* Center text on small screens */
+    padding: 1rem;
+  }
+}

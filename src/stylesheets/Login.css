@@ -1,7 +1,8 @@
 .container {
-  display: flex; /* Use flexbox for side-by-side layout */
-  width: 100vw; /* Full viewport width */
-  height: 100vh; /* Full viewport height */
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  flex-direction: row; /* Row layout by default */
 }
 
 .login-page {
@@ -156,4 +157,19 @@ a {
 
 .sign-up-option p:hover {
   color: orangered;
+}
+
+@media (max-width: 900px) {
+  .side-banner {
+    display: none;
+  }
+  .login-page {
+    background-color: white;
+    width: 100%;
+    height: 110vh;
+    padding: 2%;
+    justify-content: center;
+    align-items: center;
+    border: 1px;
+  }
 }

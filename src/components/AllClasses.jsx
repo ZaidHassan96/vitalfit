@@ -16,8 +16,6 @@ import {
   pagination,
 } from "../utils/utils.js";
 
-
-
 const AllClasses = ({ setLoggedInUser }) => {
   const [showBookingCard, setShowBookingCard] = useState(false);
   const { loggedInUser } = useContext(UserContext);
@@ -28,6 +26,10 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [singleClassData, setSingleClassData] = useState([]);
   // const [classAvailable, setClassAvailable] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [classesPerPage, setClassesPerPage] = useState(12); // Default items per page
+  const [smallScreenFilter, setSmallScreenFilter] = useState(false);
+  const [filterButton, setFilterButton] = useState(false);
+
 
   useEffect(() => {
     const fetchClasses = () => {
@@ -56,6 +58,18 @@ const AllClasses = ({ setLoggedInUser }) => {
     fetchClasses(); // Call the fetch function
   }, []); // Empty dependency array to run only once on component mount
 
+  useEffect(() => {
+    // Detect screen width and set items per page
+    const updateItemsPerPage = () => {
+      setClassesPerPage(window.innerWidth <= 900 ? 5 : 12);
+      setFilterButton(window.innerWidth <= 900 ? true : false);
+    };
+    updateItemsPerPage();
+    window.addEventListener("resize", updateItemsPerPage);
+
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);
@@ -67,7 +81,6 @@ const AllClasses = ({ setLoggedInUser }) => {
       setClassTrainer(event.target.value);
     }
   };
-  console.log(classTrainer);
 
   const filteredClasses = handleFilterOptions(
     classDate,
@@ -76,111 +89,177 @@ const AllClasses = ({ setLoggedInUser }) => {
     classes
   );
 
+  const resetFilters = () => {
+    setClassName("");
+    setClassDate("");
+    setClassTrainer("");
+  };
+
   return (
     <>
       <section>
         <Header />
         <Banner />
-        {/* <h1 className="all-classes-title">All Classes</h1> */}
       </section>
 
-      {/* <div className="classes-nav">
-        <nav>
-          <ul>
-            <li>Spin</li>
-            <li>HIIT</li>
-            <li>Pilates</li>
-            <li>Strength Training</li>
-          </ul>
-        </nav>
-      </div> */}
       <section id="classes" className="classes">
         {loggedInUser ? (
-          <div>
-            <BookClass
-              showBookingCard={showBookingCard}
-              setShowBookingCard={setShowBookingCard}
-              singleClassData={singleClassData}
-              setSingleClassData={setSingleClassData}
-              classData={classDate}
-            />
-          </div>
+          <BookClass
+            showBookingCard={showBookingCard}
+            setShowBookingCard={setShowBookingCard}
+            singleClassData={singleClassData}
+            setSingleClassData={setSingleClassData}
+            classData={classDate}
+          />
         ) : (
-          <div>
-            <SmallLogin
-              showBookingCard={showBookingCard}
-              setShowBookingCard={setShowBookingCard}
-              setLoggedInUser={setLoggedInUser}
-            />
+          <SmallLogin
+            showBookingCard={showBookingCard}
+            setShowBookingCard={setShowBookingCard}
+            setLoggedInUser={setLoggedInUser}
+          />
+        )}
+        {}
+        {filterButton ? (
+          <button
+            className="filter-small"
+            onClick={() => {
+              setSmallScreenFilter(true);
+              resetFilters();
+            }}
+          >
+            Filters
+          </button>
+        ) : (
+          <div className="filter-container">
+            {/* Filter Options */}
+            <div className="filter-box">
+              <label htmlFor="class-name">Classes:</label>
+              <select id="class-name" name="class-name" onChange={handleChange}>
+                <option value="">All Classes</option>
+                <option value="Spin Class">Spin Class</option>
+                <option value="Yoga">Yoga</option>
+                <option value="Hiit Mania">Hiit Mania</option>
+              </select>
+            </div>
+            <div className="filter-box">
+              <label htmlFor="trainer">Trainer:</label>
+              <select id="trainer" name="trainer" onChange={handleChange}>
+                <option value="">All Trainers</option>
+                <option value="Zaid Hassan">Zaid</option>
+                <option value="Steve">Steve</option>
+                <option value="Sydney Beth">Sydney</option>
+              </select>
+            </div>
+            <div className="filter-box">
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                onChange={handleChange}
+              />
+            </div>
           </div>
         )}
-
-        <div className="filter-container">
-          <div className="filter-box">
-            <label for="class-name">Classes:</label>
-            <select id="class-name" name="class-name" onChange={handleChange}>
-              <option value="">All Class</option>
-              <option value="Spin Class">Spin Class</option>
-              <option value="Yoga">Yoga</option>
-              <option value="Hiit Mania">Hiit Mania</option>
-            </select>
-          </div>
-          <div className="filter-box">
-            <label for="trainer">Trainer:</label>
-            <select id="trainer" name="trainer" onChange={handleChange}>
-              <option value="">All Trainers</option>
-              <option value="Zaid Hassan">Zaid</option>
-              <option value="Steve">Steve</option>
-              <option value="Sydney Beth">Sydney</option>
-            </select>
-          </div>
-          <div className="filter-box">
-            <label htmlFor="date">Date:</label>
-            <input type="date" id="date" name="date" onChange={handleChange} />
-          </div>
-        </div>
-        <div className="availability">
-          <p>Available 🟢</p>
-          <p>Full 🔴</p>
-        </div>
-        <div className="pagination-controls">
-          <p
-            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-            disabled={currentPage === 1}
-          >
-            {"<"}
-          </p>
-          <span>
-            Page {currentPage} of {Math.ceil(filteredClasses.length / 12)}
-          </span>
-          <p
-            onClick={() =>
-              setCurrentPage((prev) =>
-                Math.min(prev + 1, Math.ceil(filteredClasses.length / 12))
-              )
-            }
-            disabled={currentPage === Math.ceil(filteredClasses.length / 12)}
-          >
-            {">"}
-          </p>
-        </div>
-        <div className="all-rows">
-          {filteredClasses.length > 0 ? (
-            pagination(filteredClasses, currentPage).map((classData) => {
-              return (
-                <SingleEventCard
-                  key={classData.id}
-                  classData={classData}
-                  setShowBookingCard={setShowBookingCard}
-                  setSingleClassData={setSingleClassData}
+        {smallScreenFilter ? (
+          <>
+            <div className="filter-container-small">
+              {/* Filter Options */}
+              <div className="filter-box">
+                <label htmlFor="class-name">Classes:</label>
+                <select
+                  id="class-name"
+                  name="class-name"
+                  onChange={handleChange}
+                >
+                  <option value="">All Classes</option>
+                  <option value="Spin Class">Spin Class</option>
+                  <option value="Yoga">Yoga</option>
+                  <option value="Hiit Mania">Hiit Mania</option>
+                </select>
+              </div>
+              <div className="filter-box">
+                <label htmlFor="trainer">Trainer:</label>
+                <select id="trainer" name="trainer" onChange={handleChange}>
+                  <option value="">All Trainers</option>
+                  <option value="Zaid Hassan">Zaid</option>
+                  <option value="Steve">Steve</option>
+                  <option value="Sydney Beth">Sydney</option>
+                </select>
+              </div>
+              <div className="filter-box">
+                <label htmlFor="date">Date:</label>
+                <input
+                  type="date"
+                  id="date"
+                  name="date"
+                  onChange={handleChange}
                 />
-              );
-            })
-          ) : (
-            <h1 className="no-classes">No Classes</h1>
-          )}
-        </div>
+              </div>
+            </div>
+            <button
+              onClick={() => setSmallScreenFilter(false)}
+              className="close-button"
+            >
+              Close
+            </button>
+          </>
+        ) : (
+          <>
+            {" "}
+            <div className="availability">
+              <p>Available 🟢</p>
+              <p>Full 🔴</p>
+            </div>
+            <div className="pagination-controls">
+              <p
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                {"<"}
+              </p>
+              <span>
+                Page {currentPage} of{" "}
+                {Math.ceil(filteredClasses.length / classesPerPage)}
+              </span>
+              <p
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    Math.min(
+                      prev + 1,
+                      Math.ceil(filteredClasses.length / classesPerPage)
+                    )
+                  )
+                }
+                disabled={
+                  currentPage ===
+                  Math.ceil(filteredClasses.length / classesPerPage)
+                }
+              >
+                {">"}
+              </p>
+            </div>
+            <div className="all-rows">
+              {filteredClasses.length > 0 ? (
+                pagination(filteredClasses, currentPage, classesPerPage).map(
+                  (classData) => (
+                    <SingleEventCard
+                      key={classData.id}
+                      classData={classData}
+                      setShowBookingCard={setShowBookingCard}
+                      setSingleClassData={setSingleClassData}
+                     
+                    />
+                  )
+                )
+              ) : (
+                <h1 className="no-classes">No Classes</h1>
+              )}
+            </div>{" "}
+          </>
+        )}
       </section>
+
       <section>
         <Footer />
       </section>

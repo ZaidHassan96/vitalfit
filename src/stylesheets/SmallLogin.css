@@ -1,5 +1,4 @@
 .small-login-page {
-  /* display: block; */
   width: 35%;
   align-items: center;
   text-align: left;
@@ -15,7 +14,6 @@
 .small-login-page img {
   width: 100%;
 }
-
 .small-login-page p,
 h1 {
   text-align: left;
@@ -59,7 +57,7 @@ a {
 
 .small-login-headline {
   margin-left: 27%;
-  margin-top: 8rem;
+  margin-top: rem;
 }
 
 .small-login-headline h1 {
@@ -142,4 +140,64 @@ a {
 
 .hide-small-login {
   display: none;
+}
+
+@media (max-width: 900px) {
+  .small-login-page {
+    width: 100%; /* Increase width for better fit on smaller screens */
+    left: 0; /* Adjust position to center */
+    top: 0; /* Adjust top position */
+    height: 190vh;
+    padding: 1rem; /* Add padding for better layout */
+  }
+
+  .small-login-headline {
+    margin-left: 0; /* Center align headline */
+    text-align: center;
+    margin-top: 10rem;
+  }
+
+  .small-login-headline h1,
+  .small-login-headline h2 {
+    font-size: 2rem; /* Scale down font size */
+  }
+
+  .small-login-form input,
+  .small-login-form button {
+    width: 80%; /* Full width of form fields for readability */
+  }
+
+  .split-container__divider {
+    width: 80%; /* Adjust divider width */
+    margin: 20px auto; /* Center the divider */
+  }
+}
+
+/* Further adjustments for screens with max width 600px */
+@media (max-width: 600px) {
+  .small-login-page {
+    width: 100%;
+    left: 0%;
+    top: 0;
+    padding: 1rem;
+    height: 190vh;
+  }
+
+  .small-login-headline h1,
+  .small-login-headline h2 {
+    font-size: 1.5rem; /* Further scale down font size */
+  }
+
+  .small-login-form input,
+  .small-login-form button {
+    width: 90%; /* Make form fields take up more width */
+  }
+
+  .split-container__divider {
+    width: 90%; /* Adjust divider width */
+  }
+
+  .sign-up-option p {
+    font-size: 1rem; /* Adjust font size for better readability */
+  }
 }
