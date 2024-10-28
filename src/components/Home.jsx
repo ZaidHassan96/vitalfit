@@ -43,7 +43,8 @@ const Home = (setLoggedInUser) => {
             CLASSES WE <span>OFFER</span>
           </h1>
           <div className="classes-img">
-            <img src="../images/hiit.jpg" alt="Hiit Class Image" />
+            <img src="/images/hiit.jpg" alt="Hiit Class Image" />
+
             <img src="../images/spin.jpg" alt="Spin Class Image" />
             <img src="../images/yoga.jpg" alt="Yoga Class Image" />
           </div>
