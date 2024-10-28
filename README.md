@@ -4,7 +4,7 @@ VitalFit is a dynamic fitness app designed to streamline class management, booki
 
 ## Demo
 
-Check out the live demo:
+Check out the live demo: https://vitalfit.netlify.app/
 
 ## Features
 
