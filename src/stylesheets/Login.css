@@ -96,7 +96,7 @@ a {
 .login-form input,
 .login-form select {
   padding: 1rem;
-  width: 45%;
+  width: 65%;
   color: gray;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -105,7 +105,7 @@ a {
 
 .login-form button {
   padding: 1rem;
-  width: 45%;
+  width: 65%;
   border: none;
   background-color: rgb(255, 77, 0);
   color: white;
@@ -159,6 +159,26 @@ a {
   color: orangered;
 }
 
+@media (max-width: 1300px) {
+  .login-form input,
+  .login-form select {
+    padding: 1rem;
+    width: 75%;
+    color: gray;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .login-form button {
+    padding: 1rem;
+    width: 75%;
+    border: none;
+    background-color: rgb(255, 77, 0);
+    color: white;
+  }
+}
+
 @media (max-width: 900px) {
   .side-banner {
     display: none;
@@ -171,5 +191,62 @@ a {
     justify-content: center;
     align-items: center;
     border: 1px;
+  }
+  .login-form input,
+  .login-form select {
+    padding: 1rem;
+    width: 60%;
+    color: gray;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .login-form button {
+    padding: 1rem;
+    width: 60%;
+    border: none;
+    background-color: rgb(255, 77, 0);
+    color: white;
+  }
+}
+
+@media (max-width: 650px) {
+  .login-form input,
+  .login-form select {
+    padding: 1rem;
+    width: 70%;
+    color: gray;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .login-form button {
+    padding: 1rem;
+    width: 70%;
+    border: none;
+    background-color: rgb(255, 77, 0);
+    color: white;
+  }
+}
+
+@media (max-width: 450px) {
+  .login-form input,
+  .login-form select {
+    padding: 1rem;
+    width: 85%;
+    color: gray;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+
+  .login-form button {
+    padding: 1rem;
+    width: 85%;
+    border: none;
+    background-color: rgb(255, 77, 0);
+    color: white;
   }
 }

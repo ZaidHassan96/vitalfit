@@ -34,6 +34,9 @@ li {
   color: white;
   font-weight: bold;
   transition: color 0.3s;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .navbar li a:hover {
@@ -49,12 +52,18 @@ li {
   font-size: 3.5rem;
   margin-top: 1rem;
   padding: 0;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .vital {
   font-size: 3.5rem;
   margin-top: 1rem;
   color: #ff530f;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .user-email {
@@ -76,11 +85,10 @@ li {
 .dropdown {
   position: relative;
   display: inline-flex;
-  align-items: center; 
+  align-items: center;
   gap: 8px;
   cursor: pointer;
 }
-
 
 .dropdown:hover .dropdown-email,
 .dropdown:hover .dropdown-arrow {
@@ -92,6 +100,9 @@ li {
   color: white;
   font-size: 1.3rem;
   transition: color 0.2s ease-in;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Arrow icon */
@@ -116,6 +127,9 @@ li {
   z-index: 1;
   right: 0; /* Align to the right of the email */
   top: 100%; /* Position it below the email */
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 /* Show dropdown content when hovering over the entire dropdown */

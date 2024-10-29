@@ -30,16 +30,13 @@ const BookClass = ({
 
   // HANDLE GOOGLE LOGIN
   const handleGoogleLogin = async () => {
-  
     const authInstance = gapi.auth2.getAuthInstance();
     if (authInstance.isSignedIn.get()) {
- 
       setIsAuthenticated(true);
     } else {
       try {
         const user = await authInstance.signIn();
         setIsAuthenticated(true);
-     
       } catch (error) {
         setGoogleError(true);
         console.error("Error signing in", error);
@@ -150,7 +147,7 @@ const BookClass = ({
         "User is not authenticated or failed to retrieve access token."
       );
       if (auth2) {
-        await auth.signOut();
+        await auth2.signOut();
         await auth2.disconnect();
         // console.log("Google API session cleared");
       }
@@ -212,6 +209,7 @@ const BookClass = ({
       ),
     }));
   };
+
   // HANDLING UPDATING MEMBERS ATTENDING ARRAY
   const handleUpdateDoc = async () => {
     try {

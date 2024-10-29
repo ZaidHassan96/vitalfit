@@ -20,6 +20,9 @@
 .quotes h1 {
   text-align: center;
   font-size: 3rem;
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 .quotes p {
@@ -34,6 +37,12 @@
   width: 100%; /* Ensure it takes the full width of the container */
   box-sizing: border-box; /* Include padding in the total width */
   margin-top: 8rem;
+}
+
+.connect h1 {
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }
 
 span {
@@ -63,5 +72,28 @@ span {
 
   .socials {
     margin-bottom: 4rem;
+  }
+  .quotes h1 {
+    text-align: left;
+    padding-left: 0;
+    padding-left: 1rem;
+  }
+  .quotes p {
+    font-size: 1.3rem;
+    text-align: left;
+    padding-left: 1rem;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  /* .quotes {
+  } */
+  .quotes h1 {
+    text-align: left;
+    padding-left: 0;
+  }
+  .quotes p {
+    font-size: 1.3rem;
+    text-align: left;
   }
 }

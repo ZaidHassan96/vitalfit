@@ -44,10 +44,18 @@ const Home = (setLoggedInUser) => {
             CLASSES WE <span>OFFER</span>
           </h1>
           <div className="classes-img">
-            <img src="/images/hiit.jpg" alt="Hiit Class Image" />
-
-            <img src="/images/spin.jpg" alt="Spin Class Image" />
-            <img src="/images/yoga.jpg" alt="Yoga Class Image" />
+            <div>
+              <img src="/images/hiit.jpg" alt="Hiit Class Image" />
+              <h3 className="hiit-overlay">Hiit</h3>
+            </div>
+            <div>
+              <img src="/images/spin.jpg" alt="Spin Class Image" />
+              <h3 className="spin-overlay">Spin</h3>
+            </div>
+            <div>
+              <img src="/images/yoga.jpg" alt="Yoga Class Image" />
+              <h3 className="yoga-overlay">Yoga</h3>
+            </div>
           </div>
         </div>
         <div className="footer-home">

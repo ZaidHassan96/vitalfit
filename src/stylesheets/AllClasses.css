@@ -13,14 +13,15 @@
   background-color: rgb(0, 0, 0);
   box-shadow: 0 4px 8px rgb(201, 101, 42); /* Example shadow */
   margin-top: 12rem;
-  margin-left: 9rem;
-  margin-right: 6rem;
   margin-bottom: 8%;
   position: relative;
   text-align: center;
   padding: 3rem;
   height: 190vh;
-  width: 80%;
+  width: 80%; /* Ensure the width is less than 100% */
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto; /* This will center the element horizontally */
 }
 
 .loading-container {

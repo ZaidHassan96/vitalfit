@@ -44,7 +44,7 @@
 .add-class-form input,
 .add-class-form select {
   padding: 1rem;
-  width: 45%;
+  width: 70%;
   color: gray;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -91,7 +91,7 @@
 
   .add-class-form input,
   .add-class-form select {
-    width: 80%; /* Expand input width for smaller screens */
+    width: 97%; /* Expand input width for smaller screens */
   }
 
   .add-class-form button {
@@ -115,7 +115,7 @@
 
   .add-class-form input,
   .add-class-form select {
-    width: 90%;
+    width: 97%;
   }
 
   .add-class-form button {
