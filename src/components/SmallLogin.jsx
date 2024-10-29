@@ -87,12 +87,12 @@ const SmallLogin = ({
             </div>
           </form>
         </div>
-        <div className="sign-up-option">
+        <div className="sign-up-option-small">
           <div>
             <div className="split-container__divider">
-              <div className="split-container__divider-line"></div>
+              <div className="split-container__divider-line-small"></div>
               <div className="split-container__divider-text">or</div>
-              <div className="split-container__divider-line"></div>
+              <div className="split-container__divider-line-small"></div>
             </div>
           </div>
           <Link to={"/sign-up"}>
