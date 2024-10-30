@@ -15,8 +15,6 @@ const Header = () => {
   const { loggedInUser, setLoggedInUser } = useContext(UserContext);
   const [drawerOpen, setDrawerOpen] = useState(false); // State to toggle the drawer
 
-  console.log(setLoggedInUser);
-
   const navigate = useNavigate();
 
   useEffect(() => {

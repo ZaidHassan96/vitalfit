@@ -71,7 +71,7 @@ const AllClasses = ({ setLoggedInUser }) => {
 
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
-  console.log(className);
+
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);

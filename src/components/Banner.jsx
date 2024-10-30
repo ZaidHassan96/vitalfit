@@ -14,7 +14,7 @@ const Banner = () => {
       </video>
       {/* <img src="../images/banner.jpg" alt="" /> */}
 
-      <div class="overlay">
+      <div className="overlay">
         <h1>
           Join the Fitness <span>Movement</span>
         </h1>
