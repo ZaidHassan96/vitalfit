@@ -48,8 +48,14 @@ export function handleFilterOptions(
 ) {
   // Filter based on both date and class type
   return classes.filter((classData) => {
+    // if (className === "All Classes") {
+    //   return classData;
+    // }
     const isDateMatch = classDate ? classData.date === classDate : true;
-    const isTypeMatch = className ? classData.classType === className : true;
+    const isTypeMatch =
+      className === "All Classes" || !className
+        ? true
+        : classData.classType === className;
     const isTrainerMatch = classTrainer
       ? classData.trainerName === classTrainer
       : true;

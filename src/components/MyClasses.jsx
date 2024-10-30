@@ -275,7 +275,7 @@ const MyClasses = () => {
                     name="class-name"
                     onChange={handleChange}
                   >
-                    <option value="">All Classes</option>
+                    <option value="All Classes">All Classes</option>
                     <option value="Spin Class">Spin Class</option>
                     <option value="Yoga">Yoga</option>
                     <option value="Hiit Mania">Hiit Mania</option>
@@ -305,7 +305,10 @@ const MyClasses = () => {
                 </div>
               </div>
               <button
-                onClick={() => setSmallScreenFilter(false)}
+                onClick={() => {
+                  setSmallScreenFilter(false);
+                  setCurrentPage(1);
+                }}
                 className="close-button"
               >
                 Close

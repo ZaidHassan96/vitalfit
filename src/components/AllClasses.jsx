@@ -24,7 +24,6 @@ const AllClasses = ({ setLoggedInUser }) => {
   const [classTrainer, setClassTrainer] = useState("");
   const [classes, setClasses] = useState([]);
   const [singleClassData, setSingleClassData] = useState([]);
-  // const [classAvailable, setClassAvailable] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [classesPerPage, setClassesPerPage] = useState(12); // Default items per page
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
@@ -72,7 +71,7 @@ const AllClasses = ({ setLoggedInUser }) => {
 
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
-
+  console.log(className);
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);
@@ -154,7 +153,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                   name="class-name"
                   onChange={handleChange}
                 >
-                  <option value="">All Classes</option>
+                  <option value="All Classes">All Classes</option>
                   <option value="Spin Class">Spin Class</option>
                   <option value="Yoga">Yoga</option>
                   <option value="Hiit Mania">Hiit Mania</option>
@@ -217,7 +216,10 @@ const AllClasses = ({ setLoggedInUser }) => {
                 </div>
               </div>
               <button
-                onClick={() => setSmallScreenFilter(false)}
+                onClick={() => {
+                  setSmallScreenFilter(false);
+                  setCurrentPage(1);
+                }}
                 className="close-button"
               >
                 Close
