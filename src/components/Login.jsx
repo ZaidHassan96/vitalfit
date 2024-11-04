@@ -2,22 +2,32 @@ import Header from "./Header";
 import "../stylesheets/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { handleLogin } from "../utils/utils";
 
-const Login = ({ setLoggedInUser }) => {
+import { useUser } from "../context/User";
+import BeatLoader from "react-spinners/BeatLoader";
+
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const { logIn } = useUser();
+  const [loggingIn, setLoggingIn] = useState(false);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    handleLogin(email, password, "/", setError, setLoggedInUser, navigate);
+    try {
+      setLoggingIn(true);
+      await logIn(email, password, "/");
+      setLoggingIn(false);
+    } catch (error) {
+      setLoggingIn(false);
+      setError(error);
+    }
   };
 
   return (
     <>
-      {/* <Header /> */}
       <section className="container">
         <section className="login-page">
           <div className="headline">
@@ -62,7 +72,11 @@ const Login = ({ setLoggedInUser }) => {
               </div>
 
               <div>
-                <button type="submit">Log in</button>
+                {loggingIn ? (
+                  <BeatLoader color="rgb(255, 77, 0)" />
+                ) : (
+                  <button type="submit">Log in</button>
+                )}
               </div>
             </form>
           </div>

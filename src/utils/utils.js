@@ -73,14 +73,7 @@ export function pagination(filteredClasses, currentPage, classesPerPage) {
 
 //UTILS FOR LOGIN AND SMALLLOGIN:
 
-export async function handleLogin(
-  email,
-  password,
-  navigateInput,
-  setError,
-  setLoggedInUser,
-  navigate
-) {
+export async function handleLogin(email, password, navigateInput) {
   try {
     const userCredential = await signInWithEmailAndPassword(
       auth,
@@ -96,19 +89,25 @@ export async function handleLogin(
 
     if (userDocSnap.exists()) {
       const userData = await userDocSnap.data(); // This is where you get your custom user fields
-      setLoggedInUser(userData);
-
-      localStorage.setItem("userId", uid); // Store the user's ID
-      localStorage.setItem("userData", JSON.stringify(userData));
-      // console.log("User data:", userData);
-    } else {
-      // console.log("No such document!");
+      const userInfo = { userData, uid };
+      return userInfo;
     }
 
-    console.log("succesfully logged in");
     navigate(navigateInput);
   } catch (error) {
-    setError(error);
-    console.log(error.code);
+    throw error;
   }
+}
+
+// SETTING IMAGE ACCORDING TO CLASS TYPE
+export function setImage(singleClassData) {
+  let imageFile = "";
+  if (singleClassData.classType === "Hiit Mania") {
+    imageFile = "../images/hiit.jpg";
+  } else if (singleClassData.classType === "Spin Class") {
+    imageFile = "../images/spin.jpg";
+  } else {
+    imageFile = "../images/yoga.jpg";
+  }
+  return imageFile;
 }

@@ -1,0 +1,38 @@
+.booking-success {
+  text-align: center;
+  align-items: center;
+}
+
+.booking-success h1 {
+  text-align: center;
+}
+
+.add-to-google-calendar {
+  display: flex; /* Ensures flex properties work */
+  align-items: center; /* Centers content vertically */
+  justify-content: center; /* Centers content horizontally */
+  text-align: center; /* Centers text if there’s multiline text */
+  padding: 1rem;
+  width: 60%;
+  margin-right: 20%;
+  margin-left: 20%;
+  border: none;
+  background-color: rgb(255, 77, 0);
+  border-radius: 10px;
+  color: rgb(0, 0, 0);
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  transition: color 0.3s;
+}
+
+.google-error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.google-error-container p {
+  margin-top: 0;
+  margin-bottom: 0;
+}

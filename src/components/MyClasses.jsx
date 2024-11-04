@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import Header from "./Header.jsx";
 import Banner from "./Banner.jsx";
 import SingleEventCard from "./SingleEventCard.jsx";
-import UserContext from "../context/User.jsx";
 import AddClass from "./AddClass.jsx";
+
 import {
   getDocs,
   collection,
@@ -23,9 +23,11 @@ import {
   handleFilterOptions,
   pagination,
 } from "../utils/utils.js";
+import { useUser } from "../context/User.jsx";
+import { CircularProgress } from "@mui/material";
 
 const MyClasses = () => {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser } = useUser();
   const [addClassPage, setAddClassPage] = useState(false);
   const [classes, setClasses] = useState([]);
   const [className, setClassName] = useState("");
@@ -131,34 +133,6 @@ const MyClasses = () => {
     }
   };
 
-  // function handleFilterOptions(classDate, className, classTrainer, classes) {
-  //   // Filter based on both date and class type
-  //   return classes.filter((classData) => {
-  //     const isDateMatch = classDate ? classData.date === classDate : true;
-  //     const isTypeMatch = className ? classData.classType === className : true;
-  //     const isTrainerMatch = classTrainer
-  //       ? classData.trainerName === classTrainer
-  //       : true;
-
-  //     return isDateMatch && isTypeMatch && isTrainerMatch;
-  //   });
-
-  //   // } else if (classDate) {
-  //   //   // Filter based on date only
-  //   //   return classes.filter((classData) => {
-  //   //     return classData.date === classDate;
-  //   //   });
-  //   // } else if (className) {
-  //   //   // Filter based on class type only
-  //   //   return classes.filter((classData) => {
-  //   //     return classData.classType === className;
-  //   //   });
-  //   // } else {
-  //   //   // If no filter is applied, return all classes
-  //   //   return classes;
-  //   // }
-  // }
-
   const filteredClasses = handleFilterOptions(
     classDate,
     className,
@@ -181,7 +155,11 @@ const MyClasses = () => {
 
       {loading ? (
         <div className="loading-container">
-          <p>Loading...</p>
+          <CircularProgress    style={{
+          color: "rgb(255, 77, 0)",
+          fontSize: "5rem",
+          marginTop: "2rem",
+        }} />
         </div>
       ) : addClassPage ? (
         <AddClass setAddClassPage={setAddClassPage} />
@@ -359,6 +337,7 @@ const MyClasses = () => {
                         key={classData.id}
                         classData={classData}
                         setShowBookingCard={setShowBookingCard}
+                        showBookingCard={showBookingCard}
                         setSingleClassData={setSingleClassData}
                       />
                     )

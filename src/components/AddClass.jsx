@@ -1,19 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import "../stylesheets/addClass.css";
 import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import UserContext from "../context/User";
 import { db } from "../../firebaseConfig";
-import { useNavigate } from "react-router-dom";
+import { useUser } from "../context/User";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const AddClass = ({ setAddClassPage }) => {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser } = useUser();
   const [dateIncorrect, setDateIncorrect] = useState(false);
   const [formNotValid, setFormNotValid] = useState(false);
-  const [loading, setLoading] = useState(false);
-
-
-
-  const navigate = useNavigate();
+  const [addingClass, setAddingClass] = useState(false);
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
@@ -33,8 +29,6 @@ const AddClass = ({ setAddClassPage }) => {
 
     setDateIncorrect(false);
 
-
-
     if (dateObj.length === 0) {
       return "";
     }
@@ -48,7 +42,6 @@ const AddClass = ({ setAddClassPage }) => {
     return formattedDate;
   };
 
-
   const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
 
   const [classData, setClassData] = useState({
@@ -61,8 +54,6 @@ const AddClass = ({ setAddClassPage }) => {
     startTime: "",
     trainerName: trainer,
   });
-
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -96,34 +87,33 @@ const AddClass = ({ setAddClassPage }) => {
   // }, [classData]);
 
   const addClassData = async (classData) => {
-    setLoading(true);
+    setAddingClass(true);
     try {
       const docRef = await addDoc(collection(db, "classes"), classData);
 
       await updateDoc(doc(db, "classes", docRef.id), {
         classId: docRef.id,
       });
-    
-      setLoading(false);
+
+      setAddingClass(false);
     } catch (error) {
-      setLoading(false);
+      setAddingClass(false);
       console.error("Error adding class: ", error);
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Prevent form submission if the form is invalid
     if (!checkFormValidity()) {
       setFormNotValid(true);
-   
 
       return; // Stop further execution if form is invalid
     }
 
     // Proceed with adding class data and hiding the form page
     setFormNotValid(false);
-    addClassData(classData);
+    await addClassData(classData);
     setAddClassPage(false);
   };
 
@@ -204,7 +194,14 @@ const AddClass = ({ setAddClassPage }) => {
               onChange={handleChange}
             />
           </div>
-          <button>Add Class</button>
+          {addingClass ? (
+            <button>
+              {" "}
+              <BeatLoader color="white" />
+            </button>
+          ) : (
+            <button>Add Class</button>
+          )}
         </form>
       </div>
     </div>

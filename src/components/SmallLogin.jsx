@@ -1,29 +1,28 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import "../stylesheets/SmallLogin.css";
-import { handleLogin } from "../utils/utils";
+import { useUser } from "../context/User";
+import { BeatLoader } from "react-spinners";
 
-const SmallLogin = ({
-  showBookingCard,
-  setShowBookingCard,
-  setLoggedInUser,
-}) => {
+const SmallLogin = ({ showBookingCard, setShowBookingCard }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
   const [error, setError] = useState("");
+  const { logIn } = useUser();
+  const [loggingIn, setLoggingIn] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    handleLogin(
-      email,
-      password,
-      "/classes",
-      setError,
-      setLoggedInUser,
-      navigate
-    );
+
+    try {
+      setLoggingIn(true);
+      await logIn(email, password, "/classes");
+      setLoggingIn(false);
+    } catch (error) {
+      setLoggingIn(false);
+      setError(error);
+    }
   };
 
   return (
@@ -42,15 +41,13 @@ const SmallLogin = ({
           </h2>
         </div>
         <div className="small-login-headline">
-          {/* <Link to={"/"}>
-            <h1>
-              Vital<span>Fit</span>
-            </h1>
-          </Link> */}
           <h2>Log in</h2>
         </div>
         {error && (
-          <p style={{ textAlign: "center" }} className="error">
+          <p
+            style={{ textAlign: "center", color: "orangered" }}
+            className="error"
+          >
             Email address or Password is incorrect
           </p>
         )}
@@ -83,7 +80,11 @@ const SmallLogin = ({
             </div>
 
             <div>
-              <button type="submit">Log in</button>
+              {loggingIn ? (
+                <BeatLoader color="rgb(255, 77, 0)" />
+              ) : (
+                <button type="submit">Log in</button>
+              )}
             </div>
           </form>
         </div>

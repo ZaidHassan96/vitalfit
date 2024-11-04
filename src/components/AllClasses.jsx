@@ -5,7 +5,6 @@ import SingleEventCard from "./SingleEventCard.jsx";
 import Banner from "./Banner.jsx";
 import BookClass from "./BookClass.jsx";
 import SmallLogin from "./SmallLogin.jsx";
-import UserContext from "../context/User.jsx";
 import { collection, getDocs, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
 import Footer from "./Footer.jsx";
@@ -15,10 +14,12 @@ import {
   handleFilterOptions,
   pagination,
 } from "../utils/utils.js";
+import { useUser } from "../context/User.jsx";
+import CircularProgress from "@mui/material/CircularProgress";
 
-const AllClasses = ({ setLoggedInUser }) => {
+const AllClasses = () => {
   const [showBookingCard, setShowBookingCard] = useState(false);
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser } = useUser();
   const [className, setClassName] = useState("");
   const [classDate, setClassDate] = useState("");
   const [classTrainer, setClassTrainer] = useState("");
@@ -60,6 +61,7 @@ const AllClasses = ({ setLoggedInUser }) => {
     fetchClasses(); // Call the fetch function
   }, []); // Empty dependency array to run only once on component mount
 
+  // updating amount of classes per page in accordance to screen size
   useEffect(() => {
     // Detect screen width and set items per page
     const updateItemsPerPage = () => {
@@ -72,6 +74,7 @@ const AllClasses = ({ setLoggedInUser }) => {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
+  // setting state for each filter option
   const handleChange = (event) => {
     if (event.target.name === "class-name") {
       setClassName(event.target.value);
@@ -97,14 +100,6 @@ const AllClasses = ({ setLoggedInUser }) => {
     setClassTrainer("");
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="loading">
-  //       <p>Loading...</p>
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <section>
@@ -113,11 +108,18 @@ const AllClasses = ({ setLoggedInUser }) => {
       </section>
       {loading ? (
         <div className="loading-container">
-          <p>Loading...</p>
+          <CircularProgress
+            style={{
+              color: "rgb(255, 77, 0)",
+              fontSize: "5rem",
+              marginTop: "2rem",
+            }}
+          />
         </div>
       ) : (
         <section id="classes" className="classes">
           {loggedInUser ? (
+            // Only renders on screen if showBookingCard is set to true, where by the css classname is changed from "hide-booking-card" to  "booking-card"
             <BookClass
               showBookingCard={showBookingCard}
               setShowBookingCard={setShowBookingCard}
@@ -126,14 +128,14 @@ const AllClasses = ({ setLoggedInUser }) => {
               classData={classDate}
             />
           ) : (
+            // Only renders on screen if showBookingCard is set to true, where by the css classname is changed from "hide-small-login" to  "small-login-page"
             <SmallLogin
               showBookingCard={showBookingCard}
               setShowBookingCard={setShowBookingCard}
-              setLoggedInUser={setLoggedInUser}
             />
           )}
 
-          {filterButton ? (
+          {filterButton ? ( // renders small filter button to open small filter screen on smaller devices.
             <button
               className="filter-small"
               onClick={() => {
@@ -179,7 +181,7 @@ const AllClasses = ({ setLoggedInUser }) => {
               </div>
             </div>
           )}
-          {smallScreenFilter ? (
+          {smallScreenFilter ? ( // if smallScreenFilter is set to true we will render the filter if not we will render the all the classes
             <>
               <div className="filter-container-small">
                 {/* Filter Options */}
@@ -237,7 +239,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                   onClick={() =>
                     setCurrentPage((prev) => Math.max(prev - 1, 1))
                   }
-                  disabled={currentPage === 1}
+                  disabled={currentPage === 1} // back button disabled if on first page
                 >
                   {"<"}
                 </p>
@@ -257,7 +259,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                   disabled={
                     currentPage ===
                     Math.ceil(filteredClasses.length / classesPerPage)
-                  }
+                  } // button disabled if on last page
                 >
                   {">"}
                 </p>
@@ -270,6 +272,7 @@ const AllClasses = ({ setLoggedInUser }) => {
                         key={classData.id}
                         classData={classData}
                         setShowBookingCard={setShowBookingCard}
+                        showBookingCard={showBookingCard}
                         setSingleClassData={setSingleClassData}
                       />
                     )

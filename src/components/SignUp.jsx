@@ -5,6 +5,7 @@ import { setDoc, doc } from "firebase/firestore";
 import firebase from "firebase/compat/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { serverTimestamp } from "firebase/firestore";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const SignUp = () => {
   const [userInfo, setUserInfo] = useState({
@@ -23,9 +24,9 @@ const SignUp = () => {
   const [lastNameErr, setLastNameErr] = useState("");
   const [emailErr, setEmailErr] = useState("");
   const [error, setError] = useState("");
-  const [disabled, setDisabled] = useState(true);
   const [passwordErr, setPasswordErr] = useState("");
-  const [accountCreationErr, setAccountCreationErr] = useState("");
+  const [accountCreationErr, setAccountCreationErr] = useState(null);
+  const [signingUp, setSigningUp] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -35,6 +36,7 @@ const SignUp = () => {
   //   const email = userInfo.email;
 
   const handleSignUp = async (email, password, userInfo) => {
+    setSigningUp(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -54,10 +56,11 @@ const SignUp = () => {
         createdAt: serverTimestamp(),
         userId: uid,
       });
-      setAccountCreationErr("");
-
+      setAccountCreationErr(null);
+      setSigningUp(false);
       return true;
     } catch (error) {
+      setSigningUp(false);
       setAccountCreationErr(error);
 
       return false;
@@ -90,8 +93,6 @@ const SignUp = () => {
 
     if (isFormValid()) {
       try {
-        // console.log("Form Submitted:", userInfo);
-
         // Wait for handleSignUp to finish before continuing
         const signUpSuccess = await handleSignUp(
           userInfo.email,
@@ -102,7 +103,6 @@ const SignUp = () => {
         if (signUpSuccess && !accountCreationErr) {
           navigate("/login");
         } else {
-          // console.log(signUpSuccess, !accountCreationErr);
           console.warn("Sign-up failed, not navigating to login.");
         }
       } catch (error) {
@@ -124,9 +124,8 @@ const SignUp = () => {
                 Vital<span>Fit</span>
               </h1>
             </Link>
-            <Link to={"/login"}>
-              <h2>Sign up</h2>
-            </Link>
+
+            <h2>Sign up</h2>
           </div>
           {accountCreationErr &&
             accountCreationErr.code === "auth/email-already-in-use" && (
@@ -234,9 +233,13 @@ const SignUp = () => {
               </div>
 
               <div>
-                <button disabled={!isFormValid} type="submit">
-                  Sign up
-                </button>
+                {signingUp ? (
+                  <BeatLoader color="rgb(255, 77, 0)" />
+                ) : (
+                  <button disabled={!isFormValid} type="submit">
+                    Sign up
+                  </button>
+                )}
               </div>
             </form>
           </div>

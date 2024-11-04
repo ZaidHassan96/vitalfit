@@ -1,18 +1,15 @@
-import { useContext, useRef, useState } from "react";
 import "../stylesheets/SingleEventCard.css";
-import { Link } from "react-router-dom";
-import { db } from "../../firebaseConfig";
-import { arrayRemove } from "firebase/firestore";
-import UserContext from "../context/User";
+import { useUser } from "../context/User";
 
 const SingleEventCard = ({
   setShowBookingCard,
+  showBookingCard,
   classData,
   setSingleClassData,
 }) => {
-  const { loggedInUser } = useContext(UserContext);
+  const { loggedInUser } = useUser();
 
-  const handleCardClick = (event) => {
+  const handleCardClick = () => {
     const bookingCard = document.getElementById("classes");
     if (bookingCard) {
       bookingCard.scrollIntoView({
@@ -25,7 +22,7 @@ const SingleEventCard = ({
 
     setShowBookingCard(true);
   };
-
+  // check class availability
   const checkAvailability = (classData) => {
     if (classData.membersAttending.length < classData.classSize) {
       return true;
@@ -60,11 +57,17 @@ const SingleEventCard = ({
               (member) => member.email === loggedInUser.email
             )) ||
           (loggedInUser && loggedInUser.isTrainer) ? (
-            <p className="book" onClick={handleCardClick}>
+            <p
+              className="book"
+              onClick={!showBookingCard ? handleCardClick : undefined}
+            >
               View
             </p>
           ) : checkAvailability(classData) ? (
-            <p className="book" onClick={handleCardClick}>
+            <p
+              className="book"
+              onClick={!showBookingCard ? handleCardClick : undefined}
+            >
               Book
             </p>
           ) : (

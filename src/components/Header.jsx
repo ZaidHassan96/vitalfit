@@ -1,6 +1,6 @@
 import "../stylesheets/Header.css";
 import { Link, useNavigate } from "react-router-dom";
-import UserContext from "../context/User";
+
 import { useContext, useEffect, useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebaseConfig";
@@ -10,9 +10,10 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MenuIcon from "@mui/icons-material/Menu"; // Burger icon
 import CloseIcon from "@mui/icons-material/Close"; //
 import { doc } from "firebase/firestore";
+import { useUser } from "../context/User";
 
 const Header = () => {
-  const { loggedInUser, setLoggedInUser } = useContext(UserContext);
+  const { loggedInUser, logOut } = useUser();
   const [drawerOpen, setDrawerOpen] = useState(false); // State to toggle the drawer
 
   const navigate = useNavigate();
@@ -43,21 +44,7 @@ const Header = () => {
 
   const handleLogout = async (e) => {
     e.preventDefault(); // Prevent default behavior of the event
-    try {
-      await signOut(auth); // Sign out the user from Firebase
-      setLoggedInUser(null); // Update the state to reflect that the user is logged out
-      navigate("/");
-      const auth2 = gapi.auth2.getAuthInstance();
-      if (auth2) {
-        await auth.signOut();
-        await auth2.disconnect();
-        // console.log("Google API session cleared");
-      }
-      // Redirect to the home page or desired route
-      // console.log("User logged out successfully.");
-    } catch (error) {
-      console.error("Error logging out:", error); // Handle any errors that occur during sign out
-    }
+    logOut();
   };
 
   return (

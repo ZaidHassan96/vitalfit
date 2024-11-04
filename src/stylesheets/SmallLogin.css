@@ -104,6 +104,11 @@ a {
   text-align: center;
   margin-top: 3rem;
   font-size: 1.3rem;
+  transition: color 0.3s;
+}
+
+.sign-up-option-small p:hover {
+  color: orangered;
 }
 
 .split-container__divider {
