@@ -19,9 +19,11 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation } from "react-router-dom";
 
 const AllClasses = () => {
+  const location = useLocation();
   const [showBookingCard, setShowBookingCard] = useState(false);
   const { loggedInUser } = useUser();
-  const [className, setClassName] = useState("");
+  const classTypeState = location.state?.classType; // Access the passed state
+  const [className, setClassName] = useState(classTypeState);
   const [classDate, setClassDate] = useState("");
   const [classTrainer, setClassTrainer] = useState("");
   const [classes, setClasses] = useState([]);
@@ -31,8 +33,6 @@ const AllClasses = () => {
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
   const [filterButton, setFilterButton] = useState(false);
   const [loading, setLoading] = useState(false);
-  const location = useLocation();
-  const classTypeState = location.state?.classType; // Access the passed state
 
   // Update setClassName everytime the classTypeState changes, when a user selects a class type from the HomePage
   useEffect(() => {
@@ -163,7 +163,8 @@ const AllClasses = () => {
                   name="class-name"
                   onChange={handleChange}
                 >
-                  <option value="All Classes">All Classes</option>
+                  <option value="All Classes">-</option>
+                  <option value="All Classes"> All Classes</option>
                   <option value="Spin Class">Spin Class</option>
                   <option value="Yoga">Yoga</option>
                   <option value="Hiit Mania">Hiit Mania</option>
