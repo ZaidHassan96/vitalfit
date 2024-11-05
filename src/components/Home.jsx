@@ -4,8 +4,17 @@ import Banner from "./Banner.jsx";
 import Footer from "./Footer.jsx";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
+
+  const handleClassTypeClick = (classType) => {
+    navigate(`/classes`, {
+      state: { classType: classType }, // Pass state here
+    });
+  };
+
   return (
     <>
       <section className="home-container">
@@ -39,15 +48,36 @@ const Home = () => {
           <div className="classes-img">
             <div>
               <img src="/images/hiit.jpg" alt="Hiit Class Image" />
-              <h3 className="hiit-overlay">Hiit</h3>
+              <h3
+                className="hiit-overlay"
+                onClick={() => {
+                  handleClassTypeClick("Hiit Mania");
+                }}
+              >
+                Hiit
+              </h3>
             </div>
             <div>
               <img src="/images/spin.jpg" alt="Spin Class Image" />
-              <h3 className="spin-overlay">Spin</h3>
+              <h3
+                className="spin-overlay"
+                onClick={() => {
+                  handleClassTypeClick("Spin Class");
+                }}
+              >
+                Spin
+              </h3>
             </div>
             <div>
               <img src="/images/yoga.jpg" alt="Yoga Class Image" />
-              <h3 className="yoga-overlay">Yoga</h3>
+              <h3
+                className="yoga-overlay"
+                onClick={() => {
+                  handleClassTypeClick("Yoga");
+                }}
+              >
+                Yoga
+              </h3>
             </div>
           </div>
         </div>

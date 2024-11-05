@@ -110,6 +110,12 @@ body {
   font-family: "Black Ops One", system-ui;
   font-weight: 400;
   font-style: normal;
+  transition: color 0.3s;
+}
+
+.classes-img h3:hover {
+  cursor: pointer;
+  color: #ff530f;
 }
 
 /* .classes-img h3 {

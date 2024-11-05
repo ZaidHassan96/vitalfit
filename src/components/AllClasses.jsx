@@ -16,6 +16,7 @@ import {
 } from "../utils/utils.js";
 import { useUser } from "../context/User.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useLocation } from "react-router-dom";
 
 const AllClasses = () => {
   const [showBookingCard, setShowBookingCard] = useState(false);
@@ -30,6 +31,13 @@ const AllClasses = () => {
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
   const [filterButton, setFilterButton] = useState(false);
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const classTypeState = location.state?.classType; // Access the passed state
+
+  // Update setClassName everytime the classTypeState changes, when a user selects a class type from the HomePage
+  useEffect(() => {
+    setClassName(classTypeState);
+  }, [classTypeState]);
 
   useEffect(() => {
     setLoading(true);
