@@ -13,8 +13,13 @@ Check out the live demo: https://vitalfit.netlify.app/
 - **Booking System**: Members can view and book available classes, with real-time updates.
 - **Responsive Filters**: Filter classes by type, date, and trainer for a personalized experience.
 - **Responsive Design**: Smooth UI experience across all screen sizes.
+- **Google Calendar** Users can opt to add a booking to their Google Calendar.
 
-- **Google Calendar** Users can opt to add a booking to their Google Calendar..
+## Prerequisites
+
+- Node.js: Version 18.x or 20.x.
+- npm versions 9.6.7 and 10.2.3.
+- Firebase account
 
 ## Installation
 
@@ -69,6 +74,10 @@ npm install
 ## Environment Variables
 
 For security, store sensitive information such as API keys in environment variables. Create a `.env` file in the root directory of your project and add your environment variables there. For example:
+
+```
+VITE_FIREBASE_API_KEY=YOUR_API_KEY
+```
 
 ## Connect to local host
 
