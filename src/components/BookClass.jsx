@@ -139,11 +139,13 @@ const BookClass = ({
               src={setImage(singleClassData)}
               alt={singleClassData.classType}
             />
-            <h1>{singleClassData.classType}</h1>
-            <p>{singleClassData.excerpt}</p>
-            <p>{singleClassData.date}</p>
-            <p>Time: {singleClassData.startTime}</p>
-            <p>
+            <h1 className="booking-card-h1-p">{singleClassData.classType}</h1>
+            <p className="booking-card-h1-p">{singleClassData.excerpt}</p>
+            <p className="booking-card-h1-p">{singleClassData.date}</p>
+            <p className="booking-card-h1-p">
+              Time: {singleClassData.startTime}
+            </p>
+            <p className="booking-card-h1-p">
               Spaces remaining:&nbsp;&nbsp;
               {singleClassData?.classSize &&
               Array.isArray(singleClassData.membersAttending)
@@ -151,7 +153,7 @@ const BookClass = ({
                   singleClassData.membersAttending.length
                 : "N/A"}
             </p>
-            <p>{singleClassData.trainerName}</p>
+            <p className="booking-card-h1-p">{singleClassData.trainerName}</p>
             <div className="booking-class-info">
               {loggedInUser &&
                 singleClassData &&

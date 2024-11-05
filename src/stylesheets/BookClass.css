@@ -17,8 +17,7 @@
   height: 40vh;
 }
 
-.booking-card p,
-h1 {
+.booking-card-h1-p {
   text-align: left;
   color: white;
   padding-left: 1rem;
@@ -158,8 +157,7 @@ h1 {
     height: 40vh; /* Adjust height for better layout */
   }
 
-  .booking-card p,
-  .booking-card h1 {
+  .booking-card-h1-p {
     font-size: 1.2rem; /* Reduce font size for readability */
   }
 
@@ -190,9 +188,7 @@ h1 {
     width: 100%; /* Full width */
     height: 35vh; /* Smaller height */
   }
-
-  .booking-card p,
-  .booking-card h1 {
+  .booking-card-h1-p {
     font-size: 1rem; /* Smaller font size */
   }
 

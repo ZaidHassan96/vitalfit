@@ -37,12 +37,12 @@ const BookingSuccess = ({ singleClassData }) => {
       />
       <h1>Booking confirmed</h1>
 
-      <p>
+      <p className="booking-card-h1-p">
         Please Arrive on time as classes do start promptly, if you miss the
         warmup you may not be allowed to partake in the class.
       </p>
-      <p>{singleClassData.date}</p>
-      <p>Time: {singleClassData.startTime}</p>
+      <p className="booking-card-h1-p">{singleClassData.date}</p>
+      <p className="booking-card-h1-p">Time: {singleClassData.startTime}</p>
       {googleError && (
         <div className="google-error-container">
           <h3 style={{ fontWeight: "bold", color: "red" }}>
@@ -54,7 +54,7 @@ const BookingSuccess = ({ singleClassData }) => {
         </div>
       )}
       {addToCalendar ? (
-        <p>Succesfully added to Calendar</p>
+        <p className="success-message">Succesfully added to Calendar</p>
       ) : (
         <p className="add-to-google-calendar" onClick={addToGoogleCalendar}>
           Add to Google Calendar
