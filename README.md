@@ -15,6 +15,20 @@ Check out the live demo: https://vitalfit.netlify.app/
 - **Responsive Design**: Smooth UI experience across all screen sizes.
 - **Google Calendar** Users can opt to add a booking to their Google Calendar.
 
+## Test Accounts
+
+To help you test the application, we provide the following test accounts:
+
+### Trainer Account
+
+- **Email**: testTrainer@hotmail.com
+- **Password**: Password123
+
+### User Account
+
+- **Email**: testUser@hotmail.com
+- **Password**: Password123
+
 ## Prerequisites
 
 - Node.js: Version 18.x or 20.x.
