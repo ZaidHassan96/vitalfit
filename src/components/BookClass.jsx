@@ -10,6 +10,7 @@ import {
 import { db } from "../../firebaseConfig.js";
 
 import { useUser } from "../context/User.jsx";
+import BeatLoader from "react-spinners/BeatLoader";
 
 import BookingSuccess from "./BookingSuccess.jsx";
 import { setImage } from "../utils/utils.js";
@@ -27,6 +28,7 @@ const BookClass = ({
   const [bookingError, setBookingError] = useState(false);
   const [canceling, setCanceling] = useState(false);
   const [cancelingError, setCancelingError] = useState(false);
+  const [bookingUpdating, setBookingUpdating] = useState(false);
 
   // OPTIMISTIC UI UPDATES
   const updateMembers = () => {
@@ -40,6 +42,7 @@ const BookClass = ({
 
   // HANDLING UPDATING MEMBERS ATTENDING ARRAY
   const handleUpdateDoc = async () => {
+    setBookingUpdating(true);
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
 
@@ -49,11 +52,12 @@ const BookClass = ({
           addedToCalendar: false,
         }),
       });
-
+      setBookingUpdating(false);
       setBookingConfirmed(true);
     } catch (error) {
       console.error("Error updating document: ", error);
       setBookingError(error);
+      setBookingUpdating(false);
     }
   };
 
@@ -170,6 +174,8 @@ const BookClass = ({
                     (member) => member.email === loggedInUser.email
                   ) ? (
                   <button onClick={cancelBooking}>Cancel Booking</button>
+                ) : bookingUpdating ? (
+                  <BeatLoader color="rgb(255, 77, 0)" />
                 ) : (
                   <button
                     onClick={() => {
