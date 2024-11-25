@@ -62,6 +62,7 @@ const BookClass = ({
   };
 
   const cancelBooking = async () => {
+    setBookingUpdating(true);
     try {
       const classRef = doc(db, "classes", singleClassData.classId);
       // Reference to the class document
@@ -81,8 +82,10 @@ const BookClass = ({
         });
         setCancelingError(false);
         setBookingCancelled(true);
+        setBookingUpdating(false);
       }
     } catch (error) {
+      setBookingUpdating(false);
       setCancelingError(true);
       console.error("Error canceling booking: ", error);
     }
@@ -173,7 +176,11 @@ const BookClass = ({
                   singleClassData.membersAttending.find(
                     (member) => member.email === loggedInUser.email
                   ) ? (
-                  <button onClick={cancelBooking}>Cancel Booking</button>
+                  bookingUpdating ? (
+                    <BeatLoader color="rgb(255, 77, 0)" />
+                  ) : (
+                    <button onClick={cancelBooking}>Cancel Booking</button>
+                  )
                 ) : bookingUpdating ? (
                   <BeatLoader color="rgb(255, 77, 0)" />
                 ) : (
