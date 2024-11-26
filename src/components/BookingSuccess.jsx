@@ -3,14 +3,17 @@ import {
   createEvent,
   getAccessToken,
   handleGoogleLogin,
+  updateAddedToCalendar,
 } from "../utils/googleApiLogic";
 import { setImage } from "../utils/utils";
 import "../stylesheets/BookingSuccess.css";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import { useUser } from "../context/User.jsx";
 
 const BookingSuccess = ({ singleClassData }) => {
   const [addToCalendar, setAddToCalendar] = useState(false);
   const [googleError, setGoogleError] = useState(false);
+  const { loggedInUser } = useUser();
 
   const addToGoogleCalendar = async () => {
     try {
@@ -19,6 +22,7 @@ const BookingSuccess = ({ singleClassData }) => {
       await createEvent(singleClassData, accessToken);
       setGoogleError(false);
       setAddToCalendar(true);
+      updateAddedToCalendar(singleClassData, loggedInUser);
     } catch (error) {
       setGoogleError(true);
       console.error(error);

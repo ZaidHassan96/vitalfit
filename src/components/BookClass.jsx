@@ -175,12 +175,8 @@ const BookClass = ({
                 Array.isArray(singleClassData.membersAttending) &&
                   singleClassData.membersAttending.find(
                     (member) => member.email === loggedInUser.email
-                  ) ? (
-                  bookingUpdating ? (
-                    <BeatLoader color="rgb(255, 77, 0)" />
-                  ) : (
-                    <button onClick={cancelBooking}>Cancel Booking</button>
-                  )
+                  ) ? bookingUpdating ? (  <BeatLoader color="rgb(255, 77, 0)" />) : (
+                  <button onClick={cancelBooking}>Cancel Booking</button>
                 ) : bookingUpdating ? (
                   <BeatLoader color="rgb(255, 77, 0)" />
                 ) : (

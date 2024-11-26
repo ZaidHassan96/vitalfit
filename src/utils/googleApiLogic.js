@@ -1,4 +1,6 @@
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { gapi } from "gapi-script";
+import { db } from "../../firebaseConfig";
 
 // HANDLE GOOGLE LOGIN
 export async function handleGoogleLogin() {
@@ -136,6 +138,34 @@ export async function createEvent(singleClassData, accessToken) {
     // alert("Class booked and added to your Google Calendar!");
   } catch (error) {
     console.error("Error creating event in Google Calendar:", error);
+    throw error;
+  }
+}
+
+export async function updateAddedToCalendar(singleClassData, loggedInUser) {
+  try {
+    const classRef = doc(db, "classes", singleClassData.classId);
+
+    // Fetch the current data of the document
+    const classDoc = await getDoc(classRef);
+    if (!classDoc.exists()) {
+      throw new Error("Class document does not exist.");
+    }
+
+    // Extract the current membersAttending array
+    const membersAttending = classDoc.data().membersAttending || [];
+
+    // Find and update the specific member's object
+    const updatedMembers = membersAttending.map((member) => {
+      if (member.email === loggedInUser.email) {
+        return { ...member, addedToCalendar: true }; // Update the specific field
+      }
+      return member; // Keep other members unchanged
+    });
+
+    // Write the updated array back to Firestore
+    await updateDoc(classRef, { membersAttending: updatedMembers });
+  } catch (error) {
     throw error;
   }
 }
