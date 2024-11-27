@@ -92,6 +92,19 @@ const BookClass = ({
   };
 
   let cancelled = "";
+  console.log(singleClassData);
+
+  const classAddedToCalendar = (singleClassData, loggedInUser) => {
+    if (!singleClassData.membersAttending) {
+      return; // Return false or another default value if membersAttending is not defined.
+    }
+
+    const member = singleClassData.membersAttending.find(
+      (member) => member.email === loggedInUser.email
+    );
+
+    return member ? member.addedToCalendar : false; // Return false if member is not found.
+  };
 
   if (loggedInUser && loggedInUser.isTrainer) {
     cancelled = "Class Successfully Cancelled";
@@ -161,6 +174,13 @@ const BookClass = ({
                 : "N/A"}
             </p>
             <p className="booking-card-h1-p">{singleClassData.trainerName}</p>
+            {Array.isArray(singleClassData.membersAttending) &&
+            singleClassData.membersAttending.find(
+              (member) => member.email === loggedInUser.email
+            ) &&
+            !classAddedToCalendar(singleClassData, loggedInUser) ? (
+              <button>Add to Calendar</button>
+            ) : null}
             <div className="booking-class-info">
               {loggedInUser &&
                 singleClassData &&
@@ -175,8 +195,12 @@ const BookClass = ({
                 Array.isArray(singleClassData.membersAttending) &&
                   singleClassData.membersAttending.find(
                     (member) => member.email === loggedInUser.email
-                  ) ? bookingUpdating ? (  <BeatLoader color="rgb(255, 77, 0)" />) : (
-                  <button onClick={cancelBooking}>Cancel Booking</button>
+                  ) ? (
+                  bookingUpdating ? (
+                    <BeatLoader color="rgb(255, 77, 0)" />
+                  ) : (
+                    <button onClick={cancelBooking}>Cancel Booking</button>
+                  )
                 ) : bookingUpdating ? (
                   <BeatLoader color="rgb(255, 77, 0)" />
                 ) : (
