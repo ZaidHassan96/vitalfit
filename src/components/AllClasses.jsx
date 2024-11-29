@@ -17,6 +17,8 @@ import {
 import { useUser } from "../context/User.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation } from "react-router-dom";
+import LargeFilterContainer from "./LargeFilterContainer.jsx";
+import SmallFilterContainer from "./SmallFilterContainer.jsx";
 
 const AllClasses = ({ filterOptions, setFilterOptions }) => {
   const location = useLocation();
@@ -30,7 +32,6 @@ const AllClasses = ({ filterOptions, setFilterOptions }) => {
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
   const [filterButton, setFilterButton] = useState(false);
   const [loading, setLoading] = useState(false);
-  // Update setClassName everytime the classTypeState changes, when a user selects a class type from the HomePage
 
   useEffect(() => {
     setFilterOptions({
@@ -83,19 +84,6 @@ const AllClasses = ({ filterOptions, setFilterOptions }) => {
 
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target; // Extract name and value from the event
-
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      [name === "date"
-        ? "classDate"
-        : name === "class-name"
-        ? "className"
-        : "classTrainer"]: name === "date" ? formatDate(value) : value,
-    }));
-  };
 
   const filteredClasses = handleFilterOptions(classes, filterOptions);
 
@@ -152,91 +140,20 @@ const AllClasses = ({ filterOptions, setFilterOptions }) => {
               Filters
             </button>
           ) : (
-            <div className="filter-container">
-              {/* Filter Options */}
-              <div className="filter-box">
-                <label htmlFor="class-name">Classes:</label>
-                <select
-                  id="class-name"
-                  name="class-name"
-                  onChange={handleChange}
-                >
-                  <option value="All Classes">-</option>
-                  <option value="All Classes"> All Classes</option>
-                  <option value="Spin Class">Spin Class</option>
-                  <option value="Yoga">Yoga</option>
-                  <option value="Hiit Mania">Hiit Mania</option>
-                </select>
-              </div>
-              <div className="filter-box">
-                <label htmlFor="trainer">Trainer:</label>
-                <select id="trainer" name="trainer" onChange={handleChange}>
-                  <option value="">All Trainers</option>
-                  <option value="Zaid Hassan">Zaid</option>
-                  <option value="Steve Hox">Steve</option>
-                  <option value="Sydney Beth">Sydney</option>
-                </select>
-              </div>
-              <div className="filter-box">
-                <label htmlFor="date">Date:</label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+            <LargeFilterContainer
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+            />
           )}
           {smallScreenFilter ? ( // if smallScreenFilter is set to true we will render the filter if not we will render the all the classes
-            <>
-              <div className="filter-container-small">
-                {/* Filter Options */}
-                <div className="filter-box">
-                  <label htmlFor="class-name">Classes:</label>
-                  <select
-                    id="class-name"
-                    name="class-name"
-                    onChange={handleChange}
-                  >
-                    <option value="">All Classes</option>
-                    <option value="Spin Class">Spin Class</option>
-                    <option value="Yoga">Yoga</option>
-                    <option value="Hiit Mania">Hiit Mania</option>
-                  </select>
-                </div>
-                <div className="filter-box">
-                  <label htmlFor="trainer">Trainer:</label>
-                  <select id="trainer" name="trainer" onChange={handleChange}>
-                    <option value="">All Trainers</option>
-                    <option value="Zaid Hassan">Zaid</option>
-                    <option value="Steve Hox">Steve</option>
-                    <option value="Sydney Beth">Sydney</option>
-                  </select>
-                </div>
-                <div className="filter-box">
-                  <label htmlFor="date">Date:</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  setSmallScreenFilter(false);
-                  setCurrentPage(1);
-                }}
-                className="close-button"
-              >
-                Close
-              </button>
-            </>
+            <SmallFilterContainer
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+              setSmallScreenFilter={setSmallScreenFilter}
+              setCurrentPage={setCurrentPage}
+            />
           ) : (
             <>
-              {" "}
               <div className="availability">
                 <p>Available 🟢</p>
                 <p>Full 🔴</p>

@@ -25,16 +25,15 @@ import {
 } from "../utils/utils.js";
 import { useUser } from "../context/User.jsx";
 import { CircularProgress } from "@mui/material";
+import LargeFilterContainer from "./LargeFilterContainer.jsx";
+import SmallFilterContainer from "./SmallFilterContainer.jsx";
 
 const MyClasses = ({ filterOptions, setFilterOptions }) => {
   const { loggedInUser } = useUser();
   const [addClassPage, setAddClassPage] = useState(false);
   const [classes, setClasses] = useState([]);
-  const [className, setClassName] = useState("");
-  const [classDate, setClassDate] = useState("");
   const [singleClassData, setSingleClassData] = useState([]);
   const [showBookingCard, setShowBookingCard] = useState(false);
-  const [classTrainer, setClassTrainer] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [classesPerPage, setClassesPerPage] = useState(12); // Default items per page
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
@@ -129,19 +128,6 @@ const MyClasses = ({ filterOptions, setFilterOptions }) => {
     });
   }, []);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target; // Extract name and value from the event
-
-    setFilterOptions((prevOptions) => ({
-      ...prevOptions,
-      [name === "date"
-        ? "classDate"
-        : name === "class-name"
-        ? "className"
-        : "classTrainer"]: name === "date" ? formatDate(value) : value,
-    }));
-  };
-
   const filteredClasses = handleFilterOptions(classes, filterOptions);
 
   const resetFilters = () => {
@@ -195,7 +181,6 @@ const MyClasses = ({ filterOptions, setFilterOptions }) => {
               setShowBookingCard={setShowBookingCard}
               singleClassData={singleClassData}
               setSingleClassData={setSingleClassData}
-              classData={classDate}
             />
           </div>
 
@@ -210,96 +195,18 @@ const MyClasses = ({ filterOptions, setFilterOptions }) => {
               Filters
             </button>
           ) : (
-            <div className="filter-container">
-              {/* Filter Options */}
-              <div className="filter-box">
-                <label htmlFor="class-name">Classes:</label>
-                <select
-                  id="class-name"
-                  name="class-name"
-                  onChange={handleChange}
-                >
-                  <option value="">All Classes</option>
-                  <option value="Spin Class">Spin Class</option>
-                  <option value="Yoga">Yoga</option>
-                  <option value="Hiit Mania">Hiit Mania</option>
-                </select>
-              </div>
-              {loggedInUser && !loggedInUser.isTrainer ? (
-                <div className="filter-box">
-                  <label htmlFor="trainer">Trainer:</label>
-                  <select id="trainer" name="trainer" onChange={handleChange}>
-                    <option value="">All Trainers</option>
-                    <option value="Zaid Hassan">Zaid</option>
-                    <option value="Steve Hox">Steve</option>
-                    <option value="Sydney Beth">Sydney</option>
-                  </select>
-                </div>
-              ) : (
-                true
-              )}
-
-              <div className="filter-box">
-                <label htmlFor="date">Date:</label>
-                <input
-                  type="date"
-                  id="date"
-                  name="date"
-                  onChange={handleChange}
-                />
-              </div>
-            </div>
+            <LargeFilterContainer
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+            />
           )}
           {smallScreenFilter ? (
-            <>
-              <div className="filter-container-small">
-                {/* Filter Options */}
-                <div className="filter-box">
-                  <label htmlFor="class-name">Classes:</label>
-                  <select
-                    id="class-name"
-                    name="class-name"
-                    onChange={handleChange}
-                  >
-                    <option value="All Classes">All Classes</option>
-                    <option value="Spin Class">Spin Class</option>
-                    <option value="Yoga">Yoga</option>
-                    <option value="Hiit Mania">Hiit Mania</option>
-                  </select>
-                </div>
-                {loggedInUser && !loggedInUser.isTrainer ? (
-                  <div className="filter-box">
-                    <label htmlFor="trainer">Trainer:</label>
-                    <select id="trainer" name="trainer" onChange={handleChange}>
-                      <option value="">All Trainers</option>
-                      <option value="Zaid Hassan">Zaid</option>
-                      <option value="Steve">Steve</option>
-                      <option value="Sydney Beth">Sydney</option>
-                    </select>
-                  </div>
-                ) : (
-                  true
-                )}
-                <div className="filter-box">
-                  <label htmlFor="date">Date:</label>
-                  <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              <button
-                onClick={() => {
-                  setSmallScreenFilter(false);
-                  setCurrentPage(1);
-                }}
-                className="close-button"
-              >
-                Close
-              </button>
-            </>
+            <SmallFilterContainer
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+              setSmallScreenFilter={setSmallScreenFilter}
+              setCurrentPage={setCurrentPage}
+            />
           ) : (
             <>
               {" "}
