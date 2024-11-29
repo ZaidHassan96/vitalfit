@@ -26,7 +26,7 @@ import {
 import { useUser } from "../context/User.jsx";
 import { CircularProgress } from "@mui/material";
 
-const MyClasses = () => {
+const MyClasses = ({ filterOptions, setFilterOptions }) => {
   const { loggedInUser } = useUser();
   const [addClassPage, setAddClassPage] = useState(false);
   const [classes, setClasses] = useState([]);
@@ -121,29 +121,35 @@ const MyClasses = () => {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  const handleChange = (event) => {
-    if (event.target.name === "class-name") {
-      setClassName(event.target.value);
-    } else if (event.target.name === "date") {
-      const formattedDate = formatDate(event.target.value);
+  useEffect(() => {
+    setFilterOptions({
+      className: "",
+      classDate: "",
+      classTrainer: "",
+    });
+  }, []);
 
-      setClassDate(formattedDate);
-    } else {
-      setClassTrainer(event.target.value);
-    }
+  const handleChange = (event) => {
+    const { name, value } = event.target; // Extract name and value from the event
+
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      [name === "date"
+        ? "classDate"
+        : name === "class-name"
+        ? "className"
+        : "classTrainer"]: name === "date" ? formatDate(value) : value,
+    }));
   };
 
-  const filteredClasses = handleFilterOptions(
-    classDate,
-    className,
-    classTrainer,
-    classes
-  );
+  const filteredClasses = handleFilterOptions(classes, filterOptions);
 
   const resetFilters = () => {
-    setClassName("");
-    setClassDate("");
-    setClassTrainer("");
+    setFilterOptions({
+      className: "",
+      classDate: "",
+      classTrainer: "",
+    });
   };
 
   return (
@@ -155,11 +161,13 @@ const MyClasses = () => {
 
       {loading ? (
         <div className="loading-container">
-          <CircularProgress    style={{
-          color: "rgb(255, 77, 0)",
-          fontSize: "5rem",
-          marginTop: "2rem",
-        }} />
+          <CircularProgress
+            style={{
+              color: "rgb(255, 77, 0)",
+              fontSize: "5rem",
+              marginTop: "2rem",
+            }}
+          />
         </div>
       ) : addClassPage ? (
         <AddClass setAddClassPage={setAddClassPage} />

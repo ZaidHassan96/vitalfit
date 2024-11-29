@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "../stylesheets/App.css";
 import Home from "./Home.jsx";
@@ -11,6 +11,11 @@ import ScrollToTop from "./ScrollToTop.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 
 function App() {
+  const [filterOptions, setFilterOptions] = useState({
+    className: "",
+    classDate: "",
+    classTrainer: "",
+  });
   const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
   const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
   const SCOPES = "https://www.googleapis.com/auth/calendar.events";
@@ -44,10 +49,26 @@ function App() {
           element={<ErrorPage errMsg={"Error 404: page not found"} />}
         />
         <Route path="/" element={<Home />} />
-        <Route path="/classes" element={<AllClasses />} />
+        <Route
+          path="/classes"
+          element={
+            <AllClasses
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+            />
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/my-classes" element={<MyClasses />} />
+        <Route
+          path="/my-classes"
+          element={
+            <MyClasses
+              filterOptions={filterOptions}
+              setFilterOptions={setFilterOptions}
+            />
+          }
+        />
       </Routes>
     </>
   );

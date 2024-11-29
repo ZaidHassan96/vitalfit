@@ -18,14 +18,11 @@ import { useUser } from "../context/User.jsx";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useLocation } from "react-router-dom";
 
-const AllClasses = () => {
+const AllClasses = ({ filterOptions, setFilterOptions }) => {
   const location = useLocation();
   const [showBookingCard, setShowBookingCard] = useState(false);
   const { loggedInUser } = useUser();
   const classTypeState = location.state?.classType; // Access the passed state
-  const [className, setClassName] = useState(classTypeState);
-  const [classDate, setClassDate] = useState("");
-  const [classTrainer, setClassTrainer] = useState("");
   const [classes, setClasses] = useState([]);
   const [singleClassData, setSingleClassData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -33,12 +30,17 @@ const AllClasses = () => {
   const [smallScreenFilter, setSmallScreenFilter] = useState(false);
   const [filterButton, setFilterButton] = useState(false);
   const [loading, setLoading] = useState(false);
-
   // Update setClassName everytime the classTypeState changes, when a user selects a class type from the HomePage
-  useEffect(() => {
-    setClassName(classTypeState);
-  }, [classTypeState]);
 
+  useEffect(() => {
+    setFilterOptions({
+      className: classTypeState ? classTypeState : "",
+      classDate: "",
+      classTrainer: "",
+    });
+  }, []);
+
+  // fetch all classes, then sort the classes in accordance to date and time of posting
   useEffect(() => {
     setLoading(true);
     const fetchClasses = () => {
@@ -82,30 +84,27 @@ const AllClasses = () => {
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
 
-  // setting state for each filter option
   const handleChange = (event) => {
-    if (event.target.name === "class-name") {
-      setClassName(event.target.value);
-    } else if (event.target.name === "date") {
-      const formattedDate = formatDate(event.target.value);
+    const { name, value } = event.target; // Extract name and value from the event
 
-      setClassDate(formattedDate);
-    } else {
-      setClassTrainer(event.target.value);
-    }
+    setFilterOptions((prevOptions) => ({
+      ...prevOptions,
+      [name === "date"
+        ? "classDate"
+        : name === "class-name"
+        ? "className"
+        : "classTrainer"]: name === "date" ? formatDate(value) : value,
+    }));
   };
 
-  const filteredClasses = handleFilterOptions(
-    classDate,
-    className,
-    classTrainer,
-    classes
-  );
+  const filteredClasses = handleFilterOptions(classes, filterOptions);
 
   const resetFilters = () => {
-    setClassName("");
-    setClassDate("");
-    setClassTrainer("");
+    setFilterOptions({
+      className: "",
+      classDate: "",
+      classTrainer: "",
+    });
   };
 
   return (
@@ -133,7 +132,6 @@ const AllClasses = () => {
               setShowBookingCard={setShowBookingCard}
               singleClassData={singleClassData}
               setSingleClassData={setSingleClassData}
-              classData={classDate}
             />
           ) : (
             // Only renders on screen if showBookingCard is set to true, where by the css classname is changed from "hide-small-login" to  "small-login-page"

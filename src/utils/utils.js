@@ -40,13 +40,10 @@ export function formatDate(date) {
   return formattedDate;
 }
 
-export function handleFilterOptions(
-  classDate,
-  className,
-  classTrainer,
-  classes
-) {
+export function handleFilterOptions(classes, filterOptions) {
   // Filter based on both date and class type
+  const { className, classDate, classTrainer } = filterOptions;
+
   return classes.filter((classData) => {
     const isDateMatch = classDate ? classData.date === classDate : true;
     const isTypeMatch =
