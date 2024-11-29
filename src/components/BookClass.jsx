@@ -15,6 +15,13 @@ import BeatLoader from "react-spinners/BeatLoader";
 import BookingSuccess from "./BookingSuccess.jsx";
 import { setImage } from "../utils/utils.js";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
+import {
+  createEvent,
+  fetchUpdatedClassData,
+  getAccessToken,
+  handleGoogleLogin,
+  updateAddedToCalendar,
+} from "../utils/googleApiLogic";
 
 const BookClass = ({
   showBookingCard,
@@ -26,9 +33,11 @@ const BookClass = ({
   const [bookingCancelled, setBookingCancelled] = useState(false);
   const [bookingConfirmed, setBookingConfirmed] = useState(false);
   const [bookingError, setBookingError] = useState(false);
-  const [canceling, setCanceling] = useState(false);
+  // const [canceling, setCanceling] = useState(false);
   const [cancelingError, setCancelingError] = useState(false);
   const [bookingUpdating, setBookingUpdating] = useState(false);
+  const [addToCalendar, setAddToCalendar] = useState(false);
+  const [googleError, setGoogleError] = useState(false);
 
   // OPTIMISTIC UI UPDATES
   const updateMembers = () => {
@@ -83,6 +92,7 @@ const BookClass = ({
         setCancelingError(false);
         setBookingCancelled(true);
         setBookingUpdating(false);
+        console.log("class cancelled");
       }
     } catch (error) {
       setBookingUpdating(false);
@@ -92,7 +102,6 @@ const BookClass = ({
   };
 
   let cancelled = "";
-  console.log(singleClassData);
 
   const classAddedToCalendar = (singleClassData, loggedInUser) => {
     if (!singleClassData.membersAttending) {
@@ -104,6 +113,25 @@ const BookClass = ({
     );
 
     return member ? member.addedToCalendar : false; // Return false if member is not found.
+  };
+
+  const addToGoogleCalendar = async () => {
+    try {
+      const currentUser = await handleGoogleLogin();
+      const accessToken = await getAccessToken(currentUser);
+      await createEvent(singleClassData, accessToken);
+      setGoogleError(false);
+      await updateAddedToCalendar(
+        singleClassData,
+        loggedInUser,
+        setSingleClassData
+      );
+      await fetchUpdatedClassData(singleClassData, setSingleClassData);
+      setAddToCalendar(true);
+    } catch (error) {
+      setGoogleError(true);
+      console.error(error);
+    }
   };
 
   if (loggedInUser && loggedInUser.isTrainer) {
@@ -150,7 +178,13 @@ const BookClass = ({
                 alignItems: "center",
               }}
             >
-              <BookingSuccess singleClassData={singleClassData} />
+              <BookingSuccess
+                singleClassData={singleClassData}
+                addToCalendar={addToCalendar}
+                setAddToCalendar={setAddToCalendar}
+                googleError={googleError}
+                setGoogleError={setGoogleError}
+              />
             </div>
           )
         ) : (
@@ -174,12 +208,28 @@ const BookClass = ({
                 : "N/A"}
             </p>
             <p className="booking-card-h1-p">{singleClassData.trainerName}</p>
+            {googleError && (
+              <div>
+                <h3 style={{ fontWeight: "bold", color: "red" }}>
+                  Class not added to Calendar
+                </h3>
+                <p style={{ fontWeight: "bold", color: "red" }}>
+                  Google account login and permission required.
+                </p>
+              </div>
+            )}
             {Array.isArray(singleClassData.membersAttending) &&
             singleClassData.membersAttending.find(
               (member) => member.email === loggedInUser.email
             ) &&
             !classAddedToCalendar(singleClassData, loggedInUser) ? (
-              <button>Add to Calendar</button>
+              addToCalendar ? (
+                <p className="succesfully-added-calendar">
+                  Succesfully added to Calendar
+                </p>
+              ) : (
+                <button onClick={addToGoogleCalendar}>Add to Calendar</button>
+              )
             ) : null}
             <div className="booking-class-info">
               {loggedInUser &&

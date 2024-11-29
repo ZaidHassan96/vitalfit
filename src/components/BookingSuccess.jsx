@@ -10,9 +10,13 @@ import "../stylesheets/BookingSuccess.css";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import { useUser } from "../context/User.jsx";
 
-const BookingSuccess = ({ singleClassData }) => {
-  const [addToCalendar, setAddToCalendar] = useState(false);
-  const [googleError, setGoogleError] = useState(false);
+const BookingSuccess = ({
+  singleClassData,
+  addToCalendar,
+  setAddToCalendar,
+  googleError,
+  setGoogleError,
+}) => {
   const { loggedInUser } = useUser();
 
   const addToGoogleCalendar = async () => {

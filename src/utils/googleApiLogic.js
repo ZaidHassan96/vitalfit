@@ -142,7 +142,24 @@ export async function createEvent(singleClassData, accessToken) {
   }
 }
 
-export async function updateAddedToCalendar(singleClassData, loggedInUser) {
+export async function fetchUpdatedClassData(
+  singleClassData,
+  setSingleClassData
+) {
+  try {
+    const classRef = doc(db, "classes", singleClassData.classId);
+    const updatedClass = await getDoc(classRef);
+    setSingleClassData(updatedClass.data()); // Update your local state
+  } catch (error) {
+    console.error("Error fetching updated class data: ", error);
+  }
+}
+
+export async function updateAddedToCalendar(
+  singleClassData,
+  loggedInUser,
+  setSingleClassData
+) {
   try {
     const classRef = doc(db, "classes", singleClassData.classId);
 
