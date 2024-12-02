@@ -8,10 +8,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../firebaseConfig.js";
-
 import { useUser } from "../context/User.jsx";
 import BeatLoader from "react-spinners/BeatLoader";
-
 import BookingSuccess from "./BookingSuccess.jsx";
 import { setImage } from "../utils/utils.js";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
