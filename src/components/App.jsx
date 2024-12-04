@@ -9,6 +9,7 @@ import MyClasses from "./MyClasses.jsx";
 import { gapi } from "gapi-script";
 import ScrollToTop from "./ScrollToTop.jsx";
 import ErrorPage from "./ErrorPage.jsx";
+import { initializeGAPI } from "../utils/googleApiLogic.js";
 
 function App() {
   const [filterOptions, setFilterOptions] = useState({
@@ -16,27 +17,8 @@ function App() {
     classDate: "",
     classTrainer: "",
   });
-  const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
-  const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
-  const SCOPES = "https://www.googleapis.com/auth/calendar.events";
 
   useEffect(() => {
-    function initializeGAPI() {
-      gapi.client
-        .init({
-          apiKey: API_KEY,
-          clientId: CLIENT_ID,
-          scope: SCOPES,
-          discoveryDocs: [
-            "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
-          ],
-        })
-        .then(() => {})
-        .catch((error) => {
-          console.error("Google API initialization failed", error);
-        });
-    }
-
     gapi.load("client:auth2", initializeGAPI);
   }, []);
 

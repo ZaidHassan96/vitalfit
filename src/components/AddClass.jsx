@@ -10,6 +10,16 @@ const AddClass = ({ setAddClassPage }) => {
   const [dateIncorrect, setDateIncorrect] = useState(false);
   const [formNotValid, setFormNotValid] = useState(false);
   const [addingClass, setAddingClass] = useState(false);
+  const [classData, setClassData] = useState({
+    classId: "",
+    classType: "",
+    classSize: 0,
+    date: "",
+    excerpt: "",
+    membersAttending: [],
+    startTime: "",
+    trainerName: trainer,
+  });
 
   const formatDate = (date) => {
     const dateObj = new Date(date);
@@ -44,17 +54,6 @@ const AddClass = ({ setAddClassPage }) => {
 
   const trainer = `${loggedInUser.firstName} ${loggedInUser.lastName}`;
 
-  const [classData, setClassData] = useState({
-    classId: "",
-    classType: "",
-    classSize: 0,
-    date: "",
-    excerpt: "",
-    membersAttending: [],
-    startTime: "",
-    trainerName: trainer,
-  });
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -81,10 +80,6 @@ const AddClass = ({ setAddClassPage }) => {
       return false;
     }
   };
-
-  // useEffect(() => {
-  //   checkFormValidity();
-  // }, [classData]);
 
   const addClassData = async (classData) => {
     setAddingClass(true);

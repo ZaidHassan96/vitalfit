@@ -2,6 +2,27 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { gapi } from "gapi-script";
 import { db } from "../../firebaseConfig";
 
+// Google API Initialization logic
+const CLIENT_ID = import.meta.env.VITE_APP_GOOGLE_CLIENT_ID;
+const API_KEY = import.meta.env.VITE_GOOGLE_API_KEY;
+const SCOPES = "https://www.googleapis.com/auth/calendar.events";
+
+export function initializeGAPI() {
+  gapi.client
+    .init({
+      apiKey: API_KEY,
+      clientId: CLIENT_ID,
+      scope: SCOPES,
+      discoveryDocs: [
+        "https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest",
+      ],
+    })
+    .then(() => {})
+    .catch((error) => {
+      console.error("Google API initialization failed", error);
+    });
+}
+
 // HANDLE GOOGLE LOGIN
 export async function handleGoogleLogin() {
   const authInstance = gapi.auth2.getAuthInstance();

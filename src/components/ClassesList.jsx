@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import SingleEventCard from "./SingleEventCard";
-import { collection, getDocs, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebaseConfig.js";
-import {
-  handleFilterOptions,
-  pagination,
-  sortedClasses,
-} from "../utils/utils.js";
+import { handleFilterOptions, pagination } from "../utils/utils.js";
 import PaginationButtons from "./PaginationButtons.jsx";
+import { fetchClasses } from "../utils/fetchingClasses.js";
 
 const ClassesList = ({
   filterOptions,
@@ -35,32 +30,7 @@ const ClassesList = ({
   // fetch all classes, then sort the classes in accordance to date and time of posting
   useEffect(() => {
     setLoading(true);
-    const fetchClasses = () => {
-      try {
-        const classesCollection = collection(db, "classes");
-
-        // Set up a real-time listener for changes in the classes collection
-        const unsubscribe = onSnapshot(classesCollection, (snapshot) => {
-          const classesArray = [];
-
-          snapshot.forEach((doc) => {
-            classesArray.push({ ...doc.data(), id: doc.id });
-          });
-
-          const sortedArr = sortedClasses(classesArray, "date", "startTime");
-          setClasses(sortedArr); // Update state with new data
-          setLoading(false);
-        });
-
-        // Clean up the listener when the component unmounts
-        return () => unsubscribe();
-      } catch (error) {
-        setLoading(false);
-        console.error("Error fetching documents: ", error);
-      }
-    };
-
-    fetchClasses(); // Call the fetch function
+    fetchClasses(setClasses, setLoading); // Call the fetch function
   }, []); // Empty dependency array to run only once on component mount
 
   const filteredClasses = handleFilterOptions(classes, filterOptions);

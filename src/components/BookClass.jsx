@@ -90,7 +90,6 @@ const BookClass = ({
         setCancelingError(false);
         setBookingCancelled(true);
         setBookingUpdating(false);
-        console.log("class cancelled");
       }
     } catch (error) {
       setBookingUpdating(false);
