@@ -1,0 +1,40 @@
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.pagination-controls p {
+  color: white;
+  margin: 0;
+  transition: color 0.3s;
+  font-size: 2rem;
+}
+
+.pagination-controls p:hover {
+  color: orangered;
+  cursor: pointer;
+}
+
+.pagination-controls span {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  color: white;
+  margin-top: 10px;
+}
+
+@media screen and (max-width: 900px) {
+  .pagination-controls p {
+    font-size: 1.5rem; /* Smaller font size */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .pagination-controls p {
+    font-size: 1.2rem;
+  }
+
+  .pagination-controls span {
+    font-size: 1.2rem;
+  }
+}

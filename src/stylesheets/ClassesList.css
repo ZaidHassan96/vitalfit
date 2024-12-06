@@ -1,0 +1,30 @@
+.availability {
+  display: flex;
+  justify-content: center;
+}
+
+.availability p {
+  color: white;
+  margin-left: 2rem;
+  font-size: 0.9rem;
+  color: rgb(189, 189, 189);
+}
+
+.all-rows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 20px; /* Space between grid items */
+}
+
+@media screen and (max-width: 900px) {
+  .all-rows {
+    grid-template-columns: 1fr; /* Stacks items in a single column */
+    gap: 15px; /* Reduce spacing */
+  }
+
+  .availability p {
+    margin-left: 1rem;
+    font-size: 0.85rem; /* Adjusts font size */
+    margin-top: 3rem;
+  }
+}

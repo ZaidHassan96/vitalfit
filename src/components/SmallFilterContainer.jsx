@@ -1,4 +1,5 @@
 import React from "react";
+import "../stylesheets/SmallFilterContainer.css";
 
 const SmallFilterContainer = ({
   filterOptions,

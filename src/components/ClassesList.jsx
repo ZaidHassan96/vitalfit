@@ -3,6 +3,7 @@ import SingleEventCard from "./SingleEventCard";
 import { handleFilterOptions, pagination } from "../utils/utils.js";
 import PaginationButtons from "./PaginationButtons.jsx";
 import { fetchClasses } from "../utils/fetchingClasses.js";
+import "../stylesheets/ClassesList.css";
 
 const ClassesList = ({
   filterOptions,

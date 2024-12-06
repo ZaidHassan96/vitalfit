@@ -1,0 +1,73 @@
+.filter-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+}
+
+.filter-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  border: 0.5px solid rgba(254, 140, 64, 0.332);
+  padding: 1rem;
+  width: 50%;
+  background-color: black;
+  transition: background-color 0.3s;
+}
+
+.filter-box:hover {
+  background-color: rgb(33, 15, 4);
+  cursor: pointer;
+}
+.filter-box:hover select {
+  background-color: rgb(33, 15, 4);
+}
+.filter-box:hover input {
+  background-color: rgb(50, 23, 6);
+  cursor: pointer;
+  color: white;
+}
+
+.filter-box label {
+  color: white;
+}
+
+.filter-box select {
+  border: none;
+  color: aliceblue;
+  background-color: black;
+  transition: background-color 0.3s;
+}
+
+.filter-box input {
+  background-color: black;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.filter-box input:hover {
+  cursor: pointer;
+}
+
+.filter-box select:hover {
+  background-color: rgb(33, 15, 4);
+  cursor: pointer;
+}
+
+.filter-box option {
+  background-color: black;
+}
+
+@media screen and (max-width: 900px) {
+  /* Filter Box */
+  .filter-box {
+    width: 90%; /* Adjusts width for smaller screens */
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .filter-box {
+    width: 100%; /* Full width */
+    padding: 0.5rem;
+  }
+}

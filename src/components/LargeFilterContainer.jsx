@@ -1,5 +1,5 @@
 import React from "react";
-
+import "../stylesheets/LargeFilterContainer.css";
 const LargeFilterContainer = ({ filterOptions, setFilterOptions }) => {
   //
 

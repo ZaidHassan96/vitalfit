@@ -18,6 +18,7 @@ function App() {
     classTrainer: "",
   });
 
+  //Initializing Google API
   useEffect(() => {
     gapi.load("client:auth2", initializeGAPI);
   }, []);
