@@ -2,7 +2,6 @@ import Header from "./Header";
 import "../stylesheets/Login.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-
 import { useUser } from "../context/User";
 import BeatLoader from "react-spinners/BeatLoader";
 
@@ -10,7 +9,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const { logIn } = useUser();
   const [loggingIn, setLoggingIn] = useState(false);
 

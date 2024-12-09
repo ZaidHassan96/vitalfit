@@ -1,5 +1,8 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { auth, db } from "../../firebaseConfig";
 
 // UTILS FOR ALLCLASSES AND BOOKED CLASSES:
@@ -104,4 +107,42 @@ export function setImage(singleClassData) {
     imageFile = "../images/yoga.jpg";
   }
   return imageFile;
+}
+
+export async function handleSignUp(
+  email,
+  password,
+  userInfo,
+  setSigningUp,
+  setAccountCreationErr
+) {
+  setSigningUp(true);
+  try {
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    const uid = user.uid;
+
+    await setDoc(doc(db, "users", uid), {
+      email: userInfo.email,
+      firstName: userInfo.firstName,
+      lastName: userInfo.lastName,
+      isTrainer: userInfo.isTrainer,
+      fitnessLevel: userInfo.fitnessLevel,
+      // bookedClasses: userInfo.bookedClasses,
+      createdAt: serverTimestamp(),
+      userId: uid,
+    });
+    setAccountCreationErr(null);
+    setSigningUp(false);
+    return true;
+  } catch (error) {
+    setSigningUp(false);
+    setAccountCreationErr(error);
+
+    return false;
+  }
 }
