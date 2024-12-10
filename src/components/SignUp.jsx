@@ -34,39 +34,6 @@ const SignUp = () => {
     setUserInfo((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  //   const email = userInfo.email;
-
-  // const handleSignUp = async (email, password, userInfo) => {
-  //   setSigningUp(true);
-  //   try {
-  //     const userCredential = await createUserWithEmailAndPassword(
-  //       auth,
-  //       email,
-  //       password
-  //     );
-  //     const user = userCredential.user;
-  //     const uid = user.uid;
-
-  //     await setDoc(doc(db, "users", uid), {
-  //       email: userInfo.email,
-  //       firstName: userInfo.firstName,
-  //       lastName: userInfo.lastName,
-  //       isTrainer: userInfo.isTrainer,
-  //       fitnessLevel: userInfo.fitnessLevel,
-  //       // bookedClasses: userInfo.bookedClasses,
-  //       createdAt: serverTimestamp(),
-  //       userId: uid,
-  //     });
-  //     setAccountCreationErr(null);
-  //     setSigningUp(false);
-  //     return true;
-  //   } catch (error) {
-  //     setSigningUp(false);
-  //     setAccountCreationErr(error);
-
-  //     return false;
-  //   }
-  // };
   const nameRegex =
     /^[A-Za-zÀ-ÖØ-öø-ÿ'’-]{2,50}(?: [A-Za-zÀ-ÖØ-öø-ÿ'’-]{2,50})*$/;
 
